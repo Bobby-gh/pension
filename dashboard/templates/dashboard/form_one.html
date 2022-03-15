@@ -1,0 +1,210 @@
+{% extends 'dashboard/base.html' %}
+{% block pagetitle %}New Application{%endblock%}
+
+{% block breadcrum %}
+<a href="/" class="item">Home <i class="bi bi-chevron-compact-right"></i></a>
+<a class="item">New Application <i class="bi bi-chevron-compact-right"></i></a>
+{%endblock%}
+
+
+{% block content %}
+
+<div class="col-md-10 mx-auto col-11">
+    <div class="col-md-6 col-12 mx-auto">
+        <div class="col-12 my-2">
+            <h3 class="text text-center">New Application</h3>
+            <div class="progress-container mx-auto">
+                <div class="progress" id="progress" data-progress="0"></div>
+                <div class="circle-container">
+                    <div class="circles active"><i class="bi bi-calendar"></i></div>
+                    <span class="label text text-center text-primary">Particulars</span>
+                </div>
+                <div class="circle-container">
+                    <div class="circles"><i class="bi bi-house"></i></div>
+                    <span class="label text text-center">Upload</span>
+                </div>
+                <div class="circle-container">
+                    <div class="circles"><i class="bi bi-calendar"></i></div>
+                    <span class="label text text-center">Review</span>
+                </div>
+            </div>
+
+            <br>
+            <form class="needs-validation" novalidate method="POST">
+                {% csrf_token %}
+                <div class="p-3 bg-white">
+                    <p class="text text-danger">* Required</p>
+
+                    <div class="col-12 row">
+                        <div class="col-md-6 mb-3">
+                            <label for="surname">Surname <span class="text text-danger">*</span></label>
+                            <input type="text" name="surname" value="{{application.surname}}" class="form-control"
+                                id="surname" placeholder="Surname" required>
+                            <div class="valid-feedback">
+                                Correct!
+                            </div>
+                            <div class="invalid-feedback">
+                                Please this field is required.
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="other_names">Other Names <span class="text text-danger">*</span></label>
+                            <input type="text" class="form-control" name="other_names"
+                                value="{{application.other_names}}" id="other_names" placeholder="Other Names" required>
+                            <div class="valid-feedback">
+                                Correct!
+                            </div>
+                            <div class="invalid-feedback">
+                                Please enter your other names.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 row">
+                        <div class="col-md-6 mb-3">
+                            <label for="rank">Number/Rank <span class="text text-danger">*</span></label>
+                            <input type="text" class="form-control" name="rank" value="{{application.rank}}" id="rank"
+                                placeholder="Number/Rank" required>
+                            <div class="valid-feedback">
+                                Correct!
+                            </div>
+                            <div class="invalid-feedback">
+                                Please this field is required.
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="retiring_date">Retiring Date <span class="text text-danger">*</span></label>
+                            <input type="date" class="form-control" name="retiring_date"
+                                value="{{application.retiring_date|date:'Y-m-d'}}" id="retiring_date"
+                                placeholder="Retiring Date" required>
+                            <div class="valid-feedback">
+                                Correct!
+                            </div>
+                            <div class="invalid-feedback">
+                                Please choose when the applicant will go on retirement.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 row">
+                        <div class="col-12 mb-3">
+                            <label for="reason">Reason of Retirement <span class="text text-danger">*</span></label>
+                            <textarea class="form-control" name="reason" id="reason" placeholder="Reason of Retirement"
+                                required>{{application.reason}}</textarea>
+                            <div class="valid-feedback">
+                                Correct!
+                            </div>
+                            <div class="invalid-feedback">
+                                Please enter reason here.
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-12 row">
+                        <div class="col-md-6 mb-3">
+                            <label for="bank_name">Bank Name <span class="text text-danger">*</span></label>
+                            <input type="text" class="form-control" name="bank_name" value="{{application.bank_name}}"
+                                id="bank_name" placeholder="Bank Name" required>
+                            <div class="valid-feedback">
+                                Correct!
+                            </div>
+                            <div class="invalid-feedback">
+                                Please enter the name of the applicant's bank.
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="bank_account">Account Number <span class="text text-danger">*</span></label>
+                            <input type="text" class="form-control" name="bank_account"
+                                value="{{application.bank_account}}" id="bank_account" placeholder="Account Number"
+                                required>
+                            <div class="valid-feedback">
+                                Correct!
+                            </div>
+                            <div class="invalid-feedback">
+                                Please enter the name of the applicant's bank account number.
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-12 row">
+                        <div class="col-md-6 mb-3">
+                            <label for="last_station">Last Station <span class="text text-danger">*</span></label>
+                            <input type="text" class="form-control" name="last_station"
+                                value="{{application.last_station}}" id="last_station" placeholder="Last Station"
+                                required>
+                            <div class="valid-feedback">
+                                Correct!
+                            </div>
+                            <div class="invalid-feedback">
+                                Please this field is required.
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="region">Region <span class="text text-danger">*</span></label>
+                            <select name="region" id="region" class="form-control" required>
+                                <option value="">---Click to select region---</option>
+                                <option value="AHAFO" {% if application.region == 'AHAFO' %}selected{%endif%}>AHAFO</option>
+                                <option value="ASHANTI" {% if application.region == 'ASHANTI' %}selected{%endif%}>ASHANTI</option>
+                                <option value="BONO EAST" {% if application.region == 'BONO EAST' %}selected{%endif%}>BONO EAST</option>
+                                <option value="BRONG AHAFO" {% if application.region == 'BRONG AHAFO' %}selected{%endif%}>BRONG AHAFO</option>
+                                <option value="CENTRAL" {% if application.region == 'CENTRAL' %}selected{%endif%}>CENTRAL</option>
+                                <option value="EASTERN" {% if application.region == 'EASTERN' %}selected{%endif%}>EASTERN</option>
+                                <option value="GREATER ACCRA" {% if application.region == 'GREATER ACCRA' %}selected{%endif%}>GREATER ACCRA</option>
+                                <option value="NORTH EAST" {% if application.region == 'NORTH EAST' %}selected{%endif%}>NORTH EAST</option>
+                                <option value="NORTHERN" {% if application.region == 'NORTHERN' %}selected{%endif%}>NORTHERN</option>
+                                <option value="OTI" {% if application.region == 'OTI' %}selected{%endif%}>OTI</option>
+                                <option value="SAVANNAH" {% if application.region == 'SAVANNAH' %}selected{%endif%}>SAVANNAH</option>
+                                <option value="UPPER EAST" {% if application.region == 'UPPER EAST' %}selected{%endif%}>UPPER EAST</option>
+                                <option value="UPPER WEST" {% if application.region == 'UPPER WEST' %}selected{%endif%}>UPPER WEST</option>
+                                <option value="WESTERN" {% if application.region == 'WESTERN' %}selected{%endif%}>WESTERN</option>
+                                <option value="WESTERN NORTH" {% if application.region == 'WESTERN NORTH' %}selected{%endif%}>WESTERN NORTH</option>
+                                <option value="VOLTA" {% if application.region == 'VOLTA' %}selected{%endif%}>VOLTA</option>
+                        </select>
+                        </div>
+                        <div class="valid-feedback">
+                            Correct!
+                        </div>
+                        <div class="invalid-feedback">
+                            Please select region.
+                        </div>
+                    </div>
+
+                    <div class="col-12 row">
+                        <div class="col-md-6 mb-3">
+                            <label for="contact">Contact Phone No. <span class="text text-danger">*</span></label>
+                            <input type="text" class="form-control" name="contact" value="{{application.contact}}"
+                                id="contact" placeholder="Contact Phone No." required>
+                            <div class="valid-feedback">
+                                Correct!
+                            </div>
+                            <div class="invalid-feedback">
+                                Please this field is required.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 row">
+                        <div class="col-12 mb-3">
+                            <label for="contact_address">Contact Address <span class="text text-danger">*</span></label>
+                            <textarea class="form-control" id="contact_address" name="contact_address"
+                                placeholder="Contact Address" required>{{application.contact_address}}</textarea>
+                            <div class="valid-feedback">
+                                Correct!
+                            </div>
+                            <div class="invalid-feedback">
+                                Please this field is required.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group my-3">
+                    <button type="submit" class="btn btn-primary">Save and Continue</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{%endblock%}

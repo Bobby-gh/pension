@@ -1,0 +1,88 @@
+{% extends 'dashboard/base.html' %}
+{% block pagetitle %}New Application{%endblock%}
+
+{% block breadcrum %}
+<a href="/" class="item">Home <i class="bi bi-chevron-compact-right"></i></a>
+<a class="item">New Application <i class="bi bi-chevron-compact-right"></i></a>
+{%endblock%}
+
+
+{% block content %}
+
+<div class="col-md-10 mx-auto col-11">
+    <div class="col-md-10 col-12 mx-auto">
+        <div class="col-12 my-2">
+            <h3 class="text text-center">Application Details</h3>
+            <div class="p-3 mt-3 bg-white">
+
+                <div class="row">
+                    <div class="col-6 col-md-3 mt-3">
+                        <p class="m-0 p-0 text text-muted">Surname</p>
+                        <p class="m-0 p-0 text text-info">{{application.surname}}</p>
+                    </div>
+
+                    <div class="col-6 col-md-3 mt-3">
+                        <p class="m-0 p-0 text text-muted">Other Names</p>
+                        <p class="m-0 p-0 text text-info">{{application.other_names}}</p>
+                    </div>
+
+                    <div class="col-6 col-md-3 mt-3">
+                        <p class="m-0 p-0 text text-muted">Rank</p>
+                        <p class="m-0 p-0 text text-info">{{application.rank}}</p>
+                    </div>
+
+                    <div class="col-6 col-md-3 mt-3">
+                        <p class="m-0 p-0 text text-muted">Retiring Date</p>
+                        <p class="m-0 p-0 text text-info">{{application.retiring_date}}</p>
+                    </div>
+
+                    <div class="col-6 col-md-3 mt-3">
+                        <p class="m-0 p-0 text text-muted">Reason</p>
+                        <p class="m-0 p-0 text text-info">{{application.reason}}</p>
+                    </div>
+
+                    <div class="col-6 col-md-3 mt-3">
+                        <p class="m-0 p-0 text text-muted">Bank Name</p>
+                        <p class="m-0 p-0 text text-info">{{application.bank_name}}</p>
+                    </div>
+
+                    <div class="col-6 col-md-3 mt-3">
+                        <p class="m-0 p-0 text text-muted">Bank Account Number</p>
+                        <p class="m-0 p-0 text text-info">{{application.bank_account}}</p>
+                    </div>
+
+                    <div class="col-6 col-md-3 mt-3">
+                        <p class="m-0 p-0 text text-muted">Last Station</p>
+                        <p class="m-0 p-0 text text-info">{{application.last_station}}</p>
+                    </div>
+
+                    <div class="col-6 col-md-3 mt-3">
+                        <p class="m-0 p-0 text text-muted">Region</p>
+                        <p class="m-0 p-0 text text-info">{{application.region}}</p>
+                    </div>
+
+                    <div class="col-6 col-md-3 mt-3">
+                        <p class="m-0 p-0 text text-muted">Contact</p>
+                        <p class="m-0 p-0 text text-info">{{application.contact}}</p>
+                    </div>
+
+                    <div class="col-6 col-md-3 mt-3">
+                        <p class="m-0 p-0 text text-muted">Contact Address</p>
+                        <p class="m-0 p-0 text text-info">{{application.contact_address}}</p>
+                    </div>
+
+                    <div class="col-6 col-md-3 mt-3">
+                        <p class="m-0 p-0 text text-muted">Status</p>
+                        <p class="m-0 p-0 text text-info">{{application.status}}</p>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-md-3 mt-3">
+                <a href="{% url 'dashboard:application_form_one' %}?application_id={{application.id}}"
+                    class="btn btn-primary"><i class="bi bi-pencil"></i> Edit</a>
+            </div>
+        </div>
+    </div>
+</div>
+{%endblock%}

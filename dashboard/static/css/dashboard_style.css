@@ -1,0 +1,286 @@
+body {
+  font-family: 'Lato', sans-serif;
+  background-color: rgba(1, 1, 30, 0.039);
+  min-height: 100vh;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+#main-nav {
+  background-color: #020232;
+  height: 5em;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+#main-nav .brand-logo {
+  height: 4em;
+  width: 4em;
+  margin-left: 5%;
+}
+
+#main-nav .menu {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: start;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+#main-nav .menu .menu-item {
+  padding-right: 1em;
+  text-decoration: none;
+  color: inherit;
+}
+
+#main-nav .nav-right {
+  position: absolute;
+  cursor: pointer;
+  right: 5%;
+}
+
+#main-nav .nav-right .profile {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+#main-nav .nav-right .profile img {
+  height: 3em;
+  width: 3em;
+  border: 2px solid whitesmoke;
+  border-radius: 100%;
+}
+
+#main-nav .nav-right .profile .info {
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  font-size: small;
+}
+
+#main-nav .nav-right .drop-down {
+  display: none;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  position: absolute;
+  background-color: whitesmoke;
+  min-width: 150px;
+  border-radius: 4px;
+  -webkit-box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  right: 0;
+  margin-top: 3px;
+}
+
+#main-nav .nav-right .drop-down .item {
+  text-decoration: none;
+  color: rgba(0, 0, 0, 0.692);
+  padding: 0.5em;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.192);
+}
+
+#main-nav .nav-right .drop-down .item:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+#main-nav .nav-right .drop-down.active {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.breadcrum-container {
+  background-color: rgba(0, 0, 0, 0.2);
+  height: 3em;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.breadcrum-container .item {
+  text-decoration: none;
+  color: inherit;
+}
+
+.basic-card {
+  -webkit-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.15);
+          box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.15);
+  margin: 1em;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  padding: 1em;
+  border-radius: 4px;
+}
+
+footer {
+  background-color: rgba(0, 0, 0, 0.2);
+  height: 8vh;
+  color: white;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 1em;
+  margin-top: 20%;
+}
+
+.progress-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  position: relative;
+  margin-bottom: 30px;
+  max-width: 100%;
+  width: 100%;
+}
+
+.progress-container::before {
+  content: '';
+  background-color: grey;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+  height: 4px;
+  width: 100%;
+  z-index: -1;
+  -webkit-transition: 0.4s ease;
+  transition: 0.4s ease;
+}
+
+.progress {
+  background-color: #6466e9;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+  height: 4px;
+  width: 0%;
+  z-index: -1;
+  -webkit-transition: 0.4s ease-in-out;
+  transition: 0.4s ease-in-out;
+}
+
+.circle-container {
+  position: relative;
+}
+
+.circle-container .circles {
+  background-color: #fff;
+  color: #999;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  border: 3px solid gray;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.circle-container .circles.active {
+  border-color: #6466e9;
+}
+
+.circle-container .label {
+  width: 100%;
+  position: absolute;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+}
+
+.text-primary {
+  color: #6466e9 !important;
+}
+
+.alert-container {
+  position: fixed;
+  top: 0.1em;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+  z-index: 1000;
+  -webkit-transition: 0.2s all ease-in-out;
+  transition: 0.2s all ease-in-out;
+}
+
+.alert-container.hide {
+  display: none;
+}
+
+.alert-container .close-btn {
+  position: absolute;
+  right: 0;
+  cursor: pointer;
+  -webkit-box-shadow: 0 0 2px grey;
+          box-shadow: 0 0 2px grey;
+  height: 2em;
+  width: 2em;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  top: 0;
+  padding: 0.2em;
+  border-radius: 100%;
+  background-color: white;
+  color: red;
+  -webkit-transition: 0.1s all ease-in-out;
+  transition: 0.1s all ease-in-out;
+}
+
+.alert-container .close-btn:hover {
+  background-color: #fd3c3ca6;
+  color: white;
+}
+/*# sourceMappingURL=dashboard_style.css.map */

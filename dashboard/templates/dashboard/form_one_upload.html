@@ -1,0 +1,112 @@
+{% extends 'dashboard/base.html' %}
+{% block pagetitle %}New Application{%endblock%}
+
+{% block breadcrum %}
+<a href="/" class="item">Home <i class="bi bi-chevron-compact-right"></i></a>
+<a class="item">New Application <i class="bi bi-chevron-compact-right"></i></a>
+<a class="item">Upload <i class="bi bi-chevron-compact-right"></i></a>
+{%endblock%}
+
+
+{% block content %}
+
+<div class="col-md-10 mx-auto col-11">
+    <div class="col-md-6 col-12 mx-auto">
+        <div class="col-12 my-2">
+            <h3 class="text text-center">New Application</h3>
+            <div class="progress-container mx-auto">
+                <div class="progress" id="progress" data-progress="50"></div>
+                <div class="circle-container">
+                    <div class="circles active"><i class="bi bi-calendar"></i></div>
+                    <span class="label text text-center text-primary">Particulars</span>
+                </div>
+                <div class="circle-container">
+                    <div class="circles active"><i class="bi bi-house"></i></div>
+                    <span class="label text text-center text-primary">Upload</span>
+                </div>
+                <div class="circle-container">
+                    <div class="circles"><i class="bi bi-calendar"></i></div>
+                    <span class="label text text-center">Review</span>
+                </div>
+            </div>
+
+            <br>
+            <div class="p-2 bg-white">
+                <div class="col-12 row">
+                    <div class="col-12 mb-3">
+                        <form class="needs-validation my-2" novalidate>
+                            <label for="validationCustom01">Passport-Sized Photo</label>
+                            <div class="input-group">
+                                <input type="file" class="form-control" id="inputGroupFile04"
+                                    aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+                                <button class="btn btn-outline-secondary" type="submit"
+                                    id="inputGroupFileAddon04">Upload</button>
+                            </div>
+                            <div class="valid-feedback">
+                                Correct!
+                            </div>
+                            <div class="invalid-feedback">
+                                Please this field is required.
+                            </div>
+                        </form>
+
+                        <form class="needs-validation my-4" novalidate>
+                            <label for="validationCustom01">Pay Slip</label>
+                            <div class="input-group">
+                                <input type="file" class="form-control" id="inputGroupFile04"
+                                    aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+                                <button class="btn btn-outline-secondary" type="submit"
+                                    id="inputGroupFileAddon04">Upload</button>
+                            </div>
+                            <div class="valid-feedback">
+                                Correct!
+                            </div>
+                            <div class="invalid-feedback">
+                                Please this field is required.
+                            </div>
+                        </form>
+
+
+                        <form class="needs-validation my-4" novalidate>
+                            <label for="validationCustom01">Record of Service</label>
+                            <div class="input-group">
+                                <input type="file" class="form-control" id="inputGroupFile04"
+                                    aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+                                <button class="btn btn-outline-secondary" type="submit"
+                                    id="inputGroupFileAddon04">Upload</button>
+                            </div>
+                            <div class="valid-feedback">
+                                Correct!
+                            </div>
+                            <div class="invalid-feedback">
+                                Please this field is required.
+                            </div>
+                        </form>
+
+                        <form class="needs-validation my-4" novalidate>
+                            <label for="validationCustom01">Pension Form One</label>
+                            <div class="input-group">
+                                <input type="file" class="form-control" id="inputGroupFile04"
+                                    aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+                                <button class="btn btn-outline-secondary" type="submit"
+                                    id="inputGroupFileAddon04">Upload</button>
+                            </div>
+                            <div class="valid-feedback">
+                                Correct!
+                            </div>
+                            <div class="invalid-feedback">
+                                Please this field is required.
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+            <div class="form-group my-3">
+                <button type="submit" class="btn btn-primary">Review</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{%endblock%}
