@@ -73,13 +73,36 @@ class NewApplicationFormOneUploadView(PermissionRequiredMixin, View):
 
 class PreviousApplicationsView(PermissionRequiredMixin, View):
     template_name = 'dashboard/previous_applications.html'
-    form_class = ApplicationForm
     permission_required = "dashboard.view_application"
 
     @method_decorator(login_required(login_url="accounts:login"))
     def get(self, request):
         applications = Application.objects.all().order_by("-updated_at")
         context = {"applications": applications}
+        return render(request, self.template_name, context)
+
+
+class SubmittedApplicationsView(PermissionRequiredMixin, View):
+    template_name = 'dashboard/submitted_applications.html'
+    permission_required = "dashboard.can_review_application"
+
+    @method_decorator(login_required(login_url="accounts:login"))
+    def get(self, request):
+        applications = Application.objects.filter(
+            status=ApplicationStatus.SUMITTED.value).order_by("-updated_at")
+        applications = Application.objects.all().order_by("-updated_at")
+        context = {"applications": applications}
+        return render(request, self.template_name, context)
+
+
+class SubmittedApplicationReviewView(PermissionRequiredMixin, View):
+    template_name = 'dashboard/submitted_application_review_page.html'
+    permission_required = "dashboard.can_review_application"
+
+    @method_decorator(login_required(login_url="accounts:login"))
+    def get(self, request, application_id):
+        application = get_object_or_404(Application, id=application_id)
+        context = {"application": application}
         return render(request, self.template_name, context)
 
 

@@ -30,17 +30,39 @@ class Application(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        permissions = (("can_change_status", "Change status"), )
+        permissions = (("can_review_application", "Change status"), )
 
     def __str__(self) -> str:
         return f"{self.surname} {self.other_names}"
 
 
-class Document(models.Model):
+class ApplicationDocument(models.Model):
     name = models.CharField(max_length=100)
     application = models.ForeignKey(Application,
                                     related_name="documents",
                                     on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+
+    def __str__(self) -> str:
+        return self.name
+
+
+class Rank(models.Model):
+    name = models.CharField(max_length=100)
+    order = models.IntegerField()
+
+    def __str__(self) -> str:
+        return self.name
+
+
+class ApplicationRank(models.Model):
+    application = models.ForeignKey(Application,
+                                    related_name="ranks",
+                                    on_delete=models.CASCADE)
+    rank = models.ForeignKey(Rank, on_delete=models.CASCADE)
+    date = models.DateField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)

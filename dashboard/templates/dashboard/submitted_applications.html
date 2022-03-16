@@ -3,7 +3,7 @@
 
 {% block breadcrum %}
 <a href="/" class="item">Home <i class="bi bi-chevron-compact-right"></i></a>
-<a class="item">Previous Application <i class="bi bi-chevron-compact-right"></i></a>
+<a class="item">Submitted Application <i class="bi bi-chevron-compact-right"></i></a>
 {%endblock%}
 
 
@@ -32,7 +32,8 @@
                                 <tr>
                                     <td>{{forloop.counter}}</td>
                                     <td>
-                                        <a href="{% url 'dashboard:application_details' application.id %}" style="text-decoration: unset;">
+                                        <a href="{% url 'dashboard:application_details' application.id %}"
+                                            style="text-decoration: unset;">
                                             APP{{application.id}}
                                         </a>
                                     </td>
@@ -42,6 +43,8 @@
                                     <td>{{application.status}}</td>
                                     <td>
                                         <div class="d-flex">
+                                            <a href="{% url 'dashboard:submitted_application_review' application.id %}"
+                                                class="btn btn-sm btn-info"><i class="bi bi-eye"></i></a>
                                             <a href="{% url 'dashboard:application_form_one' %}?application_id={{application.id}}"
                                                 class="btn btn-sm btn-warning"><i class="bi bi-pencil"></i></a>
                                             <form action="{% url 'dashboard:delete_application' %}" method="post"
@@ -54,7 +57,6 @@
                                             </form>
                                         </div>
                                     </td>
-
                                 </tr>
 
                                 {% endfor %}

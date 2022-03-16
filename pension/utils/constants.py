@@ -3,6 +3,10 @@ import enum
 
 class ApplicationStatus(enum.Enum):
     DRAFT = "draft"
+    SUMITTED = "submitted"
+    REJECTED = "rejected"
+    APPROVED = "approved"
+    PROCESSED = "processed"
 
 
 REGIONS = (
