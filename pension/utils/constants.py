@@ -4,8 +4,9 @@ import enum
 class ApplicationStatus(enum.Enum):
     DRAFT = "draft"
     SUMITTED = "submitted"
-    REJECTED = "rejected"
+    PROCESSING = "processing"
     APPROVED = "approved"
+    REJECTED = "rejected"
     PROCESSED = "processed"
 
 

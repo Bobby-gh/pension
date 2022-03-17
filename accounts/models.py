@@ -27,6 +27,12 @@ class User(AbstractBaseUser, PermissionsMixin):
     class Meta:
         db_table = "users"
 
+    def get_title(self):
+        if self.groups.filter(name__icontains="National"):
+            return "Nat. Office"
+        elif self.groups.filter(name__icontains="Regional"):
+            return "Rg. Office"
+
     def get_name(self):
         return self.fullname or self.username
 

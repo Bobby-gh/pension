@@ -107,7 +107,8 @@
                 </div>
             </div>
             <div class="form-group my-3">
-                <button type="submit" class="btn btn-primary">Review</button>
+                <a href="{% url 'dashboard:application_form_one_review' application.id %}"
+                    class="btn btn-primary">Review</a>
             </div>
         </div>
     </div>

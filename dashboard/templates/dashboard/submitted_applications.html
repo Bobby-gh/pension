@@ -14,7 +14,7 @@
         <div class="col-12 my-2">
             <div class="p-2 bg-white">
                 <div class="col-12 row">
-                    <div class="col-12 mb-3">
+                    <div class="col-12 mb-3" style="overflow-x: auto;">
                         <table id="application-table" class="table">
                             <thead>
                                 <tr>
@@ -40,7 +40,7 @@
                                     <td>{{application.surname}}</td>
                                     <td>{{application.other_names}}</td>
                                     <td>{{application.updated_at}}</td>
-                                    <td>{{application.status}}</td>
+                                    <td><span class="badge bg-info">{{application.status|title}}</span></td>
                                     <td>
                                         <div class="d-flex">
                                             <a href="{% url 'dashboard:submitted_application_review' application.id %}"

@@ -79,17 +79,18 @@ class NewApplicationAddRanksView(PermissionRequiredMixin, View):
     @method_decorator(login_required(login_url="accounts:login"))
     def post(self, request, application_id):
         application_id = request.POST.get("application_id")
-        application = Application.objects.filter(id=application_id).first()
+        application = get_object_or_404(Application, id=application_id)
 
         # Process Ranks
         ranks = request.POST.getlist("ranks")
         dates = request.POST.getlist("dates")
-        application.ranks.all().delete()
+        application.ranks.exclude(id__in=ranks).delete()
         for rank, date in zip(ranks, dates):
             rank_obj = ApplicationRank.objects.get_or_create(
                 application_id=application_id, rank_id=rank, date=date)[0]
             rank_obj.created_by = request.user
-        return redirect("dashboard:application_form_one_upload")
+        return redirect("dashboard:application_form_one_upload",
+                        application.id)
 
 
 class NewApplicationFormOneUploadView(PermissionRequiredMixin, View):
@@ -100,8 +101,29 @@ class NewApplicationFormOneUploadView(PermissionRequiredMixin, View):
     )
 
     @method_decorator(login_required(login_url="accounts:login"))
-    def get(self, request):
-        return render(request, self.template_name)
+    def get(self, request, application_id):
+        application = get_object_or_404(Application, id=application_id)
+        context = {"application": application}
+        return render(request, self.template_name, context)
+
+    @method_decorator(login_required(login_url="accounts:login"))
+    def post(self, request, application_id):
+        return redirect("dashboard:application_form_one_review")
+
+
+class NewApplicationFormOneReviewView(PermissionRequiredMixin, View):
+    template_name = 'dashboard/application_review_page.html'
+    permission_required = (
+        "dashboard.view_document",
+        "dashboard.view_application",
+        "dashboard.view_applicationrank",
+    )
+
+    @method_decorator(login_required(login_url="accounts:login"))
+    def get(self, request, application_id):
+        application = get_object_or_404(Application, id=application_id)
+        context = {"application": application}
+        return render(request, self.template_name, context)
 
 
 class PreviousApplicationsView(PermissionRequiredMixin, View):
@@ -123,7 +145,6 @@ class SubmittedApplicationsView(PermissionRequiredMixin, View):
     def get(self, request):
         applications = Application.objects.filter(
             status=ApplicationStatus.SUMITTED.value).order_by("-updated_at")
-        applications = Application.objects.all().order_by("-updated_at")
         context = {"applications": applications}
         return render(request, self.template_name, context)
 
@@ -169,3 +190,25 @@ class ApplicationDetailsView(PermissionRequiredMixin, View):
         application = get_object_or_404(Application, id=application_id)
         context = {"application": application}
         return render(request, self.template_name, context)
+
+
+class ApplicationSubmissionView(PermissionRequiredMixin, View):
+    template_name = 'dashboard/application_details.html'
+    permission_required = (
+        "dashboard.view_application",
+        "dashboard.view_document",
+    )
+
+    @method_decorator(login_required(login_url="accounts:login"))
+    def get(self, request, application_id):
+        return redirect("dashboard:index")
+
+    @method_decorator(login_required(login_url="accounts:login"))
+    def post(self, request, application_id):
+        application_id = request.POST.get("application_id")
+        application = get_object_or_404(Application, id=application_id)
+        application.status = ApplicationStatus.SUMITTED.value
+        application.save()
+        messages.success(request,
+                         "Application submitted sucessfully for review.")
+        return redirect("dashboard:index")
