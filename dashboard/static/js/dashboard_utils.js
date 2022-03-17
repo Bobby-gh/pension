@@ -50,3 +50,15 @@ confirmationForms?.forEach(form => {
         }
     })
 })
+
+function addMoreRanks() {
+    const rankContainer = document.querySelector("#rank-container")
+    const newSet = rankContainer?.cloneNode(true)
+    rankContainer?.parentElement.appendChild(newSet)
+}
+
+function removeContainer(element) {
+    if (element.parentElement.parentElement.parentElement.childElementCount > 1) {
+        element.parentElement.parentElement.remove()
+    }
+}

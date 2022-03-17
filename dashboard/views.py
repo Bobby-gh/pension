@@ -6,8 +6,8 @@ from django.utils.decorators import method_decorator
 from django.utils.html import strip_tags
 from django.views import View
 
-from dashboard.forms import ApplicationForm
-from dashboard.models import Application
+from dashboard.forms import ApplicationForm, ApplicationRankForm
+from dashboard.models import Application, ApplicationRank, Rank
 from pension.utils.constants import ApplicationStatus
 
 
@@ -49,7 +49,7 @@ class NewApplicationFormOneView(PermissionRequiredMixin, View):
             application.status = ApplicationStatus.DRAFT.value
             application.save()
             messages.info(request, "Application has been saved")
-            return redirect("dashboard:application_form_one_upload")
+            return redirect("dashboard:application_form_ranks", application.id)
         else:
             for field, error in form.errors.items():
                 message = f"{field.title()}: {strip_tags(error)}"
@@ -57,6 +57,37 @@ class NewApplicationFormOneView(PermissionRequiredMixin, View):
             context = {k: v for k, v in request.POST.items()}
             messages.warning(request, message)
             return render(request, self.template_name, context)
+
+
+class NewApplicationAddRanksView(PermissionRequiredMixin, View):
+    template_name = 'dashboard/form_one_ranks.html'
+    form_class = ApplicationRankForm
+    permission_required = (
+        "dashboard.add_application",
+        "dashboard.change_application",
+    )
+
+    @method_decorator(login_required(login_url="accounts:login"))
+    def get(self, request, application_id):
+        application = Application.objects.filter(id=application_id).first()
+        ranks = Rank.objects.all()
+        context = {"application": application, "ranks": ranks}
+        return render(request, self.template_name, context)
+
+    @method_decorator(login_required(login_url="accounts:login"))
+    def post(self, request, application_id):
+        application_id = request.POST.get("application_id")
+        application = Application.objects.filter(id=application_id).first()
+
+        # Process Ranks
+        ranks = request.POST.getlist("ranks")
+        dates = request.POST.getlist("dates")
+        application.ranks.all().delete()
+        for rank, date in zip(ranks, dates):
+            rank_obj = ApplicationRank.objects.get_or_create(
+                application_id=application_id, rank_id=rank, date=date)[0]
+            rank_obj.created_by = request.user
+        return redirect("dashboard:application_form_one_upload")
 
 
 class NewApplicationFormOneUploadView(PermissionRequiredMixin, View):

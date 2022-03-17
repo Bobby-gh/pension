@@ -32,6 +32,9 @@ class Application(models.Model):
     class Meta:
         permissions = (("can_review_application", "Change status"), )
 
+    def all_sorted_ranks(self):
+        return self.ranks.all().order_by("date")
+
     def __str__(self) -> str:
         return f"{self.surname} {self.other_names}"
 
@@ -68,4 +71,4 @@ class ApplicationRank(models.Model):
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
     def __str__(self) -> str:
-        return self.name
+        return self.rank.name

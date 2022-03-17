@@ -1,0 +1,113 @@
+{% extends 'dashboard/base.html' %}
+{% block pagetitle %}New Application{%endblock%}
+
+{% block breadcrum %}
+<a href="/" class="item">Home <i class="bi bi-chevron-compact-right"></i></a>
+<a class="item">New Application <i class="bi bi-chevron-compact-right"></i></a>
+<a class="item">Ranks <i class="bi bi-chevron-compact-right"></i></a>
+{%endblock%}
+
+
+{% block content %}
+
+<div class="col-md-10 mx-auto col-11">
+    <div class="col-md-6 col-12 mx-auto">
+        <div class="col-12 my-2">
+            <h3 class="text text-center">New Application</h3>
+            <div class="progress-container mx-auto">
+                <div class="progress" id="progress" data-progress="35"></div>
+                <div class="circle-container">
+                    <div class="circles active"><i class="bi bi-calendar"></i></div>
+                    <span class="label text text-center text-primary">Particulars</span>
+                </div>
+                <div class="circle-container">
+                    <div class="circles active"><i class="bi bi-graph-up"></i></div>
+                    <span class="label text text-center text-primary">Ranks</span>
+                </div>
+                <div class="circle-container">
+                    <div class="circles"><i class="bi bi-house"></i></div>
+                    <span class="label text text-center">Upload</span>
+                </div>
+                <div class="circle-container">
+                    <div class="circles"><i class="bi bi-calendar"></i></div>
+                    <span class="label text text-center">Review</span>
+                </div>
+            </div>
+
+            <br>
+            <form class="needs-validation my-4" method="POST" novalidate>
+                {% csrf_token %}
+                <input type="hidden" name="application_id" value="{{application.id}}">
+                <div class="p-2 bg-white">
+                    <div>
+                        {% if not  application.all_sorted_ranks %}
+                        <div class="col-12 row my-2" id="rank-container" style="position: relative;">
+                            <div class="col-md-6 form-group">
+                                <label for="ranks">Rank</label>
+                                <select name="ranks" id="ranks" class="form-control" required>
+                                        <option value="">---Select rank---</option>
+                                        {% for rank in ranks %}
+                                        <option value="{{rank.id}}">{{rank.name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                <div class="invalid-feedback">
+                                    Please this field is required.
+                                </div>
+                            </div>
+                            <div class="col-11 col-md-5 form-group">
+                                <label for="dates">Date</label>
+                                <input type="date" name="dates" id="dates" class="form-control" required>
+                                <div class="invalid-feedback">
+                                    Please this field is required.
+                                </div>
+                            </div>
+                            <div class="col-1" style="display: flex; align-items: center; justify-content: end;">
+                                <span class="text text-danger p-1" onclick="removeContainer(this)"><i
+                                        class="bi bi-x-lg"></i></span>
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        {% for app_rank in application.all_sorted_ranks %}
+                        <div class="col-12 row my-2" id="rank-container" style="position: relative;">
+                            <div class="col-md-6 form-group">
+                                <label for="ranks">Rank</label>
+                                <select name="ranks" id="ranks" class="form-control" required>
+                                        <option value="">---Select rank---</option>
+                                        {% for rank in ranks %}
+                                        <option value="{{rank.id}}" {% if rank.id == app_rank.rank.id %}selected{% endif %}>{{rank.name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                <div class="invalid-feedback">
+                                    Please this field is required.
+                                </div>
+                            </div>
+                            <div class="col-11 col-md-5 form-group">
+                                <label for="dates">Date</label>
+                                <input type="date" name="dates" id="dates" class="form-control" value="{{app_rank.date|date:'Y-m-d'}}" required>
+                                <div class="invalid-feedback">
+                                    Please this field is required.
+                                </div>
+                            </div>
+                            <div class="col-1" style="display: flex; align-items: center; justify-content: end;">
+                                <span class="text text-danger p-1" onclick="removeContainer(this)"><i
+                                        class="bi bi-x-lg"></i></span>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="m-3 d-flex justify-content-end">
+                        <button type="button" class="btn btn-sm btn-primary" onclick="addMoreRanks()"><i
+                                class="bi bi-plus"></i>Add</button>
+                    </div>
+                </div>
+                <div class="form-group my-3">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{%endblock%}
