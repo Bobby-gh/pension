@@ -35,14 +35,16 @@
             </div>
 
             <br>
+            <h3 class="text text-bold">Applicant's Photo</h3>
             <div class="p-2 bg-white big-card p-4">
                 <div class="col-12 row">
                     <div class="col-12 mb-3">
-                        <h5 class="text text-center">Applicant's Photo</h5>
                         {% if application.photo %}
-                        <p class="text text-info">
-                            Current: <a href="{{application.photo.url}}" target="_blank"><img height="50"
-                                    src="{{application.photo.url}}" alt="Application photo"></a>
+                        <p class="text text-center">
+                            <a href="{{application.photo.url}}" target="_blank">
+                                <img height="100" width="100" src="{{application.photo.url}}" alt="Application photo"
+                                    style="border: 3px solid gray; border-radius: 1%;">
+                            </a>
                         </p>
                         {% endif %}
 
@@ -77,6 +79,15 @@
                     </div>
                 </div>
             </div>
+
+            <br>
+            <h3 class="text text-bold">Documents</h3>
+            <div class="p-2 bg-white big-card p-4">
+                <div class="col-12 row">
+                    <div class="col-12 mb-3">
+                    </div>
+                </div>
+            </div>
             <div class="form-group my-3">
                 <a href="{% url 'dashboard:application_form_one_review' application.id %}"
                     class="btn btn-primary">Review</a>
@@ -97,7 +108,7 @@
 
     // Draw rect overlay.
     const WIDTH = 130
-    const HEIGHT = WIDTH + 20
+    const HEIGHT = WIDTH
     var ctx = canvasOverlay.getContext("2d");
     ctx.strokeStyle = "green";
     ctx.beginPath();

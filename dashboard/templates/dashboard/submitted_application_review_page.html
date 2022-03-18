@@ -101,6 +101,17 @@
             </div>
 
             <div class="p-3 mt-3 bg-white">
+                <h5 class="text">Photo</h5>
+                <div class="col-md-6 mx-auto">
+                    {% if application.photo %}
+                    <img src="{{application.photo.url}}" alt="">
+                    {% else %}
+                    <p class="text text-danger">None</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="p-3 mt-3 bg-white">
                 <h5 class="text">Documents</h5>
 
             </div>
