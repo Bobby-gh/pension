@@ -156,6 +156,8 @@ class SubmittedApplicationReviewView(PermissionRequiredMixin, View):
     @method_decorator(login_required(login_url="accounts:login"))
     def get(self, request, application_id):
         application = get_object_or_404(Application, id=application_id)
+        application.status = ApplicationStatus.PROCESSING.value
+        application.save()
         context = {"application": application}
         return render(request, self.template_name, context)
 
