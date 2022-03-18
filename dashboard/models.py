@@ -7,7 +7,9 @@ from pension.utils.constants import REGIONS
 class Application(models.Model):
     surname = models.CharField(max_length=100)
     other_names = models.CharField(max_length=100)
-    photo = models.ImageField(upload_to="applications", null=True, blank=True)
+    photo = models.ImageField(upload_to="uploads/applications",
+                              null=True,
+                              blank=True)
     rank = models.CharField(max_length=50)
     retiring_date = models.DateField()
     reason = models.TextField()

@@ -11,7 +11,7 @@
 {% block content %}
 
 <div class="col-md-10 mx-auto col-11">
-    <div class="col-md-6 col-12 mx-auto">
+    <div class="col-md-8 col-12 mx-auto">
         <div class="col-12 my-2">
             <h3 class="text text-center">New Application</h3>
             <div class="progress-container mx-auto">
@@ -26,7 +26,7 @@
                 </div>
                 <div class="circle-container">
                     <div class="circles active"><i class="bi bi-house"></i></div>
-                    <span class="label text text-center text-primary">Upload</span>
+                    <span class="label text text-center text-primary">Uploads</span>
                 </div>
                 <div class="circle-container">
                     <div class="circles"><i class="bi bi-calendar"></i></div>
@@ -35,75 +35,46 @@
             </div>
 
             <br>
-            <div class="p-2 bg-white">
+            <div class="p-2 bg-white big-card p-4">
                 <div class="col-12 row">
                     <div class="col-12 mb-3">
-                        <form class="needs-validation my-2" novalidate>
-                            <label for="validationCustom01">Passport-Sized Photo</label>
-                            <div class="input-group">
-                                <input type="file" class="form-control" id="inputGroupFile04"
-                                    aria-describedby="inputGroupFileAddon04" aria-label="Upload">
-                                <button class="btn btn-outline-secondary" type="submit"
-                                    id="inputGroupFileAddon04">Upload</button>
-                            </div>
-                            <div class="valid-feedback">
-                                Correct!
-                            </div>
-                            <div class="invalid-feedback">
-                                Please this field is required.
-                            </div>
-                        </form>
+                        <h5 class="text text-center">Applicant's Photo</h5>
+                        {% if application.photo %}
+                        <p class="text text-info">
+                            Current: <a href="{{application.photo.url}}" target="_blank"><img height="50"
+                                    src="{{application.photo.url}}" alt="Application photo"></a>
+                        </p>
+                        {% endif %}
 
-                        <form class="needs-validation my-4" novalidate>
-                            <label for="validationCustom01">Pay Slip</label>
-                            <div class="input-group">
-                                <input type="file" class="form-control" id="inputGroupFile04"
-                                    aria-describedby="inputGroupFileAddon04" aria-label="Upload">
-                                <button class="btn btn-outline-secondary" type="submit"
-                                    id="inputGroupFileAddon04">Upload</button>
-                            </div>
-                            <div class="valid-feedback">
-                                Correct!
-                            </div>
-                            <div class="invalid-feedback">
-                                Please this field is required.
-                            </div>
-                        </form>
+                        <div class="photo-view">
+                            <p class="text text-warning">Please ensure that the head fits in the green box.</p>
+                            <div class="row">
+                                <div class="col-md-7">
+                                    <div class="preview" style="position: relative; height: 320px; margin: auto;">
+                                        <video id="video" width="320" height="320" autoplay
+                                            style="position: absolute; top: 0; left: 0;"></video>
+                                        <canvas id="canvas_overlay" width="320" height="320"
+                                            style="position: absolute; top: 0; left: 0;"></canvas>
+                                        <canvas id="canvas" width="320" height="320"
+                                            style="border: 1px solid #80808010; position: absolute; top: 50%; left: 0; transform: translateY(-50%);"></canvas>
+                                    </div>
+                                    <div class="d-flex justify-content-start">
+                                        <button class="btn btn-secondary" id="start-camera">Camera</button>
+                                        <button class="btn btn-primary ms-2" id="click-photo">Take a Photo</button>
+                                        <button class="btn btn-warning ms-2" id="upload-photo" style="display: none;"><i
+                                                class="bi bi-upload"></i> Upload</button>
+                                    </div>
+                                </div>
 
-
-                        <form class="needs-validation my-4" novalidate>
-                            <label for="validationCustom01">Record of Service</label>
-                            <div class="input-group">
-                                <input type="file" class="form-control" id="inputGroupFile04"
-                                    aria-describedby="inputGroupFileAddon04" aria-label="Upload">
-                                <button class="btn btn-outline-secondary" type="submit"
-                                    id="inputGroupFileAddon04">Upload</button>
+                                <div class="col-md-5 pt-3">
+                                    <label for="camerasource">Camera Source</label>
+                                    <select class="form-control" id="camerasource">
+                                        <option value="">--Select camera --</option>
+                                    </select>
+                                </div>
                             </div>
-                            <div class="valid-feedback">
-                                Correct!
-                            </div>
-                            <div class="invalid-feedback">
-                                Please this field is required.
-                            </div>
-                        </form>
-
-                        <form class="needs-validation my-4" novalidate>
-                            <label for="validationCustom01">Pension Form One</label>
-                            <div class="input-group">
-                                <input type="file" class="form-control" id="inputGroupFile04"
-                                    aria-describedby="inputGroupFileAddon04" aria-label="Upload">
-                                <button class="btn btn-outline-secondary" type="submit"
-                                    id="inputGroupFileAddon04">Upload</button>
-                            </div>
-                            <div class="valid-feedback">
-                                Correct!
-                            </div>
-                            <div class="invalid-feedback">
-                                Please this field is required.
-                            </div>
-                        </form>
+                        </div>
                     </div>
-
                 </div>
             </div>
             <div class="form-group my-3">
@@ -113,5 +84,114 @@
         </div>
     </div>
 </div>
+
+<script>
+    let camera_button = document.querySelector("#start-camera");
+    let video = document.querySelector("#video");
+    let click_button = document.querySelector("#click-photo");
+    let canvas = document.querySelector("#canvas");
+    let uploadButton = document.querySelector("#upload-photo");
+    let cameraSourceSelector = document.querySelector("#camerasource");
+    let canvasOverlay = document.querySelector("#canvas_overlay");
+    let CAMERAS
+
+    // Draw rect overlay.
+    const WIDTH = 130
+    const HEIGHT = WIDTH + 20
+    var ctx = canvasOverlay.getContext("2d");
+    ctx.strokeStyle = "green";
+    ctx.beginPath();
+    ctx.rect((canvas.width - WIDTH) / 2, (canvas.height - HEIGHT) / 2, WIDTH, HEIGHT);
+    ctx.stroke();
+
+
+    async function getConnectedDevices(type) {
+        const devices = await navigator.mediaDevices.enumerateDevices();
+        const videoDevices = devices.filter(device => device.kind === type)
+        cameraSourceSelector.innerHTML = ""
+        videoDevices.forEach((device, index) => {
+            option = document.createElement("option")
+            option.innerText = device.label
+            option.setAttribute("value", index)
+            cameraSourceSelector?.appendChild(option)
+        })
+        return videoDevices
+    }
+
+    // Open camera with at least minWidth and minHeight capabilities
+    async function openCamera(cameraId) {
+        const constraints = {
+            'audio': false,
+            'video': {
+                'deviceId': cameraId,
+            }
+        }
+        return await navigator.mediaDevices.getUserMedia(constraints);
+    }
+    camera_button.addEventListener('click', async function () {
+        await startCamera(0)
+    });
+
+    cameraSourceSelector?.addEventListener("change", async function (event) {
+        await startCamera(event.target.value)
+    })
+
+    window.addEventListener("load", async function () {
+        CAMERAS = await getConnectedDevices('videoinput');
+        await startCamera(0)
+    })
+
+    async function startCamera(index) {
+        canvas.getContext("2d").clearRect(0, 0, canvas.width, canvas.height);
+        const stream = await openCamera(CAMERAS[index].deviceId);
+        video.srcObject = stream;
+        uploadButton.style.display = "none"
+    }
+
+    click_button.addEventListener('click', function () {
+        const width = video.videoWidth * (video.offsetWidth / video.videoWidth)
+        const height = video.videoHeight * (video.offsetWidth / video.videoWidth)
+        canvas.setAttribute("height", height)
+        canvas.setAttribute("width", width)
+        canvas.getContext('2d').drawImage(video, 0, 0, width, height);
+        uploadButton.style.display = "unset"
+    });
+
+
+    function getCookie(name = "csrftoken") {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    uploadButton?.addEventListener("click", event => {
+        let data = new FormData();
+        let image_data_url = canvas.toDataURL('image/jpeg');
+        data.append('image_data_url', image_data_url);
+        data.append('application_id', "{{application.id}}");
+        fetch("{% url 'dashboard:upload_photo' %}", {
+            headers: {
+                "X-CSRFToken": getCookie('csrftoken'),
+            },
+            method: "POST",
+            body: data
+        }).then(res => res.json()).then(res => {
+            // Refresh window
+            window.location = window.location
+        }).catch(err => {
+            alert(err)
+        })
+    })
+</script>
 
 {%endblock%}

@@ -1,6 +1,6 @@
 from django.urls import path
 
-from . import views
+from . import ajax, views
 
 app_name = "dashboard"
 
@@ -36,4 +36,10 @@ urlpatterns = [
     path("application-submission/<int:application_id>",
          views.ApplicationSubmissionView.as_view(),
          name="application_submission"),
+]
+
+urlpatterns += [
+    path("ajax/upload-photo",
+         ajax.UploadPhotoView.as_view(),
+         name="upload_photo")
 ]
