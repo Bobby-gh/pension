@@ -132,9 +132,20 @@
             </div>
 
             <div class="p-3 mt-3 bg-white">
+                <h5 class="text">Signature</h5>
+                <div class="col-md-6 mx-auto">
+                    {% if application.signature %}
+                    <img src="{{application.signature.url}}" alt="">
+                    {% else %}
+                    <p class="text text-danger">None</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="p-3 mt-3 bg-white">
                 <h5 class="text">Documents</h5>
                 {% if application.documents.all %}
-                
+
                 {% else %}
                 <p class="text text-danger">None</p>
                 {% endif %}

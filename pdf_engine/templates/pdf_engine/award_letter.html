@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>{{application.get_name}}'s Award Letter</title>
+    <style type="text/css">
+        p {
+            font-size: 1.5em;
+            text-align: justify;
+        }
+
+        @page {
+            margin: 1cm;
+            size: a4;
+
+            @frame footer_frame {
+                -pdf-frame-content: footer_content;
+                left: 30pt;
+                width: 512pt;
+                top: 820pt;
+                height: 20pt;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    {% if error_message %}
+    <h3 style="color: red">{{error_message}}</h3>
+    {% else %}
+    <div class="report-page">
+        <table>
+            <tbody>
+                <tr>
+                    <td>
+                        In case of reply, the number and date of this <span style="text-decoration: underline;">letter should be quoted.</span> <br>
+                        My Ref NO.PN.{{application.id}}
+                    </td>
+                    <td>
+                        <img style="display: block; text-align: center;" src="{{ghana_police_logo_url}}" height="150">
+                    </td>
+                    <td>
+                        <p style="font-weight: 800;">
+                            HEADQUARTERS <br>
+                            GHANA POLICE <br>
+                            ACCRA
+                        </p>
+                        <p style="padding: 0; margin: 0;">{{application.created_at|date}}.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <br>
+        <h2 style="text-align: center; font-size: 2em; padding: 0; margin: 0; text-decoration: underline;">RETIRING
+            AWARDS</h2>
+        <h2 style="text-align: center; font-size: 2em; padding: 0; margin: 0; text-decoration: underline;">MEMBER OF THE
+            GHANA POLICE SERVICE</h2>
+        <br>
+
+        <p>I am directed by the Inspector-General of Police to forward herewith, Pension Form One, Original Records of
+            Service, payslip together with passport size pictures in respect of {{application.get_current_rank.name}}
+            {{application.get_name}} who is due to retire from the Service on {{application.retiring_date}} for
+            necessary action.
+        </p>
+
+        <p>
+            I hereby confirm that the promotion to the various ranks and their corresponding dates in the Police Service
+            Records of the above named {{application.get_current_rank.name}} as indicated in the table below are
+            authentic.
+        </p>
+
+        <table style="width: 100%;" repeat="1">
+            <thead>
+                <tr style="border: 2px solid #acacac; font-size: 1.5em; padding: 0.3em; background-color: #d3d3d3;">
+                    <th>RANK</th>
+                    <th>DATE</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for app_rank in application.all_sorted_ranks.all %}
+                <tr style="border: 2px solid #acacac; padding: 0.5em;">
+
+                    <td>
+                        <p style="text-align: left; font-size: 1.5em; font-weight: bold;">{{app_rank.rank.name|upper}}</p>
+                    </td>
+
+                    <td>
+                        <p style="text-align: center; font-size: 1.5em; font-weight: bold;">{{app_rank.date}}</p>
+                    </td>
+                </tr>
+                {%endfor%}
+            </tbody>
+        </table>
+
+        <br>
+        <br>
+        <br>
+        <p style="text-align: right;">
+            DIRECTOR/PENSIONS <br>
+            (ANTHONY ARTHUR/SUPT)
+        </p>
+        <p>
+            THE CONT. & ACCT-GENERAL’S DEPT <br>
+            PENSIONS COMPUTATION <br>
+            POLICE HEADQUATERS BRANCH <br>
+            ACCRA
+        </p>
+
+
+
+    </div>
+    <div id="footer_content">
+        Page <strong>
+            <pdf:pagenumber />
+        </strong> of
+        <pdf:pagecount /> | {{current_time}}
+    </div>
+    {% endif %}
+</body>
+
+</html>

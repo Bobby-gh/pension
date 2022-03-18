@@ -10,6 +10,9 @@ class Application(models.Model):
     photo = models.ImageField(upload_to="uploads/applications",
                               null=True,
                               blank=True)
+    signature = models.ImageField(upload_to="uploads/signature",
+                                  null=True,
+                                  blank=True)
     rank = models.CharField(max_length=50)
     retiring_date = models.DateField()
     reason = models.TextField()
@@ -32,7 +35,16 @@ class Application(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        permissions = (("can_review_application", "Change status"), )
+        permissions = (
+            ("can_review_application", "Change status"),
+            ("can_generate_letter", "Generate Award Letter from Application"),
+        )
+
+    def get_name(self):
+        return f"{self.surname} {self.other_names}"
+
+    def get_current_rank(self):
+        return self.ranks.all().order_by("date").last().rank
 
     def all_sorted_ranks(self):
         return self.ranks.all().order_by("date")

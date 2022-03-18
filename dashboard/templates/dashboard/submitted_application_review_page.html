@@ -112,6 +112,17 @@
             </div>
 
             <div class="p-3 mt-3 bg-white">
+                <h5 class="text">Signature</h5>
+                <div class="col-md-6 mx-auto">
+                    {% if application.signature %}
+                    <img src="{{application.signature.url}}" alt="">
+                    {% else %}
+                    <p class="text text-danger">None</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="p-3 mt-3 bg-white">
                 <h5 class="text">Documents</h5>
 
             </div>
@@ -119,8 +130,8 @@
 
             <div class="row">
                 <div class="col-md-2 mt-3">
-                    <a href="{% url 'dashboard:application_form_one' %}?application_id={{application.id}}"
-                        class="btn btn-primary"><i class="bi bi-pencil"></i> Generate Letter</a>
+                    <a href="{% url 'pdf:generate_letter' application.id %}" target="_blank" class="btn btn-primary"><i
+                            class="bi bi-pencil"></i> Generate Letter</a>
                 </div>
 
                 <div class="col-md-2 mt-3">
