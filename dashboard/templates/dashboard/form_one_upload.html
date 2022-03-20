@@ -34,6 +34,50 @@
                 </div>
             </div>
 
+            <div class="modal fade" id="photoModal" tabindex="-1" aria-labelledby="photoModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-xl">
+                    <div class="modal-content px-4">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="photoModalLabel">Take a Photo</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+
+                        <div class="photo-view">
+                            <div class="pt-3 mx-auto" style="width: fit-content;">
+                                <label for="camerasource">Camera Source</label>
+                                <select class="form-control" id="camerasource">
+                                        <option value="">--Select camera --</option>
+                                    </select>
+                            </div>
+                            <br>
+
+                            <div class=" mx-auto" style="width: fit-content;">
+                                <p class="text text-primary"> * Please ensure that the head fits in the green shape.</p>
+                                <div class="preview" style="position: relative; height: 450px; margin: auto;">
+                                    <video id="video" width="350" height="450" autoplay
+                                        style="position: absolute; top: 0; left: 0;"></video>
+                                    <canvas id="canvas_overlay" width="350" height="450"
+                                        style="position: absolute; top: 0; left: 0;"></canvas>
+                                    <canvas id="canvas" width="350" height="450"
+                                        style="border: 1px solid #80808010; position: absolute; top: 50%; left: 0; transform: translateY(-50%);"></canvas>
+                                </div>
+
+                                <div class="d-flex my-3 justify-content-start">
+                                    <button class="btn btn-primary" id="start-camera">Camera</button>
+                                    <button class="btn btn-primary ms-2" id="click-photo">Take a Photo</button>
+                                    <button class="btn btn-warning ms-2" id="upload-photo" style="display: none;"><i
+                                            class="bi bi-upload"></i> Upload</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
             <br>
             <h3 class="text text-bold">Applicant's Photo</h3>
             <div class="p-2 bg-white big-card p-4">
@@ -42,40 +86,17 @@
                         {% if application.photo %}
                         <p class="text text-center">
                             <a href="{{application.photo.url}}" target="_blank">
-                                <img height="100" width="100" src="{{application.photo.url}}" alt="Application photo"
+                                <img height="350" src="{{application.photo.url}}" alt="Application photo"
                                     style="border: 3px solid gray; border-radius: 1%;">
                             </a>
                         </p>
                         {% endif %}
-
-                        <div class="photo-view">
-                            <p class="text text-warning">Please ensure that the head fits in the green box.</p>
-                            <div class="row">
-                                <div class="col-md-7">
-                                    <div class="preview" style="position: relative; height: 320px; margin: auto;">
-                                        <video id="video" width="320" height="320" autoplay
-                                            style="position: absolute; top: 0; left: 0;"></video>
-                                        <canvas id="canvas_overlay" width="320" height="320"
-                                            style="position: absolute; top: 0; left: 0;"></canvas>
-                                        <canvas id="canvas" width="320" height="320"
-                                            style="border: 1px solid #80808010; position: absolute; top: 50%; left: 0; transform: translateY(-50%);"></canvas>
-                                    </div>
-                                    <div class="d-flex justify-content-start">
-                                        <button class="btn btn-secondary" id="start-camera">Camera</button>
-                                        <button class="btn btn-primary ms-2" id="click-photo">Take a Photo</button>
-                                        <button class="btn btn-warning ms-2" id="upload-photo" style="display: none;"><i
-                                                class="bi bi-upload"></i> Upload</button>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-5 pt-3">
-                                    <label for="camerasource">Camera Source</label>
-                                    <select class="form-control" id="camerasource">
-                                        <option value="">--Select camera --</option>
-                                    </select>
-                                </div>
-                            </div>
+                        <div class="mx-auto" style="width: fit-content;">
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#photoModal" data-bs-whatever="@mdo">Open Camera</button>
                         </div>
+
+
                     </div>
                 </div>
             </div>
@@ -90,7 +111,7 @@
             </div>
             <div class="form-group my-3">
                 <a href="{% url 'dashboard:application_form_one_review' application.id %}"
-                    class="btn btn-primary">Review</a>
+                    class="btn btn-primary">Next</a>
             </div>
         </div>
     </div>
@@ -107,12 +128,14 @@
     let CAMERAS
 
     // Draw rect overlay.
-    const WIDTH = 130
+    const WIDTH = 150
     const HEIGHT = WIDTH
     var ctx = canvasOverlay.getContext("2d");
     ctx.strokeStyle = "green";
+    ctx.strokeWidth = 10
     ctx.beginPath();
-    ctx.rect((canvas.width - WIDTH) / 2, (canvas.height - HEIGHT) / 2, WIDTH, HEIGHT);
+    ctx.setLineDash([5, 5]);
+    ctx.ellipse(canvas.width / 2, canvas.height / 2, HEIGHT / 2 + 20, WIDTH / 2, Math.PI / 2, 0, 2 * Math.PI);
     ctx.stroke();
 
 
@@ -135,6 +158,8 @@
             'audio': false,
             'video': {
                 'deviceId': cameraId,
+                "width": 350,
+                "height": 450,
             }
         }
         return await navigator.mediaDevices.getUserMedia(constraints);

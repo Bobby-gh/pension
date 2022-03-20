@@ -1,6 +1,6 @@
 body {
   font-family: 'Lato', sans-serif;
-  background-color: rgba(1, 1, 30, 0.039);
+  background-color: #f6f9fb;
   min-height: 100vh;
 }
 
@@ -120,6 +120,8 @@ a {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  -webkit-box-shadow: 4px 0px 5px rgba(0, 0, 0, 0.2);
+          box-shadow: 4px 0px 5px rgba(0, 0, 0, 0.2);
 }
 
 .breadcrum-container .item {
@@ -289,5 +291,14 @@ footer {
 .alert-container .close-btn:hover {
   background-color: #fd3c3ca6;
   color: white;
+}
+
+.card-shadow {
+  background-color: white;
+  -webkit-box-shadow: 0 0 20px 10px #28284125;
+          box-shadow: 0 0 20px 10px #28284125;
+  padding: 1em;
+  border-radius: 4px;
+  margin-top: 1.3em;
 }
 /*# sourceMappingURL=dashboard_style.css.map */

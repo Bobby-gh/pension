@@ -11,61 +11,57 @@
 
 <div class="col-md-10 mx-auto col-11">
     <div class="col-md-10 col-12 mx-auto">
-        <div class="col-12 my-2">
-            <div class="p-2 bg-white">
-                <div class="col-12 row">
-                    <div class="col-12 mb-3" style="overflow-x: auto;">
-                        <table id="application-table" class="table">
-                            <thead>
-                                <tr>
-                                    <th>S/N</th>
-                                    <th>Application No.</th>
-                                    <th>Surname</th>
-                                    <th>Other Names</th>
-                                    <th>Updated At</th>
-                                    <th>Status</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for application in applications %}
-                                <tr>
-                                    <td>{{forloop.counter}}</td>
-                                    <td>
-                                        <a href="{% url 'dashboard:application_details' application.id %}"
-                                            style="text-decoration: unset;">
-                                            APP{{application.id}}
-                                        </a>
-                                    </td>
-                                    <td>{{application.surname}}</td>
-                                    <td>{{application.other_names}}</td>
-                                    <td>{{application.updated_at}}</td>
-                                    <td><span class="badge bg-info">{{application.status|title}}</span></td>
-                                    <td>
-                                        <div class="d-flex">
-                                            {% if application.status == 'draft' or application.status == 'submitted' %}
-                                            <a href="{% url 'dashboard:application_form_one' %}?application_id={{application.id}}"
-                                                class="btn btn-sm btn-warning"><i class="bi bi-pencil"></i></a>
-                                            <form action="{% url 'dashboard:delete_application' %}" method="post"
-                                                class="requires-confirmation"
-                                                data-message="This action is irrervesible. Click OK to permanently delete this application.">
-                                                {% csrf_token %}
-                                                <input type="hidden" name="application_id" value="{{application.id}}">
-                                                <button type=" submit" class="btn btn-sm btn-danger"><i
-                                                        class="bi bi-trash"></i></button>
-                                            </form>
-                                            {% endif %}
-                                        </div>
-                                    </td>
+        <h4 class="mt-2">Previous Applications</h4>
+        <div class="card-shadow">
+            <div class="col-12 row">
+                <div class="col-12 mb-3" style="overflow-x: auto;">
+                    <table id="application-table" class="table">
+                        <thead>
+                            <tr>
+                                <th>S/N</th>
+                                <th>Application No.</th>
+                                <th>Surname</th>
+                                <th>Other Names</th>
+                                <th>Updated At</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for application in applications %}
+                            <tr>
+                                <td>{{forloop.counter}}</td>
+                                <td>
+                                    <a href="{% url 'dashboard:application_details' application.id %}"
+                                        style="text-decoration: unset;">
+                                        APP{{application.id}}
+                                    </a>
+                                </td>
+                                <td>{{application.surname}}</td>
+                                <td>{{application.other_names}}</td>
+                                <td>{{application.updated_at}}</td>
+                                <td><span class="badge bg-info">{{application.status|title}}</span></td>
+                                <td>
+                                    <div class="d-flex">
+                                        {% if application.status == 'draft' or application.status == 'submitted' %}
+                                        <a href="{% url 'dashboard:application_form_one' %}?application_id={{application.id}}"
+                                            class="btn btn-sm btn-warning"><i class="bi bi-pencil"></i></a>
+                                        <form action="{% url 'dashboard:delete_application' %}" method="post"
+                                            class="requires-confirmation"
+                                            data-message="This action is irrervesible. Click OK to permanently delete this application.">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="application_id" value="{{application.id}}">
+                                            <button type=" submit" class="btn btn-sm btn-danger"><i
+                                                    class="bi bi-trash"></i></button>
+                                        </form>
+                                        {% endif %}
+                                    </div>
+                                </td>
+                            </tr>
 
-                                </tr>
-
-                                {% endfor %}
-                            </tbody>
-                        </table>
-
-
-                    </div>
+                            {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
