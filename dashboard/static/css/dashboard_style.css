@@ -1,7 +1,53 @@
 body {
   font-family: 'Lato', sans-serif;
-  background-color: #f6f9fb;
+  background-color: rgba(2, 2, 50, 0);
   min-height: 100vh;
+}
+
+main {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+main .sidebar {
+  background-color: #020244;
+  min-height: 100vh;
+  color: white;
+  width: 15%;
+}
+
+main .sidebar * {
+  color: white;
+}
+
+main .sidebar .header {
+  height: 10em;
+  background-color: rgba(2, 2, 50, 0.5);
+}
+
+main .sidebar .header img {
+  height: 4em;
+  width: 4em;
+  margin: auto;
+  display: block;
+}
+
+main .sidebar .sidebar-item {
+  margin: 0.2em 1px;
+  padding: 1em 0.2em;
+  background-color: #00000034;
+  cursor: pointer;
+}
+
+main .sidebar .sidebar-item:hover {
+  background-color: #0000004d;
+}
+
+main .main-page {
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
 }
 
 a {
@@ -112,7 +158,7 @@ a {
 }
 
 .breadcrum-container {
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgba(2, 2, 50, 0.1);
   height: 3em;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -153,9 +199,9 @@ a {
 }
 
 footer {
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgba(2, 2, 50, 0.1);
   height: 8vh;
-  color: white;
+  color: #020232;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -195,7 +241,7 @@ footer {
 }
 
 .progress {
-  background-color: #6466e9;
+  background-color: #020232;
   position: absolute;
   top: 50%;
   left: 0;
@@ -231,8 +277,8 @@ footer {
 }
 
 .circle-container .circles.active {
-  border-color: #6466e9;
-  color: #6466e9;
+  border-color: #020232;
+  color: #020232;
 }
 
 .circle-container .label {
@@ -244,7 +290,19 @@ footer {
 }
 
 .text-primary {
-  color: #6466e9 !important;
+  color: #020232 !important;
+}
+
+.btn-primary {
+  background-color: #020232;
+}
+
+.btn-primary:focus {
+  background-color: rgba(2, 2, 50, 0.8);
+}
+
+.btn-primary:hover {
+  background-color: rgba(2, 2, 50, 0.8);
 }
 
 .alert-container {
@@ -293,6 +351,21 @@ footer {
   color: white;
 }
 
+.overlay {
+  background-color: rgba(0, 0, 0, 0.3);
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: none;
+}
+
+.overlay.active {
+  display: block;
+}
+
 .card-shadow {
   background-color: white;
   -webkit-box-shadow: 0 0 20px 10px #28284125;
@@ -300,5 +373,7 @@ footer {
   padding: 1em;
   border-radius: 4px;
   margin-top: 1.3em;
+  max-width: 100vw;
+  overflow-x: scroll;
 }
 /*# sourceMappingURL=dashboard_style.css.map */

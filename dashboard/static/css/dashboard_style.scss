@@ -1,7 +1,52 @@
+// Variables
+$primaryColor: #020232;
+
+// Desktop Style
 body {
   font-family: 'Lato', sans-serif;
-  background-color: rgb(246, 249, 251);
+  background-color: rgba($primaryColor, 0);
   min-height: 100vh;
+}
+
+main {
+  display: flex;
+
+  .sidebar {
+    background-color: #020244;
+    min-height: 100vh;
+    color: white;
+    width: 15%;
+
+    * {
+      color: white;
+    }
+    .header {
+      height: 10em;
+      background-color: rgba($primaryColor, 0.5);
+
+      img {
+        height: 4em;
+        width: 4em;
+        margin: auto;
+        display: block;
+      }
+    }
+
+    .sidebar-item {
+      margin: 0.2em 1px;
+      padding: 1em 0.2em;
+      background-color: #00000034;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #0000004d;
+      }
+    }
+  }
+
+  .main-page {
+    flex-grow: 1;
+  }
 }
 
 a {
@@ -10,7 +55,7 @@ a {
 }
 
 #main-nav {
-  background-color: #020232;
+  background-color: $primaryColor;
   height: 5em;
   display: flex;
   align-items: center;
@@ -84,7 +129,7 @@ a {
 }
 
 .breadcrum-container {
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgba($primaryColor, 0.1);
   height: 3em;
   display: flex;
   align-items: center;
@@ -112,9 +157,9 @@ a {
 }
 
 footer {
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgba($primaryColor, 0.1);
   height: 8vh;
-  color: white;
+  color: $primaryColor;
   display: flex;
   align-items: center;
   padding: 1em;
@@ -144,7 +189,7 @@ footer {
 }
 
 .progress {
-  background-color: #6466e9;
+  background-color: $primaryColor;
   position: absolute;
   top: 50%;
   left: 0;
@@ -169,8 +214,8 @@ footer {
     align-items: center;
 
     &.active {
-      border-color: #6466e9;
-      color: #6466e9;
+      border-color: $primaryColor;
+      color: $primaryColor;
     }
   }
   .label {
@@ -182,7 +227,16 @@ footer {
 }
 
 .text-primary {
-  color: #6466e9 !important;
+  color: $primaryColor !important;
+}
+.btn-primary {
+  background-color: $primaryColor;
+  &:focus {
+    background-color: rgba($primaryColor, 0.8);
+  }
+  &:hover {
+    background-color: rgba($primaryColor, 0.8);
+  }
 }
 
 // Base template messaging alerts
@@ -222,10 +276,27 @@ footer {
   }
 }
 
+.overlay {
+  background-color: rgba(0, 0, 0, 0.3);
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: none;
+
+  &.active {
+    display: block;
+  }
+}
+
 .card-shadow {
   background-color: white;
   box-shadow: 0 0 20px 10px #28284125;
   padding: 1em;
   border-radius: 4px;
   margin-top: 1.3em;
+  max-width: 100vw;
+  overflow-x: scroll;
 }

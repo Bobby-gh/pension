@@ -1,0 +1,16 @@
+@media all and (max-width: 480px) {
+  .sidebar {
+    width: 80vw !important;
+    z-index: 20;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+  .main-page {
+    -webkit-box-flex: 1;
+        -ms-flex-positive: 1;
+            flex-grow: 1;
+  }
+}
+/*# sourceMappingURL=dashboard_style_res.css.map */

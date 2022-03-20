@@ -11,7 +11,7 @@
 {% block content %}
 
 <div class="col-md-10 mx-auto col-11">
-    <div class="col-md-8 col-12 mx-auto">
+    <div class="col-md-10 col-12 mx-auto">
         <div class="col-12 my-2">
             <h3 class="text text-center">New Application</h3>
             <div class="progress-container mx-auto">
@@ -77,7 +77,6 @@
                 </div>
             </div>
 
-
             <br>
             <h3 class="text text-bold">Applicant's Photo</h3>
             <div class="p-2 bg-white big-card p-4">
@@ -86,8 +85,7 @@
                         {% if application.photo %}
                         <p class="text text-center">
                             <a href="{{application.photo.url}}" target="_blank">
-                                <img height="350" src="{{application.photo.url}}" alt="Application photo"
-                                    style="border: 3px solid gray; border-radius: 1%;">
+                                <img height="350" src="{{application.photo.url}}" alt="Applicant's photo">
                             </a>
                         </p>
                         {% endif %}
@@ -95,7 +93,6 @@
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                                 data-bs-target="#photoModal" data-bs-whatever="@mdo">Open Camera</button>
                         </div>
-
 
                     </div>
                 </div>
@@ -109,9 +106,11 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group my-3">
+            <div class="form-group d-flex justify-content-between my-3">
+                <button type="button" class="btn btn-primary py-2 px-4" onclick="history.back()"><i
+                        class="bi bi-arrow-left"></i> Back</button>
                 <a href="{% url 'dashboard:application_form_one_review' application.id %}"
-                    class="btn btn-primary">Next</a>
+                    class="btn btn-primary  py-2 px-4">Next <i class="bi bi-arrow-right"></i></a>
             </div>
         </div>
     </div>

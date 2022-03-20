@@ -14,6 +14,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
     <link rel="stylesheet" href="{% static 'css/dashboard_style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dashboard_style_res.css' %}">
     <title>{% block pagetitle %}Home{%endblock%}</title>
 </head>
 
@@ -29,46 +30,90 @@
         <span class="close-btn" onclick="hideAlert()"><i class="bi bi-x-lg"></i></span>
     </div>
     {% endif %}
-    <header>
-        <nav id="main-nav">
-            <a href="" class="brand-logo">
-                <img src="{% static 'images/logo.svg' %}" alt="Site Logo">
-            </a>
-            <ul class="menu">
-                <a href="/" class="menu-item">Home</a>
-                <a href="/" class="menu-item">Setup</a>
-            </ul>
-            <div class="nav-right toggle-active" data-target=".nav-right .drop-down">
-                <div class="profile">
-                    <img src="{% static 'images/logo.svg' %}" alt="Site Logo">
-                    <div class="mx-2 info">
-                        <span class="m-0 p-0 text">{{request.user.get_name|title}}</span>
-                        <span class="m-0 p-0 text text-muted">{{user.get_title}}</span>
-                    </div>
-                    <i class="bi bi-chevron-down"></i>
-                </div>
-                <div class="drop-down">
-                    <a href="" class="item"><i class="bi bi-person"></i> Profile</a>
-                    <a href="{% url 'accounts:logout' %}" class="item"><i class="bi bi-lock"></i> Logout</a>
-                </div>
-            </div>
-        </nav>
-        <div class="breadcrum-container">
-            <div class="col-md-10 col-11 mx-auto">
-                {% block breadcrum %}
-                <a href="" class="item">Home <i class="bi bi-chevron-compact-right"></i></a>
-                <a href="" class="item">About <i class="bi bi-chevron-compact-right"></i></a>
-                {%endblock%}
-            </div>
-        </div>
-    </header>
-    {% block content %}{%endblock%}
+    <div class="overlay"></div>
 
-    <footer>
-        <p>Copyright &copy;
-            <script>document.write(new Date().getFullYear())</script> All Rights Reserved
-        </p>
-    </footer>
+    <main>
+        <section class="sidebar">
+            <div class="header mt-1">
+                <img src="{% static 'images/logo.svg' %}" alt="Site Logo">
+                <div class="mx-2 info">
+                    <p class="m-0 p-0 text text-center">{{request.user.get_name|title}}</p>
+                    <p class="m-0 p-0 text text-center text-muted">{{user.get_title}}</p>
+                </div>
+            </div>
+            <div class="content">
+                {% if perms.dashboard.add_application %}
+
+                <a href="{% url 'dashboard:index' %}" class="sidebar-item row">
+                    <div class="col-2"><i class="bi bi-house"></i></div>
+                    <div class="col-10">Home</div>
+                </a>
+                {% endif %}
+
+                {% if perms.dashboard.view_application %}
+                <a href="{% url 'dashboard:previous_applications' %}" class="sidebar-item row">
+                    <div class="col-2"><i class="bi bi-window-stack"></i></div>
+                    <div class="col-10">My Applications</div>
+                </a>
+                {% endif %}
+
+                {% if perms.dashboard.can_review_application %}
+                <a href="{% url 'dashboard:submitted_applications' %}" class="sidebar-item row">
+                    <div class="col-2"><i class="bi bi-window-stack"></i></div>
+                    <div class="col-10">Submitted Applications</div>
+                </a>
+                {% endif %}
+
+                {% if perms.dashboard.can_setup_system %}
+                <a href="" class="sidebar-item row">
+                    <div class="col-2"><i class="bi bi-gear"></i></div>
+                    <div class="col-10">Setup</div>
+                </a>
+                {% endif %}
+
+            </div>
+        </section>
+
+        <section class="main-page">
+            <header>
+                <nav id="main-nav">
+                    <a href="" class="brand-logo">
+                        <img src="{% static 'images/logo.svg' %}" alt="Site Logo">
+                    </a>
+                    <div class="nav-right toggle-active" data-target=".nav-right .drop-down">
+                        <div class="profile">
+                            <img src="{% static 'images/logo.svg' %}" alt="Site Logo">
+                            <div class="mx-2 info">
+                                <span class="m-0 p-0 text">{{request.user.get_name|title}}</span>
+                                <span class="m-0 p-0 text text-muted">{{user.get_title}}</span>
+                            </div>
+                            <i class="bi bi-chevron-down"></i>
+                        </div>
+                        <div class="drop-down">
+                            <a href="" class="item"><i class="bi bi-person"></i> Profile</a>
+                            <a href="{% url 'accounts:logout' %}" class="item"><i class="bi bi-lock"></i> Logout</a>
+                        </div>
+                    </div>
+                </nav>
+                <div class="breadcrum-container">
+                    <div class="col-md-10 col-11 mx-auto">
+                        {% block breadcrum %}
+                        <a href="" class="item">Home <i class="bi bi-chevron-compact-right"></i></a>
+                        <a href="" class="item">About <i class="bi bi-chevron-compact-right"></i></a>
+                        {%endblock%}
+                    </div>
+                </div>
+            </header>
+            {% block content %}{%endblock%}
+
+            <footer>
+                <p>Copyright &copy;
+                    <script>document.write(new Date().getFullYear())</script> All Rights Reserved
+                </p>
+            </footer>
+        </section>
+    </main>
+
 
     <!-- JavaScript Bundle with Popper -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"

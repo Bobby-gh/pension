@@ -21,33 +21,6 @@
             </a>
         </div>
         {% endif %}
-
-        {% if perms.dashboard.view_application %}
-        <div class="col-md-4 p-1 mx-auto">
-            <p class="m-4 text text-center">
-                <span class="text text-primary"><i class="bi bi-info"></i></span>
-                Click <strong>Previous Applications</strong> to
-                view a list of all previous applications inluding drafts.
-            </p>
-            <a href="{% url 'dashboard:previous_applications' %}" class="btn btn-primary basic-card">
-                <h5>Previous Applications</h5>
-            </a>
-        </div>
-        {% endif %}
-
-        {% if perms.dashboard.can_review_application %}
-        <div class="col-md-4 p-1 mx-auto">
-            <p class="m-4 text text-center">
-                <span class="text text-primary"><i class="bi bi-info"></i></span>
-                Click <strong>Submitted Applications</strong> to
-                view a list of all submitted applications.
-            </p>
-            <a href="{% url 'dashboard:submitted_applications' %}" class="btn btn-primary basic-card">
-                <h5>Submitted Applications</h5>
-            </a>
-        </div>
-        {% endif %}
-
     </div>
 </div>
 
