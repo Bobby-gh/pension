@@ -7,7 +7,7 @@ from django.utils.html import strip_tags
 from django.views import View
 
 from dashboard.forms import ApplicationForm, ApplicationRankForm
-from dashboard.models import Application, ApplicationRank, Rank
+from dashboard.models import Application, ApplicationDocument, ApplicationDocumentType, ApplicationRank, Rank
 from pension.utils.constants import ApplicationStatus
 
 
@@ -20,6 +20,8 @@ class IndexView(View):
 
 
 class NewApplicationFormOneView(PermissionRequiredMixin, View):
+    """Create and update applications here.
+    """
     template_name = 'dashboard/form_one.html'
     form_class = ApplicationForm
     permission_required = (
@@ -31,6 +33,11 @@ class NewApplicationFormOneView(PermissionRequiredMixin, View):
     def get(self, request):
         application_id = request.GET.get("application_id")
         application = Application.objects.filter(id=application_id).first()
+        # Edit only draft and applications in need of changes
+        if application and not application.can_edit():
+            messages.warning(request, "Editing this application is forbidden.")
+            return redirect(request.META.get("HTTP_REFERER") or "dashboard:index")
+
         context = {"application": application}
         return render(request, self.template_name, context)
 
@@ -38,6 +45,10 @@ class NewApplicationFormOneView(PermissionRequiredMixin, View):
     def post(self, request):
         application_id = request.GET.get("application_id")
         application = Application.objects.filter(id=application_id).first()
+        if application and not application.can_edit():
+            messages.warning(request, "Editing this application is forbidden.")
+            return redirect(request.META.get("HTTP_REFERER"))
+
         form = self.form_class(request.POST,
                                request.FILES or None,
                                instance=application)
@@ -46,7 +57,6 @@ class NewApplicationFormOneView(PermissionRequiredMixin, View):
             application.last_updated_by = request.user
             if not application_id:
                 application.created_by = request.user
-            application.status = ApplicationStatus.DRAFT.value
             application.save()
             messages.info(request, "Application has been saved")
             return redirect("dashboard:application_form_ranks", application.id)
@@ -103,12 +113,26 @@ class NewApplicationFormOneUploadView(PermissionRequiredMixin, View):
     @method_decorator(login_required(login_url="accounts:login"))
     def get(self, request, application_id):
         application = get_object_or_404(Application, id=application_id)
-        context = {"application": application}
+        document_types = ApplicationDocumentType.objects.all()
+        context = {
+            "application": application,
+            "document_types": document_types,
+        }
         return render(request, self.template_name, context)
 
     @method_decorator(login_required(login_url="accounts:login"))
     def post(self, request, application_id):
-        return redirect("dashboard:application_form_one_review")
+        document_types = ApplicationDocumentType.objects.all()
+        for document_type in document_types:
+            files = request.FILES.getlist(document_type.codename)
+            for file in files:
+                doc = ApplicationDocument.objects.get_or_create(
+                    name=document_type.name,
+                    document_type=document_type,
+                    file=file,
+                    application_id=application_id)[0]
+                doc.save()
+        return redirect(request.META.get("HTTP_REFERER"))
 
 
 class NewApplicationFormOneReviewView(PermissionRequiredMixin, View):
@@ -122,7 +146,11 @@ class NewApplicationFormOneReviewView(PermissionRequiredMixin, View):
     @method_decorator(login_required(login_url="accounts:login"))
     def get(self, request, application_id):
         application = get_object_or_404(Application, id=application_id)
-        context = {"application": application}
+        document_types = ApplicationDocumentType.objects.all()
+        context = {
+            "application": application,
+            "document_types": document_types,
+        }
         return render(request, self.template_name, context)
 
 
@@ -143,8 +171,8 @@ class SubmittedApplicationsView(PermissionRequiredMixin, View):
 
     @method_decorator(login_required(login_url="accounts:login"))
     def get(self, request):
-        applications = Application.objects.filter(
-            status=ApplicationStatus.SUMITTED.value).order_by("-updated_at")
+        applications = Application.objects.exclude(
+            status=ApplicationStatus.DRAFT.value).order_by("-updated_at")
         context = {"applications": applications}
         return render(request, self.template_name, context)
 
@@ -156,8 +184,9 @@ class SubmittedApplicationReviewView(PermissionRequiredMixin, View):
     @method_decorator(login_required(login_url="accounts:login"))
     def get(self, request, application_id):
         application = get_object_or_404(Application, id=application_id)
-        application.status = ApplicationStatus.PROCESSING.value
-        application.save()
+        if application.status == ApplicationStatus.SUMITTED:
+            application.status = ApplicationStatus.PROCESSING.value
+            application.save()
         context = {"application": application}
         return render(request, self.template_name, context)
 
@@ -214,3 +243,54 @@ class ApplicationSubmissionView(PermissionRequiredMixin, View):
         messages.success(request,
                          "Application submitted sucessfully for review.")
         return redirect("dashboard:index")
+
+
+class ApplicationProcessedView(PermissionRequiredMixin, View):
+    """Mark an application as approved and processed.
+    """
+    permission_required = (
+        "dashboard.view_application",
+        "dashboard.edit_application",
+        "dashboard.can_review_application",
+    )
+
+    @method_decorator(login_required(login_url="accounts:login"))
+    def get(self, request, *args, **kwargs):
+        return redirect("dashboard:index")
+
+    @method_decorator(login_required(login_url="accounts:login"))
+    def post(self, request):
+        application_id = request.POST.get("application_id")
+        application = get_object_or_404(Application, id=application_id)
+        application.status = ApplicationStatus.PROCESSED.value
+        application.save()
+        messages.success(request, "Updated successfully.")
+        return redirect(request.META.get("HTTP_REFERER") or "dashboard:index")
+
+
+class RequestApplicationChangesView(PermissionRequiredMixin, View):
+    """Request changes to be made on applications. 
+    This enables the regional offices to edit and application and resubmit the application.
+    """
+    permission_required = (
+        "dashboard.view_application",
+        "dashboard.edit_application",
+        "dashboard.can_review_application",
+    )
+
+    @method_decorator(login_required(login_url="accounts:login"))
+    def get(self, request, *args, **kwargs):
+        return redirect("dashboard:index")
+
+    @method_decorator(login_required(login_url="accounts:login"))
+    def post(self, request):
+        application_id = request.POST.get("application_id")
+        requested_changes = request.POST.get("requested_changes")
+        application = get_object_or_404(Application, id=application_id)
+        application.status = ApplicationStatus.REQUESTED_CHANGES.value
+        application.requested_changes = requested_changes
+        application.updated_by = request.user
+        application.full_clean()
+        application.save()
+        messages.success(request, "Updated successfully.")
+        return redirect(request.META.get("HTTP_REFERER") or "dashboard:index")

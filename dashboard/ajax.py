@@ -10,7 +10,7 @@ from django.shortcuts import get_object_or_404
 from django.utils.decorators import method_decorator
 from django.views import View
 
-from dashboard.models import Application
+from dashboard.models import Application, ApplicationDocument
 
 
 class UploadPhotoView(PermissionRequiredMixin, View):
@@ -31,3 +31,20 @@ class UploadPhotoView(PermissionRequiredMixin, View):
         messages.success(request, "Photo updated successfully.")
 
         return JsonResponse({})
+
+
+class ApplicationDocumentDeletionView(PermissionRequiredMixin, View):
+    permission_required = (
+        "dashboard.change_application",
+        "dashboard.delete_applicationdocument",
+    )
+
+    @method_decorator(login_required(login_url="accounts:login"))
+    def post(self, request):
+        document_id = request.POST.get('document_id')
+        res = ApplicationDocument.objects.filter(id=document_id).delete()
+        if not (res and res[0]):
+            messages.success(request, "Document not found.")
+        return JsonResponse({})
+
+        

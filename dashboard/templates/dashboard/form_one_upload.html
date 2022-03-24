@@ -14,23 +14,25 @@
     <div class="col-md-10 col-12 mx-auto">
         <div class="col-12 my-2">
             <h3 class="text text-center">New Application</h3>
-            <div class="progress-container mx-auto">
-                <div class="progress" id="progress" data-progress="65"></div>
-                <div class="circle-container">
-                    <div class="circles active"><i class="bi bi-calendar"></i></div>
-                    <span class="label text text-center text-primary">Particulars</span>
-                </div>
-                <div class="circle-container">
-                    <div class="circles active"><i class="bi bi-graph-up"></i></div>
-                    <span class="label text text-center text-primary">Ranks</span>
-                </div>
-                <div class="circle-container">
-                    <div class="circles active"><i class="bi bi-house"></i></div>
-                    <span class="label text text-center text-primary">Uploads</span>
-                </div>
-                <div class="circle-container">
-                    <div class="circles"><i class="bi bi-calendar"></i></div>
-                    <span class="label text text-center">Review</span>
+            <div class="col-md-6 col-12 mx-auto">
+                <div class="progress-container mx-auto">
+                    <div class="progress" id="progress" data-progress="65"></div>
+                    <div class="circle-container">
+                        <div class="circles active"><i class="bi bi-calendar"></i></div>
+                        <span class="label text text-center text-primary">Particulars</span>
+                    </div>
+                    <div class="circle-container">
+                        <div class="circles active"><i class="bi bi-graph-up"></i></div>
+                        <span class="label text text-center text-primary">Ranks</span>
+                    </div>
+                    <div class="circle-container">
+                        <div class="circles active"><i class="bi bi-house"></i></div>
+                        <span class="label text text-center text-primary">Uploads</span>
+                    </div>
+                    <div class="circle-container">
+                        <div class="circles"><i class="bi bi-calendar"></i></div>
+                        <span class="label text text-center">Review</span>
+                    </div>
                 </div>
             </div>
 
@@ -102,8 +104,44 @@
             <h3 class="text text-bold">Documents</h3>
             <div class="p-2 bg-white big-card p-4">
                 <div class="col-12 row">
-                    <div class="col-12 mb-3">
-                    </div>
+                    <form class="needs-validation" method="POST" enctype="multipart/form-data" novalidate>
+                        {% csrf_token %}
+                        <input type="hidden" name="application_id" value="{{application.id}}">
+                        {% for type in document_types %}
+                        <div class="mb-3">
+                            <label for="{{type.codename}}" class="form-label">{{type.name}}</label>
+                            <!-- If there are previously uploaded files -->
+                            {% if application.documents.all %}
+                            <div class="my-1 p-1" style="background-color: rgba(128, 128, 128, 0.1);">
+                                <h6 class="text text-primary">Uploaded Files</h6>
+
+                                <!-- Filter to display only this type -->
+                                {% for document in application.documents.all %}
+                                {% if document.document_type == type %}
+                                <p class="m-0 p-0">
+                                    <a href="{{document.file.url}}" target="_blank">{{document.file.url}}</a>
+                                    <a class="text text-danger delete-document clickable"
+                                        data-document-id="{{document.id}}"
+                                        data-deletion-url="{% url 'dashboard:delete_application_ducument' %}"><i
+                                            class="bi bi-trash"></i></a>
+                                </p>
+                                {% endif %}
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+
+                            <input class="form-control" accept=".jpg, .jpeg, .png" type="file" id="{{type.codename}}"
+                                name="{{type.codename}}" {% if type.multiple %}multiple{% endif %}
+                                {% if type.required and not application.documents.all %}required{% endif %}>
+                            <div class="invalid-feedback">
+                                Please upload applicant's {{type.name}}.
+                            </div>
+                        </div>
+                        {% endfor %}
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-sm btn-primary">Upload All</button>
+                        </div>
+                    </form>
                 </div>
             </div>
             <div class="form-group d-flex justify-content-between my-3">

@@ -13,23 +13,25 @@
     <div class="col-md-10 col-12 mx-auto">
         <div class="col-12 my-2">
             <h3 class="text text-center">New Application</h3>
-            <div class="progress-container mx-auto">
-                <div class="progress" id="progress" data-progress="0"></div>
-                <div class="circle-container">
-                    <div class="circles active"><i class="bi bi-calendar"></i></div>
-                    <span class="label text text-center text-primary">Particulars</span>
-                </div>
-                <div class="circle-container">
-                    <div class="circles"><i class="bi bi-graph-up"></i></div>
-                    <span class="label text text-center">Ranks</span>
-                </div>
-                <div class="circle-container">
-                    <div class="circles"><i class="bi bi-house"></i></div>
-                    <span class="label text text-center">Uploads</span>
-                </div>
-                <div class="circle-container">
-                    <div class="circles"><i class="bi bi-calendar"></i></div>
-                    <span class="label text text-center">Review</span>
+            <div class="col-md-6 col-12 mx-auto">
+                <div class="progress-container mx-auto">
+                    <div class="progress" id="progress" data-progress="0"></div>
+                    <div class="circle-container">
+                        <div class="circles active"><i class="bi bi-calendar"></i></div>
+                        <span class="label text text-center text-primary">Particulars</span>
+                    </div>
+                    <div class="circle-container">
+                        <div class="circles"><i class="bi bi-graph-up"></i></div>
+                        <span class="label text text-center">Ranks</span>
+                    </div>
+                    <div class="circle-container">
+                        <div class="circles"><i class="bi bi-house"></i></div>
+                        <span class="label text text-center">Uploads</span>
+                    </div>
+                    <div class="circle-container">
+                        <div class="circles"><i class="bi bi-calendar"></i></div>
+                        <span class="label text text-center">Review</span>
+                    </div>
                 </div>
             </div>
 
@@ -44,9 +46,6 @@
                             <label for="surname">Surname <span class="text text-danger">*</span></label>
                             <input type="text" name="surname" value="{{application.surname}}" class="form-control"
                                 id="surname" placeholder="Surname" required>
-                            <div class="valid-feedback">
-                                Correct!
-                            </div>
                             <div class="invalid-feedback">
                                 Please this field is required.
                             </div>
@@ -55,9 +54,6 @@
                             <label for="other_names">Other Names <span class="text text-danger">*</span></label>
                             <input type="text" class="form-control" name="other_names"
                                 value="{{application.other_names}}" id="other_names" placeholder="Other Names" required>
-                            <div class="valid-feedback">
-                                Correct!
-                            </div>
                             <div class="invalid-feedback">
                                 Please enter your other names.
                             </div>
@@ -67,13 +63,15 @@
                     <div class="col-12 row">
                         <div class="col-md-6 mb-3">
                             <label for="rank">Number/Rank <span class="text text-danger">*</span></label>
-                            <input type="text" class="form-control" name="rank" value="{{application.rank}}" id="rank"
-                                placeholder="Number/Rank" required>
-                            <div class="valid-feedback">
-                                Correct!
-                            </div>
+
+                            <select name="rank" id="rank" class="form-control" required>
+                                <option value="">Select rank</option>
+                                {% for app_rank in application.all_sorted_ranks %}
+                                    <option {% if application.rank == app_rank.rank.name %}selected{% endif %}>{{app_rank.rank.name}}</option>
+                                {% endfor %}
+                            </select>
                             <div class="invalid-feedback">
-                                Please this field is required.
+                                Please select applicant's rank.
                             </div>
                         </div>
                         <div class="col-md-6 mb-3">
@@ -81,9 +79,6 @@
                             <input type="date" class="form-control" name="retiring_date"
                                 value="{{application.retiring_date|date:'Y-m-d'}}" id="retiring_date"
                                 placeholder="Retiring Date" required>
-                            <div class="valid-feedback">
-                                Correct!
-                            </div>
                             <div class="invalid-feedback">
                                 Please choose when the applicant will go on retirement.
                             </div>
@@ -95,9 +90,6 @@
                             <label for="reason">Reason of Retirement <span class="text text-danger">*</span></label>
                             <textarea class="form-control" name="reason" id="reason" placeholder="Reason of Retirement"
                                 required>{{application.reason}}</textarea>
-                            <div class="valid-feedback">
-                                Correct!
-                            </div>
                             <div class="invalid-feedback">
                                 Please enter reason here.
                             </div>
@@ -110,9 +102,6 @@
                             <label for="bank_name">Bank Name <span class="text text-danger">*</span></label>
                             <input type="text" class="form-control" name="bank_name" value="{{application.bank_name}}"
                                 id="bank_name" placeholder="Bank Name" required>
-                            <div class="valid-feedback">
-                                Correct!
-                            </div>
                             <div class="invalid-feedback">
                                 Please enter the name of the applicant's bank.
                             </div>
@@ -122,9 +111,6 @@
                             <input type="text" class="form-control" name="bank_account"
                                 value="{{application.bank_account}}" id="bank_account" placeholder="Account Number"
                                 required>
-                            <div class="valid-feedback">
-                                Correct!
-                            </div>
                             <div class="invalid-feedback">
                                 Please enter the name of the applicant's bank account number.
                             </div>
@@ -138,9 +124,6 @@
                             <input type="text" class="form-control" name="last_station"
                                 value="{{application.last_station}}" id="last_station" placeholder="Last Station"
                                 required>
-                            <div class="valid-feedback">
-                                Correct!
-                            </div>
                             <div class="invalid-feedback">
                                 Please this field is required.
                             </div>
@@ -180,9 +163,6 @@
                             <label for="contact">Contact Phone No. <span class="text text-danger">*</span></label>
                             <input type="text" class="form-control" name="contact" value="{{application.contact}}"
                                 id="contact" placeholder="Contact Phone No." required>
-                            <div class="valid-feedback">
-                                Correct!
-                            </div>
                             <div class="invalid-feedback">
                                 Please this field is required.
                             </div>
@@ -194,9 +174,6 @@
                             <label for="contact_address">Contact Address <span class="text text-danger">*</span></label>
                             <textarea class="form-control" id="contact_address" name="contact_address"
                                 placeholder="Contact Address" required>{{application.contact_address}}</textarea>
-                            <div class="valid-feedback">
-                                Correct!
-                            </div>
                             <div class="invalid-feedback">
                                 Please this field is required.
                             </div>
@@ -204,8 +181,10 @@
                     </div>
                 </div>
                 <div class="form-group d-flex justify-content-between my-3">
-                    <button type="button" class="btn btn-primary py-2 px-4" onclick="history.back()"><i class="bi bi-arrow-left"></i> Back</button>
-                    <button type="submit" class="btn btn-primary py-2 px-4">Next <i class="bi bi-arrow-right"></i></button>
+                    <button type="button" class="btn btn-primary py-2 px-4" onclick="history.back()"><i
+                            class="bi bi-arrow-left"></i> Back</button>
+                    <button type="submit" class="btn btn-primary py-2 px-4">Next <i
+                            class="bi bi-arrow-right"></i></button>
                 </div>
             </form>
         </div>

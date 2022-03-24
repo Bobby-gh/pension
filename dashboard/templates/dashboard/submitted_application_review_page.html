@@ -11,146 +11,72 @@
 
 {% block content %}
 
+<!-- Request Changes Modal -->
+<div class="modal fade" id="requestChangesModal" tabindex="-1" aria-labelledby="requestChangesModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-l">
+        <div class="modal-content px-4">
+            <div class="modal-header">
+                <h5 class="modal-title" id="requestChangesModalLabel">Request changes to the application</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form class="my-2" action="{% url 'dashboard:request_changes' %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="application_id" value="{{application.id}}">
+                <label for="requested_changes">Changes <span class="text text-danger">*</span></label>
+                <textarea class="form-control" name="requested_changes" id="requested_changes" cols="30" rows="10"
+                    required></textarea>
+                <button class="btn btn-primary my-3">Submit</button>
+            </form>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <div class="col-md-10 mx-auto col-11">
     <div class="col-md-10 col-12 mx-auto">
         <div class="col-12 my-2">
             <h3 class="text text-center">Application Details</h3>
-            <div class="p-3 mt-3 bg-white">
-
-                <div class="row">
-                    <div class="col-6 col-md-3 mt-3">
-                        <p class="m-0 p-0 text text-muted">Surname</p>
-                        <p class="m-0 p-0 text text-primary">{{application.surname}}</p>
-                    </div>
-
-                    <div class="col-6 col-md-3 mt-3">
-                        <p class="m-0 p-0 text text-muted">Other Names</p>
-                        <p class="m-0 p-0 text text-primary">{{application.other_names}}</p>
-                    </div>
-
-                    <div class="col-6 col-md-3 mt-3">
-                        <p class="m-0 p-0 text text-muted">Rank</p>
-                        <p class="m-0 p-0 text text-primary">{{application.rank}}</p>
-                    </div>
-
-                    <div class="col-6 col-md-3 mt-3">
-                        <p class="m-0 p-0 text text-muted">Retiring Date</p>
-                        <p class="m-0 p-0 text text-primary">{{application.retiring_date}}</p>
-                    </div>
-
-                    <div class="col-6 col-md-3 mt-3">
-                        <p class="m-0 p-0 text text-muted">Reason</p>
-                        <p class="m-0 p-0 text text-primary">{{application.reason}}</p>
-                    </div>
-
-                    <div class="col-6 col-md-3 mt-3">
-                        <p class="m-0 p-0 text text-muted">Bank Name</p>
-                        <p class="m-0 p-0 text text-primary">{{application.bank_name}}</p>
-                    </div>
-
-                    <div class="col-6 col-md-3 mt-3">
-                        <p class="m-0 p-0 text text-muted">Bank Account Number</p>
-                        <p class="m-0 p-0 text text-primary">{{application.bank_account}}</p>
-                    </div>
-
-                    <div class="col-6 col-md-3 mt-3">
-                        <p class="m-0 p-0 text text-muted">Last Station</p>
-                        <p class="m-0 p-0 text text-primary">{{application.last_station}}</p>
-                    </div>
-
-                    <div class="col-6 col-md-3 mt-3">
-                        <p class="m-0 p-0 text text-muted">Region</p>
-                        <p class="m-0 p-0 text text-primary">{{application.region}}</p>
-                    </div>
-
-                    <div class="col-6 col-md-3 mt-3">
-                        <p class="m-0 p-0 text text-muted">Contact</p>
-                        <p class="m-0 p-0 text text-primary">{{application.contact}}</p>
-                    </div>
-
-                    <div class="col-6 col-md-3 mt-3">
-                        <p class="m-0 p-0 text text-muted">Contact Address</p>
-                        <p class="m-0 p-0 text text-primary">{{application.contact_address}}</p>
-                    </div>
-
-                    <div class="col-6 col-md-3 mt-3">
-                        <p class="m-0 p-0 text text-muted">Status</p>
-                        <p class="m-0 p-0 text text-primary">{{application.status}}</p>
-                    </div>
-
-                </div>
-            </div>
-            <div class="p-3 mt-3 bg-white">
-                <h5 class="text">Ranks</h5>
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Rank</th>
-                            <th>Date</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for app_rank in application.all_sorted_ranks %}
-                        <tr>
-                            <td>{{app_rank.rank.name}}</td>
-                            <td>{{app_rank.date}}</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="p-3 mt-3 bg-white">
-                <h5 class="text">Photo</h5>
-                <div class="col-md-6 mx-auto">
-                    {% if application.photo %}
-                    <img src="{{application.photo.url}}" alt="">
-                    {% else %}
-                    <p class="text text-danger">None</p>
-                    {% endif %}
-                </div>
-            </div>
-
-            <div class="p-3 mt-3 bg-white">
-                <h5 class="text">Signature</h5>
-                <div class="col-md-6 mx-auto">
-                    {% if application.signature %}
-                    <img src="{{application.signature.url}}" alt="">
-                    {% else %}
-                    <p class="text text-danger">None</p>
-                    {% endif %}
-                </div>
-            </div>
-
-            <div class="p-3 mt-3 bg-white">
-                <h5 class="text">Documents</h5>
-
-            </div>
-
-
+            {% include 'dashboard/blocks/application_review.html' %}
             <div class="row">
-                <div class="col-md-2 mt-3">
+                <div class="col-md-3 mt-3">
                     <a href="{% url 'pdf:generate_letter' application.id %}" target="_blank" class="btn btn-primary"><i
                             class="bi bi-pencil"></i> Generate Letter</a>
                 </div>
-
-                <div class="col-md-2 mt-3">
+                <div class="col-md-3 mt-3">
                     <a href="{% url 'dashboard:application_form_one' %}?application_id={{application.id}}"
                         class="btn btn-primary"><i class="bi bi-pencil"></i> Complete Form 1</a>
                 </div>
             </div>
 
-            <div class="p-3 mt-3 bg-white">
-                <h5 class="text">CURRENT STATUS</h5>
-                <form action="" method="post">
-                    <select class="form-control">
-                    <option {% if application.status == 'processing' %}selected{% endif %}>PROCESSING</option>
-                    <option {% if application.status == 'approved' %}selected{% endif %}>APPROVED</option>
-                    <option {% if application.status == 'rejected' %}selected{% endif %}>REJECTED</option>
-                    <option {% if application.status == 'processed' %}selected{% endif %}>PROCESSED</option>
-                </select>
-                    <button class="btn btn-warning my-3">Submit</button>
-                </form>
+            <div class="mt-3 card-shadow">
+                <div class="row">
+                    <h5 class="text text-primary">Feedback</h5>
+                    {% if application.status == 'requested_changes' %}
+                    <div class="col-12">
+                        <p class="text text-danger">{{application.requested_changes}}</p>
+                    </div>
+                    {% endif %}
+                    <form class="col-md-3" action="{% url 'dashboard:application_processed' %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="application_id" value="{{application.id}}">
+                        <button class="btn btn-success my-3"
+                            {% if application.status == 'processed' %}disabled{% endif %}>
+                            <i class="bi bi-check-lg"></i>
+                            Approved and Processed
+                        </button>
+                    </form>
+                    <div class="col-md-3">
+                        <button type="button" class="btn btn-danger my-3" data-bs-toggle="modal"
+                            data-bs-target="#requestChangesModal"
+                            {% if application.status == 'requested_changes' %}disabled{% endif %}><i
+                                class="bi bi-x-lg"></i> Request Changes</button>
+                    </div>
+                </div>
             </div>
 
         </div>

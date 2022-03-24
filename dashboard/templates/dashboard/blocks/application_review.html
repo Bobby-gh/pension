@@ -1,0 +1,113 @@
+<div class="p-5 mt-5 card-shadow">
+    <h5 class="text">Particulars</h5>
+    <div class="col-12 col-md-12 row mt-3">
+        <p class="m-0 p-0 text col-md-3  text-muted">Surname:</p>
+        <p class="m-0 p-0 text col-md-9 text-primary">{{application.surname}}</p>
+    </div>
+
+    <div class="col-12 col-md-12 row mt-3">
+        <p class="m-0 p-0 text col-md-3  text-muted">Other Names:</p>
+        <p class="m-0 p-0 text col-md-9 text-primary">{{application.other_names}}</p>
+    </div>
+
+    <div class="col-12 col-md-12 row mt-3">
+        <p class="m-0 p-0 text col-md-3  text-muted">Rank:</p>
+        <p class="m-0 p-0 text col-md-9 text-primary">{{application.rank}}</p>
+    </div>
+
+    <div class="col-12 col-md-12 row mt-3">
+        <p class="m-0 p-0 text col-md-3  text-muted">Retiring Date:</p>
+        <p class="m-0 p-0 text col-md-9 text-primary">{{application.retiring_date}}</p>
+    </div>
+
+    <div class="col-12 col-md-12 row mt-3">
+        <p class="m-0 p-0 text col-md-3  text-muted">Reason:</p>
+        <p class="m-0 p-0 text col-md-9 text-primary">{{application.reason}}</p>
+    </div>
+
+    <div class="col-12 col-md-12 row mt-3">
+        <p class="m-0 p-0 text col-md-3  text-muted">Bank Name:</p>
+        <p class="m-0 p-0 text col-md-9 text-primary">{{application.bank_name}}</p>
+    </div>
+
+    <div class="col-12 col-md-12 row mt-3">
+        <p class="m-0 p-0 text col-md-3  text-muted">Bank Account Number:</p>
+        <p class="m-0 p-0 text col-md-9 text-primary">{{application.bank_account}}</p>
+    </div>
+
+    <div class="col-12 col-md-12 row mt-3">
+        <p class="m-0 p-0 text col-md-3  text-muted">Last Station:</p>
+        <p class="m-0 p-0 text col-md-9 text-primary">{{application.last_station}}</p>
+    </div>
+
+    <div class="col-12 col-md-12 row mt-3">
+        <p class="m-0 p-0 text col-md-3  text-muted">Region:</p>
+        <p class="m-0 p-0 text col-md-9 text-primary">{{application.region}}</p>
+    </div>
+
+    <div class="col-12 col-md-12 row mt-3">
+        <p class="m-0 p-0 text col-md-3  text-muted">Contact:</p>
+        <p class="m-0 p-0 text col-md-9 text-primary">{{application.contact}}</p>
+    </div>
+
+    <div class="col-12 col-md-12 row mt-3">
+        <p class="m-0 p-0 text col-md-3  text-muted">Contact Address:</p>
+        <p class="m-0 p-0 text col-md-9 text-primary">{{application.contact_address}}</p>
+    </div>
+
+    <div class="col-12 col-md-12 row mt-3">
+        <p class="m-0 p-0 text col-md-3  text-muted">Status:</p>
+        <p class="m-0 p-0 text col-md-9 text-primary">{{application.status}}</p>
+    </div>
+
+    <div class="col-12 col-md-12 row mt-3">
+        <p class="m-0 p-0 text col-md-3  text-muted">Date:</p>
+        <p class="m-0 p-0 text col-md-9 text-primary">{{application.created_at|date}}</p>
+    </div>
+
+</div>
+
+<div class="p-5 mt-5 card-shadow">
+    <h5 class="text">Photo</h5>
+    <div class="col-md-6 mx-auto">
+        {% if application.photo %}
+        <img src="{{application.photo.url}}" alt="">
+        {% else %}
+        <p class="text text-danger">None</p>
+        {% endif %}
+    </div>
+</div>
+
+<div class="p-5 mt-5 card-shadow">
+    <h5 class="text">Documents</h5>
+    {% if application.documents.all %}
+    {% for document_type in document_types %}
+    <div class="row mb-3">
+        <h4 class="text text-primary">{{document_type.name}}</h4>
+        {% for document in application.documents.all %}
+        {% if document.document_type == document_type %}
+        <div class="col-md-4" style="border: 1px solid gray; display: flex; align-items: center;">
+            <a href="{{document.file.url}}">
+                <img src="{{document.file.url}}" alt="{{document.name}}" style="max-width: 100%;">
+            </a>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+    {% endfor %}
+    {% else %}
+    <p class="text text-danger">None</p>
+    {% endif %}
+</div>
+
+<div class="p-5 mt-5 card-shadow">
+    <h5 class="text">Signature</h5>
+    {% if application.signature %}
+    <div class="col-md-6 mx-auto">
+        <img src="{{application.signature.url}}" alt="">
+
+    </div>
+    {% else %}
+    <p class="text text-danger">None</p>
+    {% endif %}
+</div>

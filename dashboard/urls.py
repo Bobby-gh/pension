@@ -36,10 +36,19 @@ urlpatterns = [
     path("application-submission/<int:application_id>",
          views.ApplicationSubmissionView.as_view(),
          name="application_submission"),
+    path("application-processed",
+         views.ApplicationProcessedView.as_view(),
+         name="application_processed"),
+    path("request-changes",
+         views.RequestApplicationChangesView.as_view(),
+         name="request_changes"),
 ]
 
 urlpatterns += [
     path("ajax/upload-photo",
          ajax.UploadPhotoView.as_view(),
-         name="upload_photo")
+         name="upload_photo"),
+    path("ajax/delete-application-document",
+         ajax.ApplicationDocumentDeletionView.as_view(),
+         name="delete_application_ducument")
 ]

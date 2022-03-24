@@ -5,8 +5,7 @@ class ApplicationStatus(enum.Enum):
     DRAFT = "draft"
     SUMITTED = "submitted"
     PROCESSING = "processing"
-    APPROVED = "approved"
-    REJECTED = "rejected"
+    REQUESTED_CHANGES = "requested_changes"
     PROCESSED = "processed"
 
 

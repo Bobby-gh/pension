@@ -45,9 +45,9 @@
                                     <td>
                                         <div class="d-flex">
                                             <a href="{% url 'dashboard:submitted_application_review' application.id %}"
-                                                class="btn btn-sm btn-info"><i class="bi bi-eye"></i></a>
+                                                class="btn btn-sm btn-info text text-light"><i class="bi bi-eye"></i></a>
                                             <a href="{% url 'dashboard:application_form_one' %}?application_id={{application.id}}"
-                                                class="btn btn-sm btn-warning"><i class="bi bi-pencil"></i></a>
+                                                class="btn btn-sm btn-warning text text-light"><i class="bi bi-pencil"></i></a>
                                             <form action="{% url 'dashboard:delete_application' %}" method="post"
                                                 class="requires-confirmation"
                                                 data-message="This action is irrervesible. Click OK to permanently delete this application.">

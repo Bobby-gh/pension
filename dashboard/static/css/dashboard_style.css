@@ -55,6 +55,14 @@ a {
   color: inherit;
 }
 
+.clickable {
+  cursor: pointer;
+}
+
+.clickable:hover {
+  color: rgba(0, 0, 0, 0.5);
+}
+
 #main-nav {
   background-color: #020232;
   height: 5em;

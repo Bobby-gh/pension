@@ -36,129 +36,26 @@
                     </div>
                 </div>
             </div>
-            <div class="p-3 mt-3 bg-white">
 
-                <div class="row">
-                    <div class="col-6 col-md-3 mt-3">
-                        <p class="m-0 p-0 text text-muted">Surname</p>
-                        <p class="m-0 p-0 text text-primary">{{application.surname}}</p>
-                    </div>
+            {% include 'dashboard/blocks/application_review.html' %}
 
-                    <div class="col-6 col-md-3 mt-3">
-                        <p class="m-0 p-0 text text-muted">Other Names</p>
-                        <p class="m-0 p-0 text text-primary">{{application.other_names}}</p>
-                    </div>
+            <div class="form-group d-flex justify-content-between my-3">
+                <button type="button" class="btn btn-primary py-2 px-4" onclick="history.back()"><i
+                        class="bi bi-arrow-left"></i> Back</button>
 
-                    <div class="col-6 col-md-3 mt-3">
-                        <p class="m-0 p-0 text text-muted">Rank</p>
-                        <p class="m-0 p-0 text text-primary">{{application.rank}}</p>
-                    </div>
-
-                    <div class="col-6 col-md-3 mt-3">
-                        <p class="m-0 p-0 text text-muted">Retiring Date</p>
-                        <p class="m-0 p-0 text text-primary">{{application.retiring_date}}</p>
-                    </div>
-
-                    <div class="col-6 col-md-3 mt-3">
-                        <p class="m-0 p-0 text text-muted">Reason</p>
-                        <p class="m-0 p-0 text text-primary">{{application.reason}}</p>
-                    </div>
-
-                    <div class="col-6 col-md-3 mt-3">
-                        <p class="m-0 p-0 text text-muted">Bank Name</p>
-                        <p class="m-0 p-0 text text-primary">{{application.bank_name}}</p>
-                    </div>
-
-                    <div class="col-6 col-md-3 mt-3">
-                        <p class="m-0 p-0 text text-muted">Bank Account Number</p>
-                        <p class="m-0 p-0 text text-primary">{{application.bank_account}}</p>
-                    </div>
-
-                    <div class="col-6 col-md-3 mt-3">
-                        <p class="m-0 p-0 text text-muted">Last Station</p>
-                        <p class="m-0 p-0 text text-primary">{{application.last_station}}</p>
-                    </div>
-
-                    <div class="col-6 col-md-3 mt-3">
-                        <p class="m-0 p-0 text text-muted">Region</p>
-                        <p class="m-0 p-0 text text-primary">{{application.region}}</p>
-                    </div>
-
-                    <div class="col-6 col-md-3 mt-3">
-                        <p class="m-0 p-0 text text-muted">Contact</p>
-                        <p class="m-0 p-0 text text-primary">{{application.contact}}</p>
-                    </div>
-
-                    <div class="col-6 col-md-3 mt-3">
-                        <p class="m-0 p-0 text text-muted">Contact Address</p>
-                        <p class="m-0 p-0 text text-primary">{{application.contact_address}}</p>
-                    </div>
-
-                    <div class="col-6 col-md-3 mt-3">
-                        <p class="m-0 p-0 text text-muted">Status</p>
-                        <p class="m-0 p-0 text text-primary">{{application.status}}</p>
-                    </div>
-
-                </div>
-            </div>
-            <div class="p-3 mt-3 bg-white">
-                <h5 class="text">Ranks</h5>
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Rank</th>
-                            <th>Date</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for app_rank in application.all_sorted_ranks %}
-                        <tr>
-                            <td>{{app_rank.rank.name}}</td>
-                            <td>{{app_rank.date}}</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-            <div class="p-3 mt-3 bg-white">
-                <h5 class="text">Photo</h5>
-                <div class="col-md-6 mx-auto">
-                    {% if application.photo %}
-                    <img src="{{application.photo.url}}" alt="">
-                    {% else %}
-                    <p class="text text-danger">None</p>
-                    {% endif %}
-                </div>
-            </div>
-
-            <div class="p-3 mt-3 bg-white">
-                <h5 class="text">Signature</h5>
-                <div class="col-md-6 mx-auto">
-                    {% if application.signature %}
-                    <img src="{{application.signature.url}}" alt="">
-                    {% else %}
-                    <p class="text text-danger">None</p>
-                    {% endif %}
-                </div>
-            </div>
-
-            <div class="p-3 mt-3 bg-white">
-                <h5 class="text">Documents</h5>
-                {% if application.documents.all %}
-
-                {% else %}
-                <p class="text text-danger">None</p>
+                {% if application.status == 'draft' or application.status == 'rejected' %}
+                <form method="POST" action="{% url 'dashboard:application_submission' application.id %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="application_id" value="{{application.id}}">
+                    <button class="btn btn-primary py-2 px-4" type="submit" style="width: 100%;"><i
+                            class="bi bi-send"></i>
+                        Submit</button>
+                </form>
                 {% endif %}
+
             </div>
 
 
-            <form class="col-md-6 mx-auto mt-3" method="POST"
-                action="{% url 'dashboard:application_submission' application.id %}">
-                {% csrf_token %}
-                <input type="hidden" name="application_id" value="{{application.id}}">
-                <button class="btn btn-primary" type="submit" style="width: 100%;"><i class="bi bi-send"></i>
-                    Submit</button>
-            </form>
         </div>
     </div>
 </div>

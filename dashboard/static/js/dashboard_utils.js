@@ -62,3 +62,27 @@ function removeContainer(element) {
         element.parentElement.parentElement.remove()
     }
 }
+
+// Document deletion
+buttons = document.querySelectorAll(".delete-document")
+buttons?.forEach(button => {
+    const id = button.dataset.documentId
+    const url = button.dataset.deletionUrl
+    if (url == null || id == null) { return }
+    button.addEventListener("click", event => {
+        let data = new FormData();
+        data.append('document_id', id);
+        fetch(url, {
+            headers: {
+                "X-CSRFToken": getCookie('csrftoken'),
+            },
+            method: "POST",
+            body: data
+        }).then(res => res.json()).then(res => {
+            // Refresh window
+            window.location = window.location
+        }).catch(err => {
+            alert(err)
+        })
+    })
+})
