@@ -1,12 +1,13 @@
 from django.contrib import admin
 
-from dashboard.models import Application, ApplicationRank, Rank, ApplicationDocumentType, ApplicationDocument
+from dashboard.models import Application, ApplicationRank, Notification, Rank, ApplicationDocumentType, ApplicationDocument
 
 admin.site.register(Application)
 admin.site.register(ApplicationDocument)
 admin.site.register(ApplicationDocumentType)
 admin.site.register(Rank)
 admin.site.register(ApplicationRank)
+admin.site.register(Notification)
 
 # TEMP
 try:

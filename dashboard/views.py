@@ -2,17 +2,26 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.utils.html import strip_tags
 from django.views import View
 
 from dashboard.forms import ApplicationForm, ApplicationRankForm
-from dashboard.models import Application, ApplicationDocument, ApplicationDocumentType, ApplicationRank, Rank
+from dashboard.models import Application, ApplicationDocument, ApplicationDocumentType, ApplicationRank, Notification, Rank
 from pension.utils.constants import ApplicationStatus
 
 
 class IndexView(View):
     template_name = 'dashboard/index.html'
+
+    @method_decorator(login_required(login_url="accounts:login"))
+    def get(self, request):
+        return render(request, self.template_name)
+
+
+class NotificationsView(View):
+    template_name = 'dashboard/notifications.html'
 
     @method_decorator(login_required(login_url="accounts:login"))
     def get(self, request):
@@ -36,7 +45,8 @@ class NewApplicationFormOneView(PermissionRequiredMixin, View):
         # Edit only draft and applications in need of changes
         if application and not application.can_edit():
             messages.warning(request, "Editing this application is forbidden.")
-            return redirect(request.META.get("HTTP_REFERER") or "dashboard:index")
+            return redirect(
+                request.META.get("HTTP_REFERER") or "dashboard:index")
 
         context = {"application": application}
         return render(request, self.template_name, context)
@@ -154,8 +164,8 @@ class NewApplicationFormOneReviewView(PermissionRequiredMixin, View):
         return render(request, self.template_name, context)
 
 
-class PreviousApplicationsView(PermissionRequiredMixin, View):
-    template_name = 'dashboard/previous_applications.html'
+class MyApplicationsView(PermissionRequiredMixin, View):
+    template_name = 'dashboard/my_applications.html'
     permission_required = "dashboard.view_application"
 
     @method_decorator(login_required(login_url="accounts:login"))
@@ -292,5 +302,14 @@ class RequestApplicationChangesView(PermissionRequiredMixin, View):
         application.updated_by = request.user
         application.full_clean()
         application.save()
+
+        # Create a notification for the user.
+        Notification.objects.create(
+            to_user=application.created_by,
+            url=reverse("dashboard:application_form_one") +
+            f"?application_id={application.id}",
+            subject=f"Appication ID: {application.id}",
+            message=f"Change Required.\n{requested_changes}",
+            from_user=request.user)
         messages.success(request, "Updated successfully.")
         return redirect(request.META.get("HTTP_REFERER") or "dashboard:index")

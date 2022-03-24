@@ -1,4 +1,5 @@
 from django.db import models
+from sqlalchemy import null
 
 from accounts.models import User
 from pension.utils.constants import REGIONS, ApplicationStatus
@@ -50,6 +51,9 @@ class Application(models.Model):
             ("can_review_application", "Change status"),
             ("can_generate_letter", "Generate Award Letter from Application"),
         )
+
+    def get_status(self):
+        return self.status.replace("_", " ").title()
 
     def can_edit(self):
         return (self.status == ApplicationStatus.DRAFT.value
@@ -122,3 +126,28 @@ class ApplicationRank(models.Model):
 
     def __str__(self) -> str:
         return self.rank.name
+
+
+class Notification(models.Model):
+    to_user = models.ForeignKey(User,
+                                related_name="notifications",
+                                on_delete=models.CASCADE)
+    from_user = models.ForeignKey(User,
+                                  related_name="created_notifications",
+                                  null=True,
+                                  blank=True,
+                                  on_delete=models.SET_NULL)
+    message = models.TextField()
+    url = models.URLField(blank=True, null=True)
+    subject = models.CharField(max_length=200)
+    slug = models.CharField(max_length=250, blank=True)
+    read = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def save(self, *args, **kwargs):
+        self.slug = "_".join(self.subject.lower().split())
+        return super().save(*args, **kwargs)
+
+    def __str__(self) -> str:
+        return self.message

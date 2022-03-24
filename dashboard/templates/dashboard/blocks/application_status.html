@@ -1,0 +1,7 @@
+{% if application.status == 'draft' or application.status == 'processing' %}
+<span class="badge bg-info">{{application.get_status}}</span>
+{% elif  application.status == 'processed'  %}
+<span class="badge bg-success">{{application.get_status}}</span>
+{% elif  application.status == 'requested_changes'  %}
+<span class="badge bg-danger">{{application.get_status}}</span>
+{% endif %}

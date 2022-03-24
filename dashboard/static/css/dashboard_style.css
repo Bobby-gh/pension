@@ -11,7 +11,7 @@ main {
 }
 
 main .sidebar {
-  background-color: #020244;
+  background-color: #041748;
   min-height: 100vh;
   color: white;
   width: 15%;
@@ -383,5 +383,37 @@ footer {
   margin-top: 1.3em;
   max-width: 100vw;
   overflow-x: scroll;
+}
+
+.balloon {
+  padding: 0.8em;
+  border-radius: 100%;
+  height: 1em;
+  width: 1em;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  font-size: smaller;
+  background-color: #0a66e9;
+}
+
+.bg-success {
+  background-color: #00be00 !important;
+}
+
+.bg-danger,
+.btn-danger {
+  background-color: red !important;
+}
+
+.bg-warning,
+.btn-warning {
+  background-color: #ffa600 !important;
 }
 /*# sourceMappingURL=dashboard_style.css.map */

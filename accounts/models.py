@@ -36,5 +36,13 @@ class User(AbstractBaseUser, PermissionsMixin):
     def get_name(self):
         return self.fullname or self.username
 
+    def count_notifications(self):
+        return self.notifications.filter(read=False).count()
+
+    def get_notifications(self):
+        notifications = self.notifications.filter().order_by("-id")
+        notifications.update(read=True)
+        return notifications[:100]
+
     def __str__(self):
         return self.username

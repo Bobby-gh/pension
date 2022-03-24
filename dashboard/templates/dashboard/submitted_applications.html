@@ -41,7 +41,7 @@
                                     <td>{{application.surname}}</td>
                                     <td>{{application.other_names}}</td>
                                     <td>{{application.updated_at}}</td>
-                                    <td><span class="badge bg-info">{{application.status|title}}</span></td>
+                                    <td>{% include 'dashboard/blocks/application_status.html' %}</td>
                                     <td>
                                         <div class="d-flex">
                                             <a href="{% url 'dashboard:submitted_application_review' application.id %}"

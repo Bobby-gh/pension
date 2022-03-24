@@ -3,7 +3,7 @@
 
 {% block breadcrum %}
 <a href="/" class="item">Home <i class="bi bi-chevron-compact-right"></i></a>
-<a class="item">Previous Application <i class="bi bi-chevron-compact-right"></i></a>
+<a class="item">My Application <i class="bi bi-chevron-compact-right"></i></a>
 {%endblock%}
 
 
@@ -11,7 +11,7 @@
 
 <div class="col-md-10 mx-auto col-11">
     <div class="col-md-10 col-12 mx-auto">
-        <h4 class="mt-2">Previous Applications</h4>
+        <h4 class="mt-2">My Applications</h4>
         <div class="card-shadow">
             <div class="col-12 row">
                 <div class="col-12 mb-3" style="overflow-x: auto;">
@@ -40,14 +40,15 @@
                                 <td>{{application.surname}}</td>
                                 <td>{{application.other_names}}</td>
                                 <td>{{application.updated_at}}</td>
-                                <td><span class="badge bg-info">{{application.status|title}}</span></td>
+                                <td>{% include 'dashboard/blocks/application_status.html' %}</td>
                                 <td>
                                     <div class="d-flex">
                                         <a href="{% url 'dashboard:application_form_one_review' application.id %}"
                                             class="btn btn-sm btn-info text text-light"><i class="bi bi-eye"></i></a>
                                         {% if application.status == 'draft' or application.status == 'requested_changes' %}
                                         <a href="{% url 'dashboard:application_form_one' %}?application_id={{application.id}}"
-                                            class="btn btn-sm btn-warning text text-light"><i class="bi bi-pencil"></i></a>
+                                            class="btn btn-sm btn-warning text text-light"><i
+                                                class="bi bi-pencil"></i></a>
                                         <form action="{% url 'dashboard:delete_application' %}" method="post"
                                             class="requires-confirmation"
                                             data-message="This action is irrervesible. Click OK to permanently delete this application.">

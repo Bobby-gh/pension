@@ -43,15 +43,24 @@
             </div>
             <div class="content">
                 {% if perms.dashboard.add_application %}
-
                 <a href="{% url 'dashboard:index' %}" class="sidebar-item row">
                     <div class="col-2"><i class="bi bi-house"></i></div>
                     <div class="col-10">Home</div>
                 </a>
                 {% endif %}
 
+                {% if perms.dashboard.add_application %}
+                <a href="{% url 'dashboard:notifications' %}" class="sidebar-item row">
+                    <div class="col-2"><i class="bi bi-bell"></i></div>
+                    <div class="col-8">Notifications</div>
+                    {% if request.user.count_notifications %}
+                    <div class="col-2"><span class="balloon">{{request.user.notifications.count}}</span></div>
+                    {% endif %}
+                </a>
+                {% endif %}
+
                 {% if perms.dashboard.view_application %}
-                <a href="{% url 'dashboard:previous_applications' %}" class="sidebar-item row">
+                <a href="{% url 'dashboard:my_applications' %}" class="sidebar-item row">
                     <div class="col-2"><i class="bi bi-window-stack"></i></div>
                     <div class="col-10">My Applications</div>
                 </a>

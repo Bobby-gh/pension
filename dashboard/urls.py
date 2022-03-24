@@ -6,6 +6,7 @@ app_name = "dashboard"
 
 urlpatterns = [
     path("", views.IndexView.as_view(), name="index"),
+    path("notifications", views.NotificationsView.as_view(), name="notifications"),
     path("apply",
          views.NewApplicationFormOneView.as_view(),
          name="application_form_one"),
@@ -18,9 +19,9 @@ urlpatterns = [
     path("apply/review/<int:application_id>",
          views.NewApplicationFormOneReviewView.as_view(),
          name="application_form_one_review"),
-    path("previous-applications",
-         views.PreviousApplicationsView.as_view(),
-         name="previous_applications"),
+    path("my-applications",
+         views.MyApplicationsView.as_view(),
+         name="my_applications"),
     path("submitted-applications",
          views.SubmittedApplicationsView.as_view(),
          name="submitted_applications"),
