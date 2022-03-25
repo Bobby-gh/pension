@@ -45,12 +45,12 @@
             {% include 'dashboard/blocks/application_review.html' %}
             <div class="row">
                 <div class="col-md-3 mt-3">
-                    <a href="{% url 'pdf:generate_letter' application.id %}" target="_blank" class="btn btn-primary"><i
-                            class="bi bi-pencil"></i> Generate Letter</a>
+                    <a href="{% url 'dashboard:complete_form_one' application.id %}" class="btn btn-primary"><i
+                            class="bi bi-pencil"></i> Complete Form 1</a>
                 </div>
                 <div class="col-md-3 mt-3">
-                    <a href="{% url 'dashboard:application_form_one' %}?application_id={{application.id}}"
-                        class="btn btn-primary"><i class="bi bi-pencil"></i> Complete Form 1</a>
+                    <a href="{% url 'pdf:generate_letter' application.id %}" target="_blank" class="btn btn-primary"><i
+                            class="bi bi-pencil"></i> Generate Letter</a>
                 </div>
             </div>
 

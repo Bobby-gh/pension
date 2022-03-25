@@ -6,7 +6,9 @@ app_name = "dashboard"
 
 urlpatterns = [
     path("", views.IndexView.as_view(), name="index"),
-    path("notifications", views.NotificationsView.as_view(), name="notifications"),
+    path("notifications",
+         views.NotificationsView.as_view(),
+         name="notifications"),
     path("apply",
          views.NewApplicationFormOneView.as_view(),
          name="application_form_one"),
@@ -43,6 +45,9 @@ urlpatterns = [
     path("request-changes",
          views.RequestApplicationChangesView.as_view(),
          name="request_changes"),
+    path("<int:application_id>/complete-form-one",
+         views.FormOneCompletinView.as_view(),
+         name="complete_form_one"),
 ]
 
 urlpatterns += [

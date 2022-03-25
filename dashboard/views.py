@@ -323,3 +323,15 @@ class RequestApplicationChangesView(PermissionRequiredMixin, View):
             from_user=request.user)
         messages.success(request, "Updated successfully.")
         return redirect(request.META.get("HTTP_REFERER") or "dashboard:index")
+
+
+class FormOneCompletinView(View):
+    template_name = 'dashboard/form_one_completion.html'
+
+    @method_decorator(login_required(login_url="accounts:login"))
+    def get(self, request, application_id):
+        application = get_object_or_404(Application, id=application_id)
+        context = {
+            "application": application,
+        }
+        return render(request, self.template_name, context)

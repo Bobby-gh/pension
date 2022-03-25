@@ -322,7 +322,8 @@ footer {
   background-color: $primaryColorVariant;
 }
 
-.bg-success {
+.bg-success,
+.btn-success {
   background-color: rgb(0, 190, 0) !important;
 }
 
@@ -341,3 +342,9 @@ footer {
   outline: none;
   border: none;
 }
+
+.top-sticky {
+  position: sticky;
+  top: 0.5em;
+}
+

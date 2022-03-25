@@ -403,7 +403,8 @@ footer {
   background-color: #0a66e9;
 }
 
-.bg-success {
+.bg-success,
+.btn-success {
   background-color: #00be00 !important;
 }
 
@@ -421,5 +422,11 @@ footer {
   background: none;
   outline: none;
   border: none;
+}
+
+.top-sticky {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0.5em;
 }
 /*# sourceMappingURL=dashboard_style.css.map */
