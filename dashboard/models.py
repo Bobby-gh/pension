@@ -57,7 +57,8 @@ class Application(models.Model):
 
     def can_edit(self):
         return (self.status == ApplicationStatus.DRAFT.value
-                or self.status == ApplicationStatus.REQUESTED_CHANGES.value)
+                or self.status == ApplicationStatus.REQUESTED_CHANGES.value
+                or self.status == ApplicationStatus.SUMITTED.value)
 
     def get_name(self):
         return f"{self.surname} {self.other_names}"

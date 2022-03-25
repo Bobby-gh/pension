@@ -105,24 +105,27 @@
                         <input type="hidden" name="application_id" value="{{application.id}}">
                         {% for type in document_types %}
                         <div class="mb-3">
-                            <label for="{{type.codename}}" class="form-label"><h6>{{type.name}}</h6></label>
+                            <label for="{{type.codename}}" class="form-label">
+                                <h6>{{type.name}}</h6>
+                            </label>
                             <!-- If there are previously uploaded files -->
                             {% if application.documents.all %}
-                            <div class="my-1 p-1" style="background-color: rgba(128, 128, 128, 0.1);">
+                            <div class="my-1 p-1">
                                 <h6 class="text text-primary">Uploaded Files</h6>
-
                                 <!-- Filter to display only this type -->
-                                {% for document in application.documents.all %}
-                                {% if document.document_type == type %}
-                                <p class="m-0 p-0">
-                                    <a href="{{document.file.url}}" target="_blank">{{document.file.url}}</a>
-                                    <a class="text text-danger delete-document clickable"
-                                        data-document-id="{{document.id}}"
-                                        data-deletion-url="{% url 'dashboard:delete_application_ducument' %}"><i
-                                            class="bi bi-trash"></i></a>
-                                </p>
-                                {% endif %}
-                                {% endfor %}
+                                <div class="d-flex flex-wrap">
+                                    {% for document in application.documents.all %}
+                                    {% if document.document_type == type %}
+                                    <p class="m-1 p-1 bg-primary text-light rounded">
+                                        <a href="{{document.file.url}}" target="_blank">{{document.file.url}}</a>
+                                        <a class="text text-danger delete-document clickable"
+                                            data-document-id="{{document.id}}"
+                                            data-deletion-url="{% url 'dashboard:delete_application_ducument' %}"><i
+                                                class="bi bi-trash"></i></a>
+                                    </p>
+                                    {% endif %}
+                                    {% endfor %}
+                                </div>
                             </div>
                             {% endif %}
 

@@ -1,4 +1,4 @@
-{% if application.status == 'draft' or application.status == 'processing' %}
+{% if application.status == 'draft' or application.status == 'processing' or application.status == 'submitted' %}
 <span class="badge bg-info">{{application.get_status}}</span>
 {% elif  application.status == 'processed'  %}
 <span class="badge bg-success">{{application.get_status}}</span>
