@@ -1,0 +1,266 @@
+{% extends 'dashboard/base.html' %}
+<title>{% block pagetitle %}Setup{%endblock%}</title>
+
+{% block breadcrum %}
+<a href="{% url 'dashboard:index' %}" class="item">Home <i class="bi bi-chevron-compact-right"></i></a>
+<a href="" class="item">Setup <i class="bi bi-chevron-compact-right"></i></a>
+{%endblock%}
+
+{% block content %}
+
+<!-- Modals -->
+<!-- Rank Modal -->
+<div class="modal fade" id="rankModal" tabindex="-1" aria-labelledby="rankModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-l">
+        <div class="modal-content px-4">
+            <div class="modal-header">
+                <h5 class="modal-title" id="rankModalLabel">Add Rank</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            {% include 'setup/blocks/forms/form_rank.html' %}
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End of rank Modal -->
+
+<!-- Rank Modal -->
+<div class="modal fade" id="documentTypeModal" tabindex="-1" aria-labelledby="documentTypeModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-l">
+        <div class="modal-content px-4">
+            <div class="modal-header">
+                <h5 class="modal-title" id="documentTypeModalLabel">Add Document Type</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            {% include 'setup/blocks/forms/form_document_type.html' %}
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End of Rank Modal -->
+
+
+<!-- Role Modal -->
+<div class="modal fade" id="roleModal" tabindex="-1" aria-labelledby="roleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-l">
+        <div class="modal-content px-4">
+            <div class="modal-header">
+                <h5 class="modal-title" id="roleModalLabel">Add Role</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            {% include 'setup/blocks/forms/form_role.html' %}
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End of Role Modal -->
+
+
+<!-- End of Modals -->
+
+<div class="row col-md-11 mx-auto">
+    <section class="col-md-6">
+        <div class="card-shadow">
+            <div class="d-flex justify-content-between">
+                <h6>RANKS</h6>
+                {% if perms.add_rank%}
+                <button class="p-0 btn bnt-sm btn-primary" data-bs-toggle="modal" data-bs-target="#rankModal"><i
+                        class="bi bi-plus"></i></button>
+                {% endif %}
+            </div>
+            <table class="table table-sm">
+                <caption>List of ranks</caption>
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Order</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if ranks %}
+                    {% for rank in ranks %}
+                    <tr>
+                        <td>{{rank.name}}</td>
+                        <td>{{rank.order}}</td>
+                        <td class="d-flex">
+                            <a href="{% url 'setup:change_rank' %}?rank_id={{rank.id}}" class="tex text-info">edit</a>
+                            <form action="{% url 'setup:delete_rank' %}" method="POST" class="requires-confirmation"
+                                data-message="Click on okay to permanently delete this record.">
+                                {% csrf_token %}
+                                <input type="hidden" name="rank_id" value="{{rank.id}}">
+                                <button type="submit" class="text-btn"><span
+                                        class="text text-danger">delete</span></button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    {% else %}
+                    <tr>
+                        <td>
+                            <p class="text text-danger text text-center">No data</p>
+                        </td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+
+        </div>
+
+
+    </section>
+
+    <section class="col-md-6">
+        <div class="card-shadow">
+            <div class="d-flex justify-content-between">
+                <h6>DOCUMENT TYPES</h6>
+                {% if perms.add_application_document_type %}
+                <button class="p-0 btn bnt-sm btn-primary" data-bs-toggle="modal" data-bs-target="#documentTypeModal"><i
+                        class="bi bi-plus"></i></button>
+                {% endif %}
+            </div>
+            <table class="table table-sm">
+                <caption>List of document types</caption>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Required</th>
+                        <th>Mutiple</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if document_types %}
+                    {% for type in document_types %}
+                    <tr>
+                        <td>{{type.name}}</td>
+                        <td>{{type.required}}</td>
+                        <td>{{type.multiple}}</td>
+                        <td class="d-flex">
+                            <a href="{% url 'setup:change_document_type' %}?document_type_id={{type.id}}"
+                                class="tex text-info">edit</a>
+                            <form action="{% url 'setup:delete_document_type' %}" method="POST"
+                                class="requires-confirmation"
+                                data-message="Click on okay to permanently delete this record.">
+                                {% csrf_token %}
+                                <input type="hidden" name="document_type_id" value="{{type.id}}">
+                                <button type="submit" class="text-btn"><span
+                                        class="text text-danger">delete</span></button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    {% else %}
+                    <tr>
+                        <td>
+                            <p class="text text-danger text text-center">No data</p>
+                        </td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <div class="col-12">
+        <hr>
+    </div>
+    <section class="col-md-6">
+        <div class="card-shadow">
+            <div class="d-flex justify-content-between">
+                <h6>ROLES</h6>
+                {% if perms.add_application_document_type %}
+                <button class="p-0 btn bnt-sm btn-primary" data-bs-toggle="modal" data-bs-target="#roleModal"><i
+                        class="bi bi-plus"></i></button>
+                {% endif %}
+            </div>
+            <p class="text text-secondary">Click on the name of a role to conigure permissions.</p>
+            <table class="table table-sm">
+                <caption>List of roles</caption>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if roles %}
+                    {% for role in roles %}
+                    <tr>
+                        <td><a href="{% url 'setup:manage_role' role.id %}">{{role.name}}</a></td>
+                        <td class="d-flex">
+                            <a href="{% url 'setup:change_role' %}?role_id={{role.id}}" class="tex text-info">edit</a>
+                            <form action="{% url 'setup:delete_role' %}" method="POST" class="requires-confirmation"
+                                data-message="Click on okay to permanently delete this record.">
+                                <input type="hidden" name="role_id" value="{{role.id}}">
+                                {% csrf_token %}
+                                <button type="submit" class="text-btn"><span
+                                        class="text text-danger">delete</span></button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    {% else %}
+                    <tr>
+                        <td>
+                            <p class="text text-danger text text-center">No data</p>
+                        </td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="col-md-6">
+        <div class="card-shadow">
+            <div class="d-flex justify-content-between">
+                <h6>Users</h6>
+                {% if perms.add_user %}
+                <button class="p-0 btn bnt-sm btn-primary" data-bs-toggle="modal" data-bs-target="#roleModal"><i
+                        class="bi bi-plus"></i></button>
+                {% endif %}
+            </div>
+            <table class="table table-sm">
+                <caption>List of users</caption>
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Region</th>
+                        <th>Groups</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                    <tr>
+                        <td><a href="">{{user.username}}</a></td>
+                        <td></td>
+                        <td></td>
+                        <td class="d-flex">
+                            <a href="" class="tex text-info">edit</a>
+                            <form action="{% url 'setup:delete_role' %}" method="POST" class="requires-confirmation"
+                                data-message="Click on okay to permanently delete this record.">
+                                <input type="hidden" name="role_id" value="{{role.id}}">
+                                {% csrf_token %}
+                                <button type="submit" class="text-btn"><span
+                                        class="text text-danger">delete</span></button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+</div>
+
+
+{%endblock%}

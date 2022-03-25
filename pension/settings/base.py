@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'dashboard.apps.DashboardConfig',
     'pdf_engine.apps.PdfEngineConfig',
+    'setup.apps.SetupConfig',
 ]
 
 MIDDLEWARE = [

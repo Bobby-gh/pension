@@ -32,10 +32,7 @@
                             <tr>
                                 <td>{{forloop.counter}}</td>
                                 <td>
-                                    <a href="{% url 'dashboard:application_form_one_review' application.id %}"
-                                        style="text-decoration: unset;">
-                                        APP_{{application.id}}
-                                    </a>
+                                    APP_{{application.id}}
                                 </td>
                                 <td>{{application.surname}}</td>
                                 <td>{{application.other_names}}</td>
@@ -45,7 +42,7 @@
                                     <div class="d-flex">
                                         <a href="{% url 'dashboard:application_form_one_review' application.id %}"
                                             class="btn btn-sm btn-info text text-light"><i class="bi bi-eye"></i></a>
-                                        {% if application.status == 'draft' or application.status == 'requested_changes' %}
+                                        {% if application.status == 'draft' or application.status == 'requested_changes' or application.status == 'submitted' %}
                                         <a href="{% url 'dashboard:application_form_one' %}?application_id={{application.id}}"
                                             class="btn btn-sm btn-warning text text-light"><i
                                                 class="bi bi-pencil"></i></a>
@@ -61,7 +58,6 @@
                                     </div>
                                 </td>
                             </tr>
-
                             {% endfor %}
                         </tbody>
                     </table>

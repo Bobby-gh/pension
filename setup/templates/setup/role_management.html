@@ -1,0 +1,43 @@
+{% extends 'dashboard/base.html' %}
+<title>{% block pagetitle %}Setup | Edit Role{%endblock%}</title>
+
+{% block breadcrum %}
+<a href="{% url 'dashboard:index' %}" class="item">Home <i class="bi bi-chevron-compact-right"></i></a>
+<a href="{% url 'setup:index' %}" class="item">Setup <i class="bi bi-chevron-compact-right"></i></a>
+<a href="" class="item">Role Management<i class="bi bi-chevron-compact-right"></i></a>
+{%endblock%}
+
+{% block content %}
+
+<div class="row col-md-11 mx-auto">
+    <div class="card-shadow">
+        <div>
+            <h6>ROLE MANAGEMENT</h6>
+            <p class="text text-muted">{{role.name}}</p>
+        </div>
+
+        <div class="col-md-6 mx-auto">
+            <table class="table table-sm">
+                <caption>List of permissions</caption>
+                <thead>
+                    <tr>
+                        <th>Permission</th>
+                        <th>Has Permission</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for permission in permissions %}
+                    <tr>
+                        <td>{{permission.name}}</td>
+                        <td>
+                            <input type="checkbox">
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+{%endblock%}

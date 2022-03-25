@@ -416,4 +416,10 @@ footer {
 .btn-warning {
   background-color: #ffa600 !important;
 }
+
+.text-btn {
+  background: none;
+  outline: none;
+  border: none;
+}
 /*# sourceMappingURL=dashboard_style.css.map */

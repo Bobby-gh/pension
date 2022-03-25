@@ -8,7 +8,9 @@ from django.utils.html import strip_tags
 from django.views import View
 
 from dashboard.forms import ApplicationForm, ApplicationRankForm
-from dashboard.models import Application, ApplicationDocument, ApplicationDocumentType, ApplicationRank, Notification, Rank
+from dashboard.models import (Application, ApplicationDocument,
+                              ApplicationDocumentType, ApplicationRank,
+                              Notification, Rank)
 from pension.utils.constants import ApplicationStatus
 
 
@@ -48,7 +50,10 @@ class NewApplicationFormOneView(PermissionRequiredMixin, View):
             return redirect(
                 request.META.get("HTTP_REFERER") or "dashboard:index")
 
-        context = {"application": application}
+        context = {
+            "application": application,
+            "ranks": Rank.objects.all(),
+        }
         return render(request, self.template_name, context)
 
     @method_decorator(login_required(login_url="accounts:login"))
@@ -69,7 +74,8 @@ class NewApplicationFormOneView(PermissionRequiredMixin, View):
                 application.created_by = request.user
             application.save()
             messages.info(request, "Application has been saved")
-            return redirect("dashboard:application_form_ranks", application.id)
+            return redirect("dashboard:application_form_one_upload",
+                            application.id)
         else:
             for field, error in form.errors.items():
                 message = f"{field.title()}: {strip_tags(error)}"
@@ -197,7 +203,11 @@ class SubmittedApplicationReviewView(PermissionRequiredMixin, View):
         if application.status == ApplicationStatus.SUMITTED:
             application.status = ApplicationStatus.PROCESSING.value
             application.save()
-        context = {"application": application}
+        document_types = ApplicationDocumentType.objects.all()
+        context = {
+            "application": application,
+            "document_types": document_types,
+        }
         return render(request, self.template_name, context)
 
 

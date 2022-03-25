@@ -1,8 +1,8 @@
 from django.db import models
-from sqlalchemy import null
 
 from accounts.models import User
 from pension.utils.constants import REGIONS, ApplicationStatus
+from setup.models import ApplicationDocumentType, Rank
 
 
 class Application(models.Model):
@@ -74,7 +74,7 @@ class Application(models.Model):
 
 class ApplicationDocument(models.Model):
     name = models.CharField(max_length=100)
-    document_type = models.ForeignKey("ApplicationDocumentType",
+    document_type = models.ForeignKey(ApplicationDocumentType,
                                       related_name="documents",
                                       on_delete=models.PROTECT)
     file = models.ImageField(upload_to="uplodas/documents", null=True)
@@ -84,31 +84,6 @@ class ApplicationDocument(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-
-    def __str__(self) -> str:
-        return self.name
-
-
-class ApplicationDocumentType(models.Model):
-    name = models.CharField(max_length=50)
-    required = models.BooleanField(default=True)
-    multiple = models.BooleanField(default=True)
-    codename = models.CharField(max_length=50, unique=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    def save(self, *args, **kwargs):
-        if not self.codename:
-            self.codename = "_".join(self.name.lower().split())
-        return super().save(*args, **kwargs)
-
-    def __str__(self) -> str:
-        return self.name
-
-
-class Rank(models.Model):
-    name = models.CharField(max_length=100)
-    order = models.IntegerField()
 
     def __str__(self) -> str:
         return self.name

@@ -74,7 +74,7 @@
                 {% endif %}
 
                 {% if perms.dashboard.can_setup_system %}
-                <a href="" class="sidebar-item row">
+                <a href="{% url 'setup:index' %}" class="sidebar-item row">
                     <div class="col-2"><i class="bi bi-gear"></i></div>
                     <div class="col-10">Setup</div>
                 </a>
