@@ -39,7 +39,7 @@
                 <button type="button" class="btn btn-primary py-2 px-4" onclick="history.back()"><i
                         class="bi bi-arrow-left"></i> Back</button>
 
-                {% if application.status == 'draft' or application.status == 'rejected' %}
+                {% if application.status == 'draft' or application.status == 'requested_changes' %}
                 <form method="POST" action="{% url 'dashboard:application_submission' application.id %}">
                     {% csrf_token %}
                     <input type="hidden" name="application_id" value="{{application.id}}">

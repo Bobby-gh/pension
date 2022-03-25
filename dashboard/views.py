@@ -122,7 +122,7 @@ class NewApplicationAddRanksView(PermissionRequiredMixin, View):
 class NewApplicationFormOneUploadView(PermissionRequiredMixin, View):
     template_name = 'dashboard/form_one_upload.html'
     permission_required = (
-        "dashboard.add_document",
+        "dashboard.add_applicationdocument",
         "dashboard.change_application",
     )
 
@@ -154,7 +154,6 @@ class NewApplicationFormOneUploadView(PermissionRequiredMixin, View):
 class NewApplicationFormOneReviewView(PermissionRequiredMixin, View):
     template_name = 'dashboard/application_review_page.html'
     permission_required = (
-        "dashboard.view_document",
         "dashboard.view_application",
         "dashboard.view_applicationrank",
     )
@@ -247,7 +246,6 @@ class ApplicationSubmissionView(PermissionRequiredMixin, View):
     template_name = 'dashboard/application_details.html'
     permission_required = (
         "dashboard.view_application",
-        "dashboard.view_document",
     )
 
     @method_decorator(login_required(login_url="accounts:login"))

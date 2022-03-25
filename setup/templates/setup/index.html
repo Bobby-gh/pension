@@ -62,6 +62,25 @@
 </div>
 <!-- End of Role Modal -->
 
+<!-- User Modal -->
+<div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-l">
+        <div class="modal-content px-4">
+            <div class="modal-header">
+                <h5 class="modal-title" id="userModalLabel">Add User</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            {% include 'setup/blocks/forms/form_user.html' %}
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End of User Modal -->
+
+
+
 
 <!-- End of Modals -->
 
@@ -223,10 +242,10 @@
         <div class="card-shadow">
             <div class="d-flex justify-content-between">
                 <h6>Users</h6>
-                {% if perms.add_user %}
-                <button class="p-0 btn bnt-sm btn-primary" data-bs-toggle="modal" data-bs-target="#roleModal"><i
+                <!-- {% if perms.add_user %}
+                <button class="p-0 btn bnt-sm btn-primary" data-bs-toggle="modal" data-bs-target="#userModal"><i
                         class="bi bi-plus"></i></button>
-                {% endif %}
+                {% endif %} -->
             </div>
             <table class="table table-sm">
                 <caption>List of users</caption>

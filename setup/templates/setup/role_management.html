@@ -16,27 +16,35 @@
             <p class="text text-muted">{{role.name}}</p>
         </div>
 
-        <div class="col-md-6 mx-auto">
-            <table class="table table-sm">
-                <caption>List of permissions</caption>
-                <thead>
-                    <tr>
-                        <th>Permission</th>
-                        <th>Has Permission</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for permission in permissions %}
-                    <tr>
-                        <td>{{permission.name}}</td>
-                        <td>
-                            <input type="checkbox">
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+        <form action="" method="POST">
+            {% csrf_token %}
+            <div class="col-md-6 mx-auto">
+                <table class="table table-sm">
+                    <caption>List of permissions</caption>
+                    <thead>
+                        <tr>
+                            <th>Permission</th>
+                            <th>Has Permission</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for permission in permissions %}
+                        <tr>
+                            <td>{{permission.name}}</td>
+                            <td>
+                                <input type="checkbox" name="permissions" value="{{permission.codename}}"
+                                    {% if permission in role.permissions.all %}checked{% endif %}>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-md-6 mx-auto">
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </form>
 
     </div>
 </div>

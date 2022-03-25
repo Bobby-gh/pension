@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.contrib.auth.models import Group, Permission
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.decorators import method_decorator
 from django.views import View
 
@@ -99,7 +99,6 @@ class DeleteGroup(PermissionRequiredMixin, DeletionMixin):
         "auth.delete_group",
     )
 
-
 class RoleManagementView(PermissionRequiredMixin, View):
     template_name = "setup/role_management.html"
     permission_required = (
@@ -110,28 +109,36 @@ class RoleManagementView(PermissionRequiredMixin, View):
     @method_decorator(login_required(login_url="accounts:login"))
     def get(self, request, role_id):
         role = get_object_or_404(Group, id=role_id)
-        permissions = Permission.objects.filter()
-        # apps_list = [
-        #     app.split(".")[0] for app in settings.INSTALLED_APPS if not 'django' in app
-        # ]
-
-        # print(apps_list)
-        # # print("apps.all_models",apps.all_models)
-
-        # models = []
-        # for app in apps_list:
-        #     models.ext(apps.all_models[app])
-
-        # print("models",models)
-
-        # for model in models:
-        #     app_lbl = model._meta.app_label
-        #     model_name = model._meta.model_name
-        #     permissions.union(
-        #         Permission.objects.filter(content_type__app_label=app_lbl,
-        #                                   content_type__model=model_name))
+        permissions = Permission.objects.filter()[:0]
+        apps_list = [
+            app.split(".")[0] for app in settings.INSTALLED_APPS
+            if not 'django' in app
+        ]
+        models = []
+        for app in apps_list:
+            models.extend([
+                model._meta.model_name
+                for _, model in apps.all_models[app].items()
+            ])
+        permissions = Permission.objects.filter(
+            content_type__app_label__in=apps_list,
+            content_type__model__in=models)
         context = {
             "role": role,
             "permissions": permissions,
         }
         return render(request, self.template_name, context)
+
+    @method_decorator(login_required(login_url="accounts:login"))
+    def post(self, request, role_id):
+        role = get_object_or_404(Group, id=role_id)
+        permissions_codes = request.POST.getlist("permissions")
+        permissions = Permission.objects.filter(codename__in=permissions_codes)
+
+        # Delete unchecked permissions
+        role.permissions.exclude(codename__in=permissions_codes).delete()
+
+        # Add permissions
+        for permission in permissions:
+            role.permissions.add(permission)
+        return redirect(request.META.get("HTTP_REFERER") or "setup:dashboard")

@@ -48,8 +48,8 @@ class Application(models.Model):
 
     class Meta:
         permissions = (
-            ("can_review_application", "Change status"),
-            ("can_generate_letter", "Generate Award Letter from Application"),
+            ("can_review_application", "Change application status"),
+            ("can_generate_letter", "Generate award letter from application"),
         )
 
     def get_status(self):
@@ -77,7 +77,7 @@ class ApplicationDocument(models.Model):
     document_type = models.ForeignKey(ApplicationDocumentType,
                                       related_name="documents",
                                       on_delete=models.PROTECT)
-    file = models.ImageField(upload_to="uplodas/documents", null=True)
+    file = models.ImageField(upload_to="uploads/documents", null=True)
     application = models.ForeignKey(Application,
                                     related_name="documents",
                                     on_delete=models.CASCADE)
