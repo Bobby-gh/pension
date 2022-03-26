@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>{{application.get_name}} Pensions Form</title>
+    <style type="text/css">
+        body {
+            font-family: 'Times New Roman', Times, serif;
+        }
+
+        p {
+            font-size: 1.5em;
+            text-align: justify;
+        }
+
+        @page {
+            margin: 1cm;
+            size: a4;
+
+            @frame footer_frame {
+                -pdf-frame-content: footer_content;
+                left: 30pt;
+                width: 512pt;
+                top: 820pt;
+                height: 20pt;
+            }
+        }
+
+        .fill-in {
+            text-decoration: underline;
+            font-weight: bold;
+            margin-left: 1eme;
+        }
+
+        p {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+
+<body>
+    {% if error_message %}
+    <h3 style="color: red">{{error_message}}</h3>
+    {% else %}
+    <div class="report-page">
+        <p style="font-weight: bolder; font-size: 2em; text-decoration: underline; text-align: center;">PENSIONS FORM</p>
+        <p style="text-align: center;">(PENSIONS FROM NO. 1)</p>
+        <p style="text-align: center;">(See G. Oo. 384-387)</p>
+
+
+        <p style="font-weight: bolder; font-style: italic;;">To be submitted in duplicate to the Controller and
+            Account-General when application is made for the grant of
+            a pension, gratuity or other allowance under Pensions Ordinance, Cap. 30. ( In the case of death gratuity
+            Pensions Form No. 2 in applicable).</p>
+        <hr>
+
+        <p><span class="number">1.</span> Name of officer: <span class="fill-in">John Doe Bob</span></p>
+
+        <p><span class="number">2.</span> Is he/she an "expatriate officer" as defined by the Pension Ordinance? <span
+                class="fill-in">No</span></p>
+
+        <p><span class="number">3.</span> Office: <span class="fill-in">Chief Inspector</span></p>
+
+        <p><span class="number">4.</span> Date of birth: <span class="fill-in">12/09/1960</span></p>
+
+        <p><span class="number">5.</span> State whether actual pensionable emoluments or average of three years is to be
+            taken:-</p>
+        <p style="margin-left: 1em;"><span class="fill-in">Actual pensionable emoluments</span></p>
+
+        <p>6.</p>
+        <table style="margin-left: 1em;">
+            <tbody>
+                <tr>
+                    <td colspan="2">
+                        <p>(1) (a) Salary</p>
+                    </td>
+                    <td>
+                        <p style="text-align: right;">GHC <span class="fill-in">3938.09</span></p>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2">
+                        <p style="margin-left: 1.45em;">(b) Expatriation Pay </p>
+                    </td>
+                    <td>
+                        <p style="text-align: right;">GHC <span class="fill-in">3938.09</span></p>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2">
+                        <p style="margin-left: 1.45em;">(c) Any other pensionable allowance </p>
+                    </td>
+                    <td>
+                        <p style="text-align: right;">GHC <span class="fill-in">3938.09</span></p>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2">
+                        <p style="margin-left: 1.45em;">(d) Total emoluments on which pensions etc. is claimed </p>
+                    </td>
+                    <td>
+                        <p style="text-align: right;">GHC <span class="fill-in">3938.09</span></p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <br>
+
+        <p style="margin-left: 0.7em;">(2) If, at the time of retirment, the officer has not completed three years service
+            in the office then held by him, state total pensionable emoluments drawn by him in each
+            of the three years immediately preceeding his/her retirement.</p>
+        <table style="border: 1px solid black;">
+            <thead>
+                <tr>
+                    <th>
+                        <p style="text-align: center; padding: 0.5em;">From</p>
+                    </th>
+                    <th>
+                        <p style="text-align: center; padding: 0.5em;">To</p>
+                    </th>
+                    <th>
+                        <p style="text-align: center; padding: 0.5em;">Pensionable Emoluments</p>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p style="text-align: center; padding: 0.5em;">11/11/1999</p>
+                    </td>
+                    <td>
+                        <p style="text-align: center; padding: 0.5em;">11/11/2000</p>
+                    </td>
+                    <td>
+                        <p style="text-align: center; padding: 0.5em;">5958.33</p>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <p style="text-align: center; padding: 0.5em;">11/11/1999</p>
+                    </td>
+                    <td>
+                        <p style="text-align: center; padding: 0.5em;">11/11/2000</p>
+                    </td>
+                    <td>
+                        <p style="text-align: center; padding: 0.5em;">5958.33</p>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <p style="text-align: center; padding: 0.5em;">11/11/1999</p>
+                    </td>
+                    <td>
+                        <p style="text-align: center; padding: 0.5em;">11/11/2000</p>
+                    </td>
+                    <td>
+                        <p style="text-align: center; padding: 0.5em;">5958.33</p>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2">
+                        <p style="text-align: right; font-weight: bolder; padding: 0.5em;">Aggregate pensionable
+                            emoluments:</p>
+                    </td>
+                    <td>
+                        <p style="text-align: center; padding: 0.5em;">5958.33</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <br>
+        <p style="margin-left: 2.5em;">One-third of aggregate total pensionable emoluments (GHC): <span
+                class="fill-in">5857.98</span></p>
+
+        <p><span class="number">7.</span> Particulars of any additions claimed under the Pensions Regulation</p>
+        <p style="margin-left: 1em;"><span class="fill-in">Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                Iusto, id.</span></p>
+
+        <p><span class="number">8.</span> Cause of retirement: <span class="fill-in">Lorem ipsum dolor sit amet.</span>
+        </p>
+
+        <p><span class="number">9.</span> Particulars of offices held by the officer in the Ghanain Public Services </p>
+
+        <table style="border: 1px solid black;">
+            <thead>
+                <tr>
+                    <th>
+                        <p style="text-align: center; padding:0.5em;">Title of Office</p>
+                    </th>
+                    <th>
+                        <p style="text-align: center; padding:0.5em;">If a pensionable Office</p>
+                    </th>
+                    <th>
+                        <p style="text-align: center; padding:0.5em;">Date of commencement</p>
+                    </th>
+                    <th>
+                        <p style="text-align: center; padding:0.5em;">Date of termination</p>
+                    </th>
+                    <th>
+                        <p style="text-align: center; padding:0.5em;">Emoluments <br> (show scale)</p>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p style="padding: 0.5em;">Chief Inspector</p>
+                    </td>
+                    <td>
+                        <p style="padding: 0.5em;">Pensionable</p>
+                    </td>
+                    <td>
+                        <p style="padding: 0.5em;">11/11/1998</p>
+                    </td>
+                    <td>
+                        <p style="padding: 0.5em;">11/11/2005</p>
+                    </td>
+                    <td>
+                        <p style="padding: 0.5em;">Lorem ipsum dolor sit</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p style="padding: 0.5em;">Chief Inspector</p>
+                    </td>
+                    <td>
+                        <p style="padding: 0.5em;">Pensionable</p>
+                    </td>
+                    <td>
+                        <p style="padding: 0.5em;">11/11/1998</p>
+                    </td>
+                    <td>
+                        <p style="padding: 0.5em;">11/11/2005</p>
+                    </td>
+                    <td>
+                        <p style="padding: 0.5em;">Lorem ipsum dolor sit</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <br>
+
+        <pdf:nextpage />
+
+
+        <p><span class="number">10.</span> State whether the officer is already in receipt or has received any public
+            money as pension, gratuity, compensatio, etc.: <span class="fill-in">Lorem ipsum dolor sit amet.</span></p>
+
+        <p><span class="number">11.</span> Date of commencement of service under the Ghanain Government for which
+            pension or gratuity is claimed:</p>
+        <p style="margin-left: 1.5em;"><span class="fill-in">12/12/2001</span></p>
+
+        <p><span class="number">12.</span> Date of termination of service under the Ghanain Government: <span
+                class="fill-in">12/12/2002</span></p>
+
+        <p><span class="number">13.</span> Leave without pay between dates in paragraph 11 and 12.</p>
+
+        <table style="border: 1px solid black;">
+            <thead>
+                <tr>
+                    <th>
+                        <p style="text-align: center; padding:0.5em; font-style: italic;">From</p>
+                    </th>
+                    <th>
+                        <p style="text-align: center; padding:0.5em; font-style: italic;">To</p>
+                    </th>
+                    <th>
+                        <p style="text-align: center; padding:0.5em; font-style: italic;">Months</p>
+                    </th>
+                    <th>
+                        <p style="text-align: center; padding:0.5em; font-style: italic;">Days</p>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p style="padding: 0.5em; text-align: center;">11/11/2020</p>
+                    </td>
+                    <td>
+                        <p style="padding: 0.5em; text-align: center;">11/11/202</p>
+                    </td>
+                    <td>
+                        <p style="padding: 0.5em; text-align: center;">10</p>
+                    </td>
+                    <td>
+                        <p style="padding: 0.5em; text-align: center;">10</p>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <p style="padding: 0.5em; text-align: center;">11/11/2020</p>
+                    </td>
+                    <td>
+                        <p style="padding: 0.5em; text-align: center;">11/11/202</p>
+                    </td>
+                    <td>
+                        <p style="padding: 0.5em; text-align: center;">10</p>
+                    </td>
+                    <td>
+                        <p style="padding: 0.5em; text-align: center;">10</p>
+                    </td>
+                </tr>
+                <!-- Totals -->
+                <tr>
+                    <td colspan="2" class="text text-end">
+                        <p style="text-align: right; padding: 0.5em;">Total: </p>
+                    </td>
+                    <td>
+                        <p style="text-align: right; padding: 0.5em;">20</p>
+                    </td>
+                    <td>
+                        <p style="text-align: right; padding: 0.5em;">20</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <br>
+        <p><span class="number">14.</span> (a) State dates of any breaks in officer's service between dates in paragraph
+            11 and 12 other than full or half or without pay.</p>
+
+        <table style="border: 1px solid black;">
+            <thead>
+                <tr>
+                    <th>
+                        <p style="text-align: center; padding:0.5em; font-style: italic;">From</p>
+                    </th>
+                    <th>
+                        <p style="text-align: center; padding:0.5em; font-style: italic;">To</p>
+                    </th>
+                    <th>
+                        <p style="text-align: center; padding:0.5em; font-style: italic;">Months</p>
+                    </th>
+                    <th>
+                        <p style="text-align: center; padding:0.5em; font-style: italic;">Days</p>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p style="padding: 0.5em; text-align: center;">11/11/2020</p>
+                    </td>
+                    <td>
+                        <p style="padding: 0.5em; text-align: center;">11/11/202</p>
+                    </td>
+                    <td>
+                        <p style="padding: 0.5em; text-align: center;">10</p>
+                    </td>
+                    <td>
+                        <p style="padding: 0.5em; text-align: center;">10</p>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <p style="padding: 0.5em; text-align: center;">11/11/2020</p>
+                    </td>
+                    <td>
+                        <p style="padding: 0.5em; text-align: center;">11/11/202</p>
+                    </td>
+                    <td>
+                        <p style="padding: 0.5em; text-align: center;">10</p>
+                    </td>
+                    <td>
+                        <p style="padding: 0.5em; text-align: center;">10</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <br>
+        <p style="margin-left: 2em;">(b) Quote authority, if already obtained for condonation of any such break in
+            service.</p>
+        <p style="margin-left: 3.5em;"><span class="fill-in">Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                Nesciunt, perferendis!</span></p>
+
+
+        <p style="margin-left: 2em;">(c) State dates of any public service paid for out of open vote (to be states only
+            if officer was in public the public service on the 24th August, 1940.</p>
+        <table style="border: 1px solid black;">
+            <thead>
+                <tr>
+                    <th>
+                        <p style="text-align: center; padding:0.5em; font-style: italic;">From</p>
+                    </th>
+                    <th>
+                        <p style="text-align: center; padding:0.5em; font-style: italic;">To</p>
+                    </th>
+                    <th>
+                        <p style="text-align: center; padding:0.5em; font-style: italic;">Months</p>
+                    </th>
+                    <th>
+                        <p style="text-align: center; padding:0.5em; font-style: italic;">Days</p>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p style="padding: 0.5em; text-align: center;">11/11/2020</p>
+                    </td>
+                    <td>
+                        <p style="padding: 0.5em; text-align: center;">11/11/202</p>
+                    </td>
+                    <td>
+                        <p style="padding: 0.5em; text-align: center;">10</p>
+                    </td>
+                    <td>
+                        <p style="padding: 0.5em; text-align: center;">10</p>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <p style="padding: 0.5em; text-align: center;">11/11/2020</p>
+                    </td>
+                    <td>
+                        <p style="padding: 0.5em; text-align: center;">11/11/202</p>
+                    </td>
+                    <td>
+                        <p style="padding: 0.5em; text-align: center;">10</p>
+                    </td>
+                    <td>
+                        <p style="padding: 0.5em; text-align: center;">10</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <pdf:nextpage />
+
+        <p><span class="number">15.</span> (a) Period between dates in paragraphs 11 and 12. </p>
+        <p style="margin-left: 1.5em;">(b) One-half of non-penionable service (para. 9): </p>
+        <p style="margin-left: 1.5em;">(c) Leave without salary (para. 13): </p>
+        <p style="margin-left: 1.5em;">(d) Break in service (para. 14 (aa)): </p>
+        <p style="margin-left: 1.5em;">(e) One-third of open vote service (para. 14(c)): </p>
+        <br>
+        <p style="margin-left: 1.5em;">(f) Total of (b), (c), and (e) </p>
+        <p style="margin-left: 1.5em;">(f) Total pensionable or gratitude service in Ghana </p>
+        <br>
+
+        <p><span class="number">16.</span> State whether the officer has worked under any other scheduled Government or
+            Administration, and, if so, where and between what dates (if known).</p>
+        <p style="margin-left: 1.5em;"><span class="fill-in">Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Praesentium labore porro voluptas tempore blanditiis adipisci!</span></p>
+
+        <br>
+
+        <p><span class="number">17.</span> In case of self-accounting Department if the officer has served under more
+            than one scheduled Government or Administration completed Pension Form 5 showing the following
+            aggregate pensionable emoluments drawn during his service in Ghana should be attached, and
+            the total should be stated hereunder. </p>
+        <p style="margin-left: 1.5em;"><span class="fill-in">Ghana aggregate pensionable emoluments: GHC 8498.88</span>
+        </p>
+        <br>
+
+        <p><span class="number">18.</span> State whether the officer has served under a non-scheduled Government or
+            Administration, and, if so, where and between what dates. (if known)</p>
+        <p style="margin-left: 1.5em;"><span class="fill-in">Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Praesentium labore porro voluptas tempore blanditiis adipisci!</span></p>
+        <br>
+
+        <p><span class="number">19.</span> State the officer's option if he eligible to exercise one (See G.O 386).</p>
+        <p style="margin-left: 1.5em;"><span class="fill-in">Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Praesentium labore porro voluptas tempore adipisci!</span></p>
+        <br>
+
+        <p><span class="number">20.</span> Date from which, inclusively, the pesion will commence.</p>
+        <p style="margin-left: 1.5em;"><span class="fill-in">Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Praesentium labore porr!</span></p>
+        <br>
+
+        <p><span class="number">21.</span> I HEREBY CERTIFY that the officer in respect of whom this application is
+            submitted is not indebted to the Government. (If indebted state amount and proposed method of recovery of
+            debt, in covering letter.) </p>
+        <br>
+        <br>
+
+        <table>
+            <tbody>
+                <tr>
+                    <td></td>
+                    <td>
+                        <p style="text-align: center;">
+                            ....................................................................</p>
+                        <p style="text-align: center;">Head of Department</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <br>
+        <br>
+
+        <p>
+            Reference:.....................................................
+            Name:..........................................................................................................
+        </p>
+
+        <p>
+            .....................................20...............................
+            Title:...........................................................................................................
+        </p>
+
+        <p>
+            Prepared by
+            ........................................................................................................................................................................
+        </p>
+
+        <pdf:nextpage />
+        <p style="text-align: center; font-weight: bolder; font-style: italic;">(To be completed by the Controller and
+            Accountant-General)
+        </p>
+        <p><span class="number">22.</span> I CERTIFY THAT THE
+            .................................................................................................................................
+        </p>
+
+        <p style="margin-left: 1.5em; text-align: left;">which may be paid to the officer according to the law of Ghana
+            amounts to
+            ..................................................
+            .............................................................................................................................
+            based on calculations show
+            hereunder.</p>
+        <br>
+
+        <table>
+            <tbody>
+                <tr>
+                    <td></td>
+                    <td>
+                        <p style="text-align: center;">
+                            ....................................................................</p>
+                        <p style="text-align: center; font-style: italic; font-weight: bolder;">Controller and
+                            Accountant-General</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <br>
+        <br>
+
+        <table style="margin-left: 2em;">
+            <tbody>
+                <tr>
+                    <td>
+                        <p>Reference: .............................................................</p>
+                    </td>
+                    <td>
+                        <p>..........................................20.....................</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <br>
+        <br>
+        <p><span class="number">22.</span> Calculations verified</p>
+        <br>
+        <br>
+        <p style="margin-left: 2em; font-weight: bolder; font-style: italic;">
+            ................................................................. Auditor-General</p>
+        <br>
+        <br>
+
+        <table>
+            <tbody>
+                <tr>
+                    <td>
+                        <p>..........................................20.....................</p>
+                    </td>
+                    <td>
+                        <p>Reference: .............................................................</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <br>
+        <hr>
+        <p style="text-align: center;">CALCULATIONS (vide paragraph 22)</p>
+
+
+
+
+    </div>
+
+
+    <div id="footer_content">
+        Page <strong>
+            <pdf:pagenumber />
+        </strong> of
+        <pdf:pagecount /> | {{current_time}}
+    </div>
+    {% endif %}
+</body>
+
+</html>

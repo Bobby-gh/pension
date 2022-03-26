@@ -38,6 +38,8 @@ main {
       margin: 0.2em 1px;
       padding: 1em 0.2em;
       background-color: #00000034;
+      align-items: center;
+
       cursor: pointer;
 
       &:hover {
@@ -347,4 +349,3 @@ footer {
   position: sticky;
   top: 0.5em;
 }
-

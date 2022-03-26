@@ -77,7 +77,7 @@
 
             <br>
             <h3 class="text text-bold">Applicant's Photo</h3>
-            <div class="p-2 bg-white big-card p-4">
+            <div class="p-2 card-shadow bg-white big-card p-4">
                 <div class="col-12 row">
                     <div class="col-12 mb-3">
                         {% if application.photo %}
@@ -97,52 +97,47 @@
             </div>
 
             <br>
-            <h3 class="text text-bold">Documents</h3>
-            <div class="p-2 bg-white big-card p-4">
-                <div class="col-12 row">
-                    <form class="needs-validation" method="POST" enctype="multipart/form-data" novalidate>
-                        {% csrf_token %}
-                        <input type="hidden" name="application_id" value="{{application.id}}">
-                        {% for type in document_types %}
-                        <div class="mb-3">
-                            <label for="{{type.codename}}" class="form-label">
-                                <h6>{{type.name}}</h6>
-                            </label>
-                            <!-- If there are previously uploaded files -->
-                            {% if application.documents.all %}
-                            <div class="my-1 p-1">
-                                <h6 class="text text-primary">Uploaded Files</h6>
-                                <!-- Filter to display only this type -->
-                                <div class="d-flex flex-wrap">
-                                    {% for document in application.documents.all %}
-                                    {% if document.document_type == type %}
-                                    <p class="m-1 p-1 bg-primary text-light rounded">
-                                        <a href="{{document.file.url}}" target="_blank">{{document.file.url}}</a>
-                                        <a class="text text-danger delete-document clickable"
-                                            data-document-id="{{document.id}}"
-                                            data-deletion-url="{% url 'dashboard:delete_application_ducument' %}"><i
-                                                class="bi bi-trash"></i></a>
-                                    </p>
-                                    {% endif %}
-                                    {% endfor %}
-                                </div>
-                            </div>
+            <h3 class="text text-bold">Attachments</h3>
+            <form class="needs-validation" method="POST" enctype="multipart/form-data" novalidate>
+                {% csrf_token %}
+                <input type="hidden" name="application_id" value="{{application.id}}">
+                {% for type in document_types %}
+                <div class="card-shadow mb-3">
+                    <label for="{{type.codename}}" class="form-label">
+                        <h6>{{type.name|upper}}</h6>
+                    </label>
+                    <!-- If there are previously uploaded files -->
+                    {% if application.documents.all %}
+                    <div class="my-1 p-1">
+                        <h6 class="text text-primary">Uploaded Files</h6>
+                        <!-- Filter to display only this type -->
+                        <div class="d-flex flex-wrap">
+                            {% for document in application.documents.all %}
+                            {% if document.document_type == type %}
+                            <p class="m-1 p-1 bg-secondary text-light rounded">
+                                <a href="{{document.file.url}}" target="_blank">{{document.file.url}}</a>
+                                <a class="text text-danger delete-document clickable" data-document-id="{{document.id}}"
+                                    data-deletion-url="{% url 'dashboard:delete_application_ducument' %}"><i
+                                        class="bi bi-trash"></i></a>
+                            </p>
                             {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
 
-                            <input class="form-control" accept=".jpg, .jpeg, .png" type="file" id="{{type.codename}}"
-                                name="{{type.codename}}" {% if type.multiple %}multiple{% endif %}
-                                {% if type.required and not application.documents.all %}required{% endif %}>
-                            <div class="invalid-feedback">
-                                Please upload applicant's {{type.name}}.
-                            </div>
-                        </div>
-                        {% endfor %}
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-sm btn-primary">Upload All</button>
-                        </div>
-                    </form>
+                    <input class="form-control" accept=".jpg, .jpeg, .png" type="file" id="{{type.codename}}"
+                        name="{{type.codename}}" {% if type.multiple %}multiple{% endif %}
+                        {% if type.required and not application.documents.all %}required{% endif %}>
+                    <div class="invalid-feedback">
+                        Please upload applicant's {{type.name}}.
+                    </div>
                 </div>
-            </div>
+                {% endfor %}
+                <div class="form-group">
+                    <button type="submit" class="btn btn-sm btn-primary">Upload All</button>
+                </div>
+            </form>
             <div class="form-group d-flex justify-content-between my-3">
                 <button type="button" class="btn btn-primary py-2 px-4" onclick="history.back()"><i
                         class="bi bi-arrow-left"></i> Back</button>

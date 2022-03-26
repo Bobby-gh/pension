@@ -37,6 +37,9 @@ main .sidebar .sidebar-item {
   margin: 0.2em 1px;
   padding: 1em 0.2em;
   background-color: #00000034;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   cursor: pointer;
 }
 
