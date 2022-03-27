@@ -35,7 +35,9 @@ class User(AbstractBaseUser, PermissionsMixin):
             return "Rg. Office"
 
     def get_name(self):
-        return self.surname or self.username
+        if self.surname and self.other_names:
+            return f"{self.surname} {self.other_names}"
+        return self.username
 
     def count_notifications(self):
         return self.notifications.filter(read=False).count()
