@@ -1,0 +1,5 @@
+# Create roles with permissions
+python manage.py dumpdata auth.Group > setup/fixtures/groups.json
+
+# Load roles with permissions
+python manage.py loaddata groups

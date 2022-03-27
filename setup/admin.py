@@ -13,7 +13,7 @@ try:
     for t in types:
         ApplicationDocumentType.objects.get_or_create(name=t)
 except Exception as e:
-    print(e)
+    pass
 
 # Create default groups if empty
 try:
@@ -29,4 +29,4 @@ try:
         nat_group.permissions.add(can_generate_letter)
         nat_group.permissions.add(can_review_application)
 except Exception as e:
-    print(e)
+    pass
