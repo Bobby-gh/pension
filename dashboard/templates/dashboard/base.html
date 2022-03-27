@@ -37,19 +37,16 @@
             <div class="header mt-1">
                 <img src="{% static 'images/logo.svg' %}" alt="Site Logo">
                 <div class="mx-2 info">
-                    <p class="m-0 p-0 text text-center">{{request.user.get_name|title}}</p>
-                    <p class="m-0 p-0 text text-center text-muted">{{user.get_title}}</p>
+                    <p class="m-0 p-0 text text-center">{{request.user.username|title}}</p>
+                    <p class="m-0 p-0 text text-center text-muted">{{request.user.get_title}}</p>
                 </div>
             </div>
             <div class="content">
-                {% if perms.dashboard.add_application %}
                 <a href="{% url 'dashboard:index' %}" class="sidebar-item row">
                     <div class="col-2"><i class="bi bi-house"></i></div>
                     <div class="col-10">Home</div>
                 </a>
-                {% endif %}
 
-                {% if perms.dashboard.add_application %}
                 <a href="{% url 'dashboard:notifications' %}" class="sidebar-item row">
                     <div class="col-2"><i class="bi bi-bell"></i></div>
                     <div class="col-8">Notifications</div>
@@ -57,12 +54,11 @@
                     <div class="col-2"><span class="balloon">{{request.user.notifications.count}}</span></div>
                     {% endif %}
                 </a>
-                {% endif %}
 
-                {% if perms.dashboard.view_application %}
+                {% if perms.dashboard.add_application %}
                 <a href="{% url 'dashboard:my_applications' %}" class="sidebar-item row">
                     <div class="col-2"><i class="bi bi-window-stack"></i></div>
-                    <div class="col-10">My Applications</div>
+                    <div class="col-10">Application List</div>
                 </a>
                 {% endif %}
 
@@ -73,7 +69,7 @@
                 </a>
                 {% endif %}
 
-                {% if perms.dashboard.can_setup_system %}
+                {% if perms.setup.can_setup_system %}
                 <a href="{% url 'setup:index' %}" class="sidebar-item row">
                     <div class="col-2"><i class="bi bi-gear"></i></div>
                     <div class="col-10">Setup</div>
@@ -93,8 +89,8 @@
                         <div class="profile">
                             <img src="{% static 'images/logo.svg' %}" alt="Site Logo">
                             <div class="mx-2 info">
-                                <span class="m-0 p-0 text">{{request.user.get_name|title}}</span>
-                                <span class="m-0 p-0 text text-muted">{{user.get_title}}</span>
+                                <span class="m-0 p-0 text">{{request.user.username|title}}</span>
+                                <span class="m-0 p-0 text text-muted">{{request.user.get_title}}</span>
                             </div>
                             <i class="bi bi-chevron-down"></i>
                         </div>

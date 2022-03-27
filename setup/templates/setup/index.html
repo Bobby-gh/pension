@@ -4,7 +4,7 @@
 {% block breadcrum %}
 <a href="{% url 'dashboard:index' %}" class="item">Home <i class="bi bi-chevron-compact-right"></i></a>
 <a href="" class="item">Setup <i class="bi bi-chevron-compact-right"></i></a>
-{%endblock%}
+{% endblock %}
 
 {% block content %}
 
@@ -89,7 +89,7 @@
         <div class="card-shadow">
             <div class="d-flex justify-content-between">
                 <h6>RANKS</h6>
-                {% if perms.add_rank%}
+                {% if perms.setup.add_rank %}
                 <button class="p-0 btn bnt-sm btn-primary" data-bs-toggle="modal" data-bs-target="#rankModal"><i
                         class="bi bi-plus"></i></button>
                 {% endif %}
@@ -140,7 +140,7 @@
         <div class="card-shadow">
             <div class="d-flex justify-content-between">
                 <h6>DOCUMENT TYPES</h6>
-                {% if perms.add_application_document_type %}
+                {% if perms.setup.add_applicationdocumenttype %}
                 <button class="p-0 btn bnt-sm btn-primary" data-bs-toggle="modal" data-bs-target="#documentTypeModal"><i
                         class="bi bi-plus"></i></button>
                 {% endif %}
@@ -195,18 +195,18 @@
         <div class="card-shadow">
             <div class="d-flex justify-content-between">
                 <h6>ROLES</h6>
-                {% if perms.add_application_document_type %}
+                {% if perms.auth.add_group %}
                 <button class="p-0 btn bnt-sm btn-primary" data-bs-toggle="modal" data-bs-target="#roleModal"><i
                         class="bi bi-plus"></i></button>
                 {% endif %}
             </div>
-            <p class="text text-secondary">Click on the name of a role to conigure permissions.</p>
+            <p class="text text-secondary">Click on the name of a role to configure permissions.</p>
             <table class="table table-sm">
                 <caption>List of roles</caption>
                 <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>Actions</th>
+                        <th class="text text-center">Name</th>
+                        <th class="text text-center">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -214,7 +214,8 @@
                     {% for role in roles %}
                     <tr>
                         <td><a href="{% url 'setup:manage_role' role.id %}">{{role.name}}</a></td>
-                        <td class="d-flex">
+                        <td class="d-flex justify-content-center">
+                            <a href="{% url 'setup:manage_role' role.id %}" class="tex text-info mx-2">manage</a>
                             <a href="{% url 'setup:change_role' %}?role_id={{role.id}}" class="tex text-info">edit</a>
                             <form action="{% url 'setup:delete_role' %}" method="POST" class="requires-confirmation"
                                 data-message="Click on okay to permanently delete this record.">
@@ -242,10 +243,10 @@
         <div class="card-shadow">
             <div class="d-flex justify-content-between">
                 <h6>Users</h6>
-                <!-- {% if perms.add_user %}
+                {% if perms.accounts.add_user %}
                 <button class="p-0 btn bnt-sm btn-primary" data-bs-toggle="modal" data-bs-target="#userModal"><i
                         class="bi bi-plus"></i></button>
-                {% endif %} -->
+                {% endif %}
             </div>
             <table class="table table-sm">
                 <caption>List of users</caption>
@@ -260,14 +261,22 @@
                 <tbody>
                     {% for user in users %}
                     <tr>
-                        <td><a href="">{{user.username}}</a></td>
-                        <td></td>
-                        <td></td>
+                        <td>{{user.username}}</td>
+                        <td>{{user.region}}</td>
+                        <td>
+                            {% if user.groups.all %}
+                            {% for group in user.groups.all %}
+                            {{group.name}}
+                            {% endfor %}
+                            {% else %}
+                            <p class="text text-danger text text-center">No data</p>
+                            {% endif %}
+                        </td>
                         <td class="d-flex">
-                            <a href="" class="tex text-info">edit</a>
-                            <form action="{% url 'setup:delete_role' %}" method="POST" class="requires-confirmation"
+                            <a href="{% url 'setup:change_user' %}?user_id={{user.id}}" class="tex text-info">edit</a>
+                            <form action="{% url 'setup:delete_user' %}" method="POST" class="requires-confirmation"
                                 data-message="Click on okay to permanently delete this record.">
-                                <input type="hidden" name="role_id" value="{{role.id}}">
+                                <input type="hidden" name="user_id" value="{{user.id}}">
                                 {% csrf_token %}
                                 <button type="submit" class="text-btn"><span
                                         class="text text-danger">delete</span></button>

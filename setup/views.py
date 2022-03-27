@@ -1,3 +1,6 @@
+from django.apps import apps
+from django.conf import settings
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.contrib.auth.models import Group, Permission
@@ -5,12 +8,11 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.decorators import method_decorator
 from django.views import View
 
-from setup.forms import ApplicationDocumentTypeForm, GroupForm, RankForm
+from accounts.models import User
+from setup.forms import (ApplicationDocumentTypeForm, GroupForm, RankForm,
+                         UserEditForm, UserForm)
 from setup.models import ApplicationDocumentType, Rank
 from setup.mxins import CreateUpdateMixin, DeletionMixin
-from django.apps import apps
-from django.conf import settings
-from accounts.models import User
 
 
 class IndexView(PermissionRequiredMixin, View):
@@ -29,6 +31,7 @@ class IndexView(PermissionRequiredMixin, View):
             "ranks": ranks,
             "roles": roles,
             "users": users,
+            "user": None,
         }
         return render(request, self.template_name, context)
 
@@ -64,8 +67,8 @@ class CreateUpdateApplicationDocumentType(PermissionRequiredMixin,
     object_name = "document_type"
     permission_required = (
         "setup.can_setup_system",
-        "setup.add_application_document_type",
-        "setup.change_application_document_type",
+        "setup.add_applicationdocumenttype",
+        "setup.change_applicationdocumenttype",
     )
 
 
@@ -74,7 +77,7 @@ class DeleteApplicationDocumentType(PermissionRequiredMixin, DeletionMixin):
     model_class = ApplicationDocumentType
     permission_required = (
         "setup.can_setup_system",
-        "setup.delete_application_document_type",
+        "setup.delete_applicationdocumenttype",
     )
 
 
@@ -99,10 +102,20 @@ class DeleteGroup(PermissionRequiredMixin, DeletionMixin):
         "auth.delete_group",
     )
 
+
+class DeleteUser(PermissionRequiredMixin, DeletionMixin):
+    object_id_field = "user_id"
+    model_class = User
+    permission_required = (
+        "setup.can_setup_system",
+        "auth.delete_user",
+    )
+
+
 class RoleManagementView(PermissionRequiredMixin, View):
     template_name = "setup/role_management.html"
     permission_required = (
-        "setup.setup.can_managemnt_roles",
+        "setup.can_managemnt_roles",
         "setup.can_setup_system",
     )
 
@@ -110,10 +123,7 @@ class RoleManagementView(PermissionRequiredMixin, View):
     def get(self, request, role_id):
         role = get_object_or_404(Group, id=role_id)
         permissions = Permission.objects.filter()[:0]
-        apps_list = [
-            app.split(".")[0] for app in settings.INSTALLED_APPS
-            if not 'django' in app
-        ]
+        apps_list = [app.split(".")[0] for app in settings.INSTALLED_APPS]
         models = []
         for app in apps_list:
             models.extend([
@@ -123,6 +133,7 @@ class RoleManagementView(PermissionRequiredMixin, View):
         permissions = Permission.objects.filter(
             content_type__app_label__in=apps_list,
             content_type__model__in=models)
+        permissions = Permission.objects.all()
         context = {
             "role": role,
             "permissions": permissions,
@@ -134,11 +145,59 @@ class RoleManagementView(PermissionRequiredMixin, View):
         role = get_object_or_404(Group, id=role_id)
         permissions_codes = request.POST.getlist("permissions")
         permissions = Permission.objects.filter(codename__in=permissions_codes)
-
-        # Delete unchecked permissions
-        role.permissions.exclude(codename__in=permissions_codes).delete()
-
-        # Add permissions
-        for permission in permissions:
-            role.permissions.add(permission)
+        role.permissions.set(permissions)
         return redirect(request.META.get("HTTP_REFERER") or "setup:dashboard")
+
+
+class CreateUpdateUser(PermissionRequiredMixin, CreateUpdateMixin):
+    template_name = "setup/edit_user.html"
+    object_id_field = "user_id"
+    form_class = UserForm
+    edit_form_class = UserEditForm
+    model_class = User
+    object_name = "user"
+    permission_required = (
+        "setup.can_setup_system",
+        "auth.add_user",
+        "auth.change_user",
+    )
+
+    def get(self, request):
+        object_id = request.GET.get(self.object_id_field)
+        obj = get_object_or_404(self.model_class, id=object_id)
+        roles = Group.objects.all()
+        context = {
+            self.object_name: obj,
+            "roles": roles,
+        }
+        return render(request, self.template_name, context)
+
+    @method_decorator(login_required(login_url="accounts:login"))
+    def post(self, request):
+        user_id = request.POST.get("user_id") or None
+        password = request.POST.get("password")
+        username = request.POST.get("username")
+        group_ids = request.POST.getlist("groups")
+        conf_password = request.POST.get("conf_password")
+
+        groups = Group.objects.filter(id__in=group_ids)
+
+        if password and password != conf_password:
+            messages.error(request, "Passwords do not match")
+            return redirect(request.META.get("HTTP_REFERER") or "setup:index")
+
+        user = User.objects.filter(
+            id=user_id).first() or User.obejcts.create_user(username=username,
+                                                            password=password)
+        # Add to groups
+        user.groups.set(groups)
+
+        # Update fields
+        for key, value in request.POST.items():
+            if key in ["password", "username", "groups"]: continue
+            if value and key and hasattr(user, key):
+                setattr(user, key, value)
+        if password: user.set_password(password)
+        user.save()
+        messages.success(request, "User updated successfully")
+        return redirect("setup:index")

@@ -77,7 +77,9 @@ class ApplicationDocument(models.Model):
     name = models.CharField(max_length=100)
     document_type = models.ForeignKey(ApplicationDocumentType,
                                       related_name="documents",
-                                      on_delete=models.PROTECT)
+                                      null=True,
+                                      blank=True,
+                                      on_delete=models.SET_NULL)
     file = models.ImageField(upload_to="uploads/documents", null=True)
     application = models.ForeignKey(Application,
                                     related_name="documents",

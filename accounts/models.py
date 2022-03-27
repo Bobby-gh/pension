@@ -8,7 +8,8 @@ from pension.utils.constants import REGIONS
 class User(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(max_length=100, unique=True)
     photo = models.ImageField(upload_to="accounts", null=True, blank=True)
-    fullname = models.CharField(max_length=200, null=True, blank=True)
+    surname = models.CharField(max_length=200, null=True, blank=True)
+    other_names = models.CharField(max_length=200, null=True, blank=True)
     phone = models.CharField(max_length=20, null=True, blank=True)
     email = models.EmailField()
     last_login = models.DateTimeField(auto_now=True)
@@ -34,7 +35,7 @@ class User(AbstractBaseUser, PermissionsMixin):
             return "Rg. Office"
 
     def get_name(self):
-        return self.fullname or self.username
+        return self.surname or self.username
 
     def count_notifications(self):
         return self.notifications.filter(read=False).count()

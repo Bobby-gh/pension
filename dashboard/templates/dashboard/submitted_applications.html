@@ -33,10 +33,7 @@
                                 <tr>
                                     <td>{{forloop.counter}}</td>
                                     <td>
-                                        <a href="{% url 'dashboard:application_details' application.id %}"
-                                            style="text-decoration: unset;">
-                                            APP{{application.id}}
-                                        </a>
+                                       <p>APP{{application.id}}</p>
                                     </td>
                                     <td>{{application.surname}}</td>
                                     <td>{{application.other_names}}</td>

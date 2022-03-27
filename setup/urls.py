@@ -16,7 +16,9 @@ urlpatterns = [
          name="delete_document_type"),
     path("role/change", views.CreateUpdateGroup.as_view(), name="change_role"),
     path("role/delete", views.DeleteGroup.as_view(), name="delete_role"),
+    path("user/delete", views.DeleteUser.as_view(), name="delete_user"),
     path("role/<int:role_id>/manage/",
          views.RoleManagementView.as_view(),
          name="manage_role"),
+    path("user/change", views.CreateUpdateUser.as_view(), name="change_user"),
 ]

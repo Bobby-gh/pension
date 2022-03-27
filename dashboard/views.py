@@ -36,7 +36,6 @@ class NewApplicationFormOneView(PermissionRequiredMixin, View):
     template_name = 'dashboard/form_one.html'
     form_class = ApplicationForm
     permission_required = (
-        "dashboard.add_application",
         "dashboard.change_application",
     )
 
@@ -292,7 +291,6 @@ class RequestApplicationChangesView(PermissionRequiredMixin, View):
     """
     permission_required = (
         "dashboard.view_application",
-        "dashboard.edit_application",
         "dashboard.can_review_application",
     )
 
@@ -319,7 +317,7 @@ class RequestApplicationChangesView(PermissionRequiredMixin, View):
             subject=f"Appication ID: {application.id}",
             message=f"Change Required.\n{requested_changes}",
             from_user=request.user)
-        messages.success(request, "Updated successfully.")
+        messages.success(request, "Request sent.")
         return redirect(request.META.get("HTTP_REFERER") or "dashboard:index")
 
 
