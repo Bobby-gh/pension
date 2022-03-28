@@ -33,7 +33,7 @@
     <div class="overlay"></div>
 
     <main>
-        <section class="sidebar">
+        <section class="sidebar overlay-toggle">
             <div class="header mt-1">
                 <img src="{% static 'images/logo.svg' %}" alt="Site Logo">
                 <div class="mx-2 info">
@@ -82,9 +82,13 @@
         <section class="main-page">
             <header>
                 <nav id="main-nav">
-                    <a href="" class="brand-logo">
+                    <a href="" class="brand-logo d-none d-md-block">
                         <img src="{% static 'images/logo.svg' %}" alt="Site Logo">
                     </a>
+                    <div class="ms-2" id="sidebar-toggle">
+                        <span style="font-size: 2em;"><i class="bi bi-list"></i></span>
+                    </div>
+
                     <div class="nav-right toggle-active" data-target=".nav-right .drop-down">
                         <div class="profile">
                             <img src="{% static 'images/logo.svg' %}" alt="Site Logo">

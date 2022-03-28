@@ -1,12 +1,18 @@
 // Mobile Overrides
 @media all and (max-width: 480px) {
   .sidebar {
-    width: 80vw !important;
+    width: 0vw !important;
     z-index: 20;
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
+    overflow: hidden;
+    transition: all 0.3s ease-in-out;
+
+    &.active {
+      width: 80vw !important;
+    }
   }
   .main-page {
     flex-grow: 1;

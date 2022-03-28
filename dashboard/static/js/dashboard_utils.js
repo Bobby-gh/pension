@@ -86,3 +86,20 @@ buttons?.forEach(button => {
         })
     })
 })
+
+// Mobile sidebar toggling
+const overlay = document.querySelector(".overlay")
+const sidebar = document.querySelector(".sidebar")
+const toggles = document.querySelectorAll(".overlay-toggle")
+const sidebarToggle = document.querySelector("#sidebar-toggle")
+sidebarToggle?.addEventListener("click", event => {
+    sidebar?.classList.add("active")
+    overlay?.classList.add("active")
+})
+
+overlay?.addEventListener("click", event => {
+    overlay?.classList.remove("active")
+    toggles.forEach(toggle => {
+        toggle.classList.remove("active")
+    })
+})
