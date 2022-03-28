@@ -158,8 +158,8 @@ class CreateUpdateUser(PermissionRequiredMixin, CreateUpdateMixin):
     object_name = "user"
     permission_required = (
         "setup.can_setup_system",
-        "auth.add_user",
-        "auth.change_user",
+        "accounts.add_user",
+        "accounts.change_user",
     )
 
     def get(self, request):
