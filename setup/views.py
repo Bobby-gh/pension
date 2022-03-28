@@ -24,7 +24,7 @@ class IndexView(PermissionRequiredMixin, View):
         document_types = ApplicationDocumentType.objects.all()
         ranks = Rank.objects.all().order_by("order")
         roles = Group.objects.all()
-        users = User.objects.all()
+        users = User.objects.filter(is_superuser=False)
 
         context = {
             "document_types": document_types,
@@ -187,7 +187,7 @@ class CreateUpdateUser(PermissionRequiredMixin, CreateUpdateMixin):
             return redirect(request.META.get("HTTP_REFERER") or "setup:index")
 
         user = User.objects.filter(
-            id=user_id).first() or User.obejcts.create_user(username=username,
+            id=user_id).first() or User.objects.create_user(username=username,
                                                             password=password)
         # Add to groups
         user.groups.set(groups)
