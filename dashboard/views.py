@@ -35,9 +35,7 @@ class NewApplicationFormOneView(PermissionRequiredMixin, View):
     """
     template_name = 'dashboard/form_one.html'
     form_class = ApplicationForm
-    permission_required = (
-        "dashboard.change_application",
-    )
+    permission_required = ("dashboard.change_application", )
 
     @method_decorator(login_required(login_url="accounts:login"))
     def get(self, request):
@@ -243,9 +241,7 @@ class ApplicationDetailsView(PermissionRequiredMixin, View):
 
 class ApplicationSubmissionView(PermissionRequiredMixin, View):
     template_name = 'dashboard/application_details.html'
-    permission_required = (
-        "dashboard.view_application",
-    )
+    permission_required = ("dashboard.view_application", )
 
     @method_decorator(login_required(login_url="accounts:login"))
     def get(self, request, application_id):
@@ -267,7 +263,7 @@ class ApplicationProcessedView(PermissionRequiredMixin, View):
     """
     permission_required = (
         "dashboard.view_application",
-        "dashboard.edit_application",
+        "dashboard.change_application",
         "dashboard.can_review_application",
     )
 
@@ -281,8 +277,8 @@ class ApplicationProcessedView(PermissionRequiredMixin, View):
         application = get_object_or_404(Application, id=application_id)
         application.status = ApplicationStatus.PROCESSED.value
         application.save()
-        messages.success(request, "Updated successfully.")
-        return redirect(request.META.get("HTTP_REFERER") or "dashboard:index")
+        messages.success(request, "Successfully processed application.")
+        return redirect("dashboard:submitted_applications")
 
 
 class RequestApplicationChangesView(PermissionRequiredMixin, View):
