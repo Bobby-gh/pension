@@ -108,7 +108,7 @@ class DeleteUser(PermissionRequiredMixin, DeletionMixin):
     model_class = User
     permission_required = (
         "setup.can_setup_system",
-        "auth.delete_user",
+        "accounts.delete_user",
     )
 
 
