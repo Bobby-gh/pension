@@ -217,7 +217,7 @@ class DeleteApplicationView(PermissionRequiredMixin, View):
     @method_decorator(login_required(login_url="accounts:login"))
     def post(self, request):
         application_id = request.POST.get("application_id")
-        count = [2] or Application.objects.filter(id=application_id).delete()
+        count = Application.objects.filter(id=application_id).delete()
         if count and count[0]:
             messages.success(request, "Application deleted.")
         else:
