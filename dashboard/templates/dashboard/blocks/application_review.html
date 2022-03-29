@@ -68,18 +68,18 @@
 </div>
 
 <div class="p-5 mt-5 card-shadow">
-    <h5 class="text">Photo</h5>
+    <h5 class="text">Applicant's Photo</h5>
+    {% if application.photo %}
     <div class="col-md-6 mx-auto">
-        {% if application.photo %}
-        <img src="{{application.photo.url}}" alt="">
-        {% else %}
-        <p class="text text-danger">None</p>
-        {% endif %}
+        <img height="300" src="{{application.photo.url}}" alt="">
     </div>
+    {% else %}
+    <p class="text text-danger">None</p>
+    {% endif %}
 </div>
 
 <div class="p-5 mt-5 card-shadow">
-    <h5 class="text">Documents</h5>
+    <h5 class="text">Attachments</h5>
     {% if application.documents.all %}
     {% for document_type in document_types %}
     <div class="row mb-3">
@@ -103,10 +103,11 @@
 <div class="p-5 mt-5 card-shadow">
     <h5 class="text">Signature</h5>
     {% if application.signature %}
-    <div class="col-md-6 mx-auto">
-        <img src="{{application.signature.url}}" alt="">
-
-    </div>
+    <p class="text text-center">
+        <a href="{{application.signature.url}}" target="_blank">
+            <img height="200" src="{{application.signature.url}}" alt="Applicant's signature">
+        </a>
+    </p>
     {% else %}
     <p class="text text-danger">None</p>
     {% endif %}

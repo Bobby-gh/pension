@@ -148,6 +148,26 @@ class NewApplicationFormOneUploadView(PermissionRequiredMixin, View):
         return redirect(request.META.get("HTTP_REFERER"))
 
 
+class UploadSignatureView(PermissionRequiredMixin, View):
+    permission_required = ("dashboard.change_application", )
+
+    @method_decorator(login_required(login_url="accounts:login"))
+    def get(self, request, application_id):
+        return redirect("dashboard:index")
+
+    @method_decorator(login_required(login_url="accounts:login"))
+    def post(self, request, application_id):
+        application = get_object_or_404(Application, id=application_id)
+        signature = request.FILES.get("signature")
+        if signature:
+            application.signature = signature
+            application.save()
+            messages.info(request, "Signature has been uploaded")
+        else:
+            messages.warning(request, "No signature uploaded")
+        return redirect(request.META.get("HTTP_REFERER") or "dashboard:index")
+
+
 class NewApplicationFormOneReviewView(PermissionRequiredMixin, View):
     template_name = 'dashboard/application_review_page.html'
     permission_required = (
