@@ -86,8 +86,8 @@
         <h4 class="text text-primary">{{document_type.name}}</h4>
         {% for document in application.documents.all %}
         {% if document.document_type == document_type %}
-        <a href="{{document.file.url}}" class="col-md-4 mx-auto"
-            style="border: 1px solid gray; display: flex; align-items: center;">
+        <a href="{{document.file.url}}" class="col-md-4"
+            style="border: 1px solid rgba(128, 128, 128, 0.1); display: flex; align-items: center;">
             <img class="mx-auto" height="200" src="{{document.file.url}}" alt="{{document.name}}"
                 style="max-width: 100%;">
         </a>
