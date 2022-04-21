@@ -14,7 +14,8 @@ main .sidebar {
   background-color: #041748;
   min-height: 100vh;
   color: white;
-  width: 15%;
+  width: 15em;
+  min-width: 15em !important;
 }
 
 main .sidebar * {
