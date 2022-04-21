@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.models import Group
 
 from accounts.models import User
-from setup.models import ApplicationDocumentType, Rank
+from setup.models import ApplicationDocumentType, Rank, RetirementReason
 
 
 class RankForm(forms.ModelForm):
@@ -60,4 +60,12 @@ class UserEditForm(forms.ModelForm):
             'last_login',
             "created_at",
             "updated_at",
+        ]
+
+
+class RetirementReasonForm(forms.ModelForm):
+    class Meta:
+        model = RetirementReason
+        exclude = [
+            "id",
         ]

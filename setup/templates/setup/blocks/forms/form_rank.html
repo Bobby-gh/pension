@@ -4,14 +4,24 @@
     <div class="row">
         <div class="col-md-6 form-group">
             <label for="name">Name</label>
-            <input class="form-control" placeholder="Chief Inspector" value="{{rank.name}}" type="text" name="name" id="name" required>
+            <input class="form-control" placeholder="Chief Inspector" value="{{rank.name}}" type="text" name="name"
+                id="name" required>
+            <div class="invalid-feedback">
+                Please this field is required.
+            </div>
+        </div>
+        <div class="col-md-6 form-group">
+            <label for="name">Abbreviation</label>
+            <input class="form-control" placeholder="C. Ins." value="{{rank.abbreviation}}" type="text"
+                name="abbreviation" id="abbreviation">
             <div class="invalid-feedback">
                 Please this field is required.
             </div>
         </div>
         <div class="col-md-6 form-group">
             <label for="order">Order</label>
-            <input class="form-control" type="number" placeholder="1" value="{{rank.order}}" name="order" id="order" required>
+            <input class="form-control" type="number" placeholder="1" value="{{rank.order}}" name="order" id="order"
+                required>
             <div class="invalid-feedback">
                 Please this field is required.
             </div>

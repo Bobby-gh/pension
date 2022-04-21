@@ -26,7 +26,7 @@
 </div>
 <!-- End of rank Modal -->
 
-<!-- Rank Modal -->
+<!-- Document type Modal -->
 <div class="modal fade" id="documentTypeModal" tabindex="-1" aria-labelledby="documentTypeModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-l">
@@ -42,7 +42,7 @@
         </div>
     </div>
 </div>
-<!-- End of Rank Modal -->
+<!-- End of Document type Modal -->
 
 
 <!-- Role Modal -->
@@ -79,12 +79,30 @@
 </div>
 <!-- End of User Modal -->
 
+<!-- Rank Modal -->
+<div class="modal fade" id="retirementReasonModal" tabindex="-1" aria-labelledby="retirementReasonModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-l">
+        <div class="modal-content px-4">
+            <div class="modal-header">
+                <h5 class="modal-title" id="retirementReasonModalLabel">Add Retirement Reason</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            {% include 'setup/blocks/forms/form_retirement_reason.html' %}
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End of rank Modal -->
 
 
 
 <!-- End of Modals -->
 
 <div class="row col-md-11 mx-auto">
+    <h5 class="mt-3">APPLICATION CONFIGURATION</h5>
+
     <section class="col-md-6">
         <div class="card-shadow">
             <div class="d-flex justify-content-between">
@@ -99,6 +117,7 @@
                 <thead>
                     <tr>
                         <th>Rank</th>
+                        <th>Abbreviation</th>
                         <th>Order</th>
                         <th>Actions</th>
                     </tr>
@@ -108,6 +127,7 @@
                     {% for rank in ranks %}
                     <tr>
                         <td>{{rank.name}}</td>
+                        <td>{{rank.abbreviation}}</td>
                         <td>{{rank.order}}</td>
                         <td class="d-flex">
                             <a href="{% url 'setup:change_rank' %}?rank_id={{rank.id}}" class="tex text-info">edit</a>
@@ -132,8 +152,57 @@
             </table>
 
         </div>
+    </section>
 
+    <section class="col-md-6">
+        <div class="card-shadow">
+            <div class="d-flex justify-content-between">
+                <h6>RETIREMENT REASONS</h6>
+                {% if perms.setup.add_retirementreason %}
+                <button class="p-0 btn bnt-sm btn-primary" data-bs-toggle="modal" data-bs-target="#retirementReasonModal"><i
+                        class="bi bi-plus"></i></button>
+                {% endif %}
+            </div>
+            <table class="table table-sm">
+                <caption>List of reasons</caption>
+                <thead>
+                    <tr>
+                        <th>Reason</th>
+                        <th>Description</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if reasons %}
+                    {% for reason in reasons %}
+                    <tr>
+                        <td>{{reason.reason}}</td>
+                        <td>{{reason.description}}</td>
+                        <td class="d-flex">
+                            <a href="{% url 'setup:change_retirement_reason' %}?retirement_reason_id={{reason.id}}"
+                                class="tex text-info">edit</a>
+                            <form action="{% url 'setup:delete_retirement_reason' %}" method="POST"
+                                class="requires-confirmation"
+                                data-message="Click on okay to permanently delete this record.">
+                                {% csrf_token %}
+                                <input type="hidden" name="retirement_reason_id" value="{{reason.id}}">
+                                <button type="submit" class="text-btn"><span
+                                        class="text text-danger">delete</span></button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    {% else %}
+                    <tr>
+                        <td colspan="3">
+                            <p class="text text-danger text text-center">No data</p>
+                        </td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
 
+        </div>
     </section>
 
     <section class="col-md-6">
@@ -178,7 +247,7 @@
                     {% endfor %}
                     {% else %}
                     <tr>
-                        <td>
+                        <td colspan="4">
                             <p class="text text-danger text text-center">No data</p>
                         </td>
                     </tr>
@@ -190,6 +259,7 @@
 
     <div class="col-12">
         <hr>
+        <h5>SYSTEM</h5>
     </div>
     <section class="col-md-6">
         <div class="card-shadow">
@@ -229,7 +299,7 @@
                     {% endfor %}
                     {% else %}
                     <tr>
-                        <td>
+                        <td colspan="2">
                             <p class="text text-danger text text-center">No data</p>
                         </td>
                     </tr>

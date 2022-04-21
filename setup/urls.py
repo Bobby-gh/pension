@@ -21,4 +21,10 @@ urlpatterns = [
          views.RoleManagementView.as_view(),
          name="manage_role"),
     path("user/change", views.CreateUpdateUser.as_view(), name="change_user"),
+    path("retirement-reason/change",
+         views.CreateUpdateRetirementReason.as_view(),
+         name="change_retirement_reason"),
+    path("retirement-reason/delete",
+         views.DeleteRetirementReason.as_view(),
+         name="delete_retirement_reason"),
 ]

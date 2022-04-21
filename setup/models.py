@@ -32,7 +32,22 @@ class ApplicationDocumentType(models.Model):
 
 class Rank(models.Model):
     name = models.CharField(max_length=100, unique=True)
+    abbreviation = models.CharField(max_length=20, default="")
     order = models.IntegerField()
+
+    def save(self, *args, **kwargs):
+        if not self.abbreviation:
+            self.abbreviation = self.name[:3].upper()
+        return super().save(*args, **kwargs)
 
     def __str__(self) -> str:
         return self.name
+
+
+class RetirementReason(models.Model):
+    reason = models.TextField()
+    description = models.TextField(null=True, blank=True)
+
+    def __str__(self) -> str:
+        return self.name
+

@@ -10,8 +10,8 @@ from django.views import View
 
 from accounts.models import User
 from setup.forms import (ApplicationDocumentTypeForm, GroupForm, RankForm,
-                         UserEditForm, UserForm)
-from setup.models import ApplicationDocumentType, Rank
+                         RetirementReasonForm, UserEditForm, UserForm)
+from setup.models import ApplicationDocumentType, Rank, RetirementReason
 from setup.mxins import CreateUpdateMixin, DeletionMixin
 
 
@@ -25,12 +25,14 @@ class IndexView(PermissionRequiredMixin, View):
         ranks = Rank.objects.all().order_by("order")
         roles = Group.objects.all()
         users = User.objects.filter(is_superuser=False)
+        reasons = RetirementReason.objects.all()
 
         context = {
             "document_types": document_types,
             "ranks": ranks,
             "roles": roles,
             "users": users,
+            "reasons": reasons,
             "user": None,
         }
         return render(request, self.template_name, context)
@@ -201,3 +203,25 @@ class CreateUpdateUser(PermissionRequiredMixin, CreateUpdateMixin):
         user.save()
         messages.success(request, "User updated successfully")
         return redirect("setup:index")
+
+
+class CreateUpdateRetirementReason(PermissionRequiredMixin, CreateUpdateMixin):
+    template_name = "setup/edit_retirement_reason.html"
+    form_class = RetirementReasonForm
+    object_id_field = "retirement_reason_id"
+    model_class = RetirementReason
+    object_name = "retirement_reason"
+    permission_required = (
+        "setup.can_setup_system",
+        "setup.add_retirement_reason",
+        "setup.change_retirement_reason",
+    )
+
+
+class DeleteRetirementReason(PermissionRequiredMixin, DeletionMixin):
+    object_id_field = "retirement_reason_id"
+    model_class = RetirementReason
+    permission_required = (
+        "setup.can_setup_system",
+        "setup.delete_retirement_reason",
+    )

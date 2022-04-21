@@ -1,0 +1,21 @@
+<form action="{% url 'setup:change_retirement_reason' %}" class="needs-validation my-4" method="POST" novalidate>
+    {% csrf_token %}
+    <input type="hidden" name="retirement_reason_id" value="{{retirement_reason.id}}">
+    <div class="row">
+        <div class="col-12 form-group">
+            <label for="name">Retirement Reason <span class="text text-danger">*</span> </label>
+            <input class="form-control" placeholder="Reason" value="{{retirement_reason.reason}}" type="text"
+                name="reason" id="reason" required>
+            <div class="invalid-feedback">
+                Please this field is required.
+            </div>
+        </div>
+        <div class="col-12 form-group mt-3">
+            <label for="name">Description (Optional)</label>
+            <textarea class="form-control" name="description" id="description" rows="10">{{retirement_reason.description}}</textarea>
+        </div>
+    </div>
+    <div class="form-group my-3">
+        <button type="submit" class="btn btn-primary py-2 px-4">Submit</button>
+    </div>
+</form>
