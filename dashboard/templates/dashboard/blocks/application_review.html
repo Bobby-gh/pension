@@ -1,5 +1,5 @@
 <div class="p-5 mt-5 card-shadow">
-    <h5 class="text">Particulars</h5>
+    <h5 class="text">PARTICULARS</h5>
     <div class="col-12 col-md-12 row mt-3">
         <p class="m-0 p-0 text col-md-3  text-muted">Surname:</p>
         <p class="m-0 p-0 text col-md-9 text-primary">{{application.surname}}</p>
@@ -68,7 +68,7 @@
 </div>
 
 <div class="p-5 mt-5 card-shadow">
-    <h5 class="text">Applicant's Photo</h5>
+    <h5 class="text">APPLICANT'S PHOTO</h5>
     {% if application.photo %}
     <div class="col-md-6 mx-auto">
         <img height="300" src="{{application.photo.url}}" alt="">
@@ -77,9 +77,16 @@
     <p class="text text-danger">None</p>
     {% endif %}
 </div>
+{% if application.photo %}
+<div class="d-flex justify-content-end">
+    <a href="{% url 'pdf:generate_passport_size_photo' application.id %}" target="_blank" class="btn btn-primary my-2"><i
+            class="bi bi-printer"></i> Print Passport Size</a>
+</div>
+{% endif %}
+
 
 <div class="p-5 mt-5 card-shadow">
-    <h5 class="text">Attachments</h5>
+    <h5 class="text">ATTACHMENTS</h5>
     {% if application.documents.all %}
     {% for document_type in document_types %}
     <div class="row mb-3">
@@ -99,9 +106,16 @@
     <p class="text text-danger">None</p>
     {% endif %}
 </div>
+{% if application.documents.all %}
+<div class="d-flex justify-content-end">
+    <a href="{% url 'pdf:documents_print_out' application.id %}" target="_blank" class="btn btn-primary my-2"><i
+            class="bi bi-printer"></i> Print All</a>
+</div>
+{% endif %}
+
 
 <div class="p-5 mt-5 card-shadow">
-    <h5 class="text">Signature</h5>
+    <h5 class="text">SIGNATURE</h5>
     {% if application.signature %}
     <p class="text text-center">
         <a href="{{application.signature.url}}" target="_blank">

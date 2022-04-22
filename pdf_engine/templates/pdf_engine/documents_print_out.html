@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>{{application.get_name}}'s Documents</title>
+    <style type="text/css">
+        p {
+            font-size: 1.5em;
+            text-align: justify;
+        }
+
+        @page {
+            margin: 1cm;
+            size: a4;
+
+            @frame footer_frame {
+                -pdf-frame-content: footer_content;
+                left: 30pt;
+                width: 512pt;
+                top: 820pt;
+                height: 20pt;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    {% if error_message %}
+    <h3 style="color: red">{{error_message}}</h3>
+    {% else %}
+    <div class="report-page">
+        <h1><strong>{{application.get_name|upper}}'s DOCUMENTS</strong></h1>
+        {% for document_type in document_types %}
+        <p>{{document_type.name|upper}}</p>
+        {% for document in application.documents.all %}
+        {% if document.document_type == document_type %}
+        <img src="{{document.file.url}}" alt="{{document.name}}" style="max-width: 100%; max-height: 100%;">
+        <br>
+        <small>{{document_type.name}}</small>
+        {% if not forloop.last %}
+        <pdf:nextpage />
+        {% endif %}
+        {% endif %}
+        {% endfor %}
+    </div>
+    {% endfor %}
+
+    </div>
+    <div id="footer_content">
+        Page <strong>
+            <pdf:pagenumber />
+        </strong> of
+        <pdf:pagecount /> | {{current_time}}
+    </div>
+    {% endif %}
+</body>
+
+</html>

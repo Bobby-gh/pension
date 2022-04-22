@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>{{application.get_name}}'s Photograph</title>
+    <style type="text/css">
+        p {
+            font-size: 1.5em;
+            text-align: justify;
+        }
+
+        @page {
+            margin: 1cm;
+            size: a5 portrait;
+
+            @frame footer_frame {
+                -pdf-frame-content: footer_content;
+                left: 30pt;
+                width: 135mm;
+                top: 820pt;
+                height: 20pt;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="report-page">
+        <table>
+            <tr style="margin-bottom: 5em;">
+                <td>
+                    <img src="{{application.photo.url}}" style="max-height: 89mm; width: 64mm; display: block; text-align: right; margin-right: 1.5em;">
+                </td>
+                <td>
+                    <img src="{{application.photo.url}}" style="max-height: 89mm; width: 64mm; display: block; text-align: left; margin-left: 1.5em;">
+                </td>
+            </tr>
+            <tr></tr>
+            <tr>
+                <td>
+                    <img src="{{application.photo.url}}" style="max-height: 89mm; width: 64mm; display: block; text-align: right; margin-right: 1.5em;">
+                </td>
+                <td>
+                    <img src="{{application.photo.url}}" style="max-height: 89mm; width: 64mm; display: block; text-align: left; margin-left: 1.5em;">
+                </td>
+            </tr>
+        </table>
+
+    </div>
+</body>
+
+</html>
