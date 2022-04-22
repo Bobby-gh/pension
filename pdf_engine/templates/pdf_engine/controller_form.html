@@ -48,7 +48,8 @@
     <h3 style="color: red">{{error_message}}</h3>
     {% else %}
     <div class="report-page">
-        <p style="font-weight: bolder; font-size: 2em; text-decoration: underline; text-align: center;">PENSIONS FORM</p>
+        <p style="font-weight: bolder; font-size: 2em; text-decoration: underline; text-align: center;">PENSIONS FORM
+        </p>
         <p style="text-align: center;">(PENSIONS FROM NO. 1)</p>
         <p style="text-align: center;">(See G. Oo. 384-387)</p>
 
@@ -59,18 +60,21 @@
             Pensions Form No. 2 in applicable).</p>
         <hr>
 
-        <p><span class="number">1.</span> Name of officer: <span class="fill-in">John Doe Bob</span></p>
+        <p><span class="number">1.</span> Name of officer: <span class="fill-in">{{application.get_name}}</span></p>
 
         <p><span class="number">2.</span> Is he/she an "expatriate officer" as defined by the Pension Ordinance? <span
-                class="fill-in">No</span></p>
+                class="fill-in">{{application.controller_form.expatriate}}</span></p>
 
-        <p><span class="number">3.</span> Office: <span class="fill-in">Chief Inspector</span></p>
+        <p><span class="number">3.</span> Office: <span class="fill-in">{{application.controller_form.office}}</span>
+        </p>
 
-        <p><span class="number">4.</span> Date of birth: <span class="fill-in">12/09/1960</span></p>
+        <p><span class="number">4.</span> Date of birth: <span
+                class="fill-in">{{application.controller_form.dob}}</span></p>
 
         <p><span class="number">5.</span> State whether actual pensionable emoluments or average of three years is to be
             taken:-</p>
-        <p style="margin-left: 1em;"><span class="fill-in">Actual pensionable emoluments</span></p>
+        <p style="margin-left: 1em;"><span class="fill-in">{{application.controller_form.pensionable_emolument}}</span>
+        </p>
 
         <p>6.</p>
         <table style="margin-left: 1em;">
@@ -80,7 +84,8 @@
                         <p>(1) (a) Salary</p>
                     </td>
                     <td>
-                        <p style="text-align: right;">GHC <span class="fill-in">3938.09</span></p>
+                        <p style="text-align: right;">GHC <span
+                                class="fill-in">{{application.controller_form.salary}}</span></p>
                     </td>
                 </tr>
 
@@ -89,7 +94,8 @@
                         <p style="margin-left: 1.45em;">(b) Expatriation Pay </p>
                     </td>
                     <td>
-                        <p style="text-align: right;">GHC <span class="fill-in">3938.09</span></p>
+                        <p style="text-align: right;">GHC <span
+                                class="fill-in">{{application.controller_form.expatriation_pay}}</span></p>
                     </td>
                 </tr>
 
@@ -98,23 +104,25 @@
                         <p style="margin-left: 1.45em;">(c) Any other pensionable allowance </p>
                     </td>
                     <td>
-                        <p style="text-align: right;">GHC <span class="fill-in">3938.09</span></p>
+                        <p style="text-align: right;">GHC <span
+                                class="fill-in">{{application.controller_form.other_pensionable_emolument}}</span></p>
                     </td>
                 </tr>
-
                 <tr>
                     <td colspan="2">
                         <p style="margin-left: 1.45em;">(d) Total emoluments on which pensions etc. is claimed </p>
                     </td>
                     <td>
-                        <p style="text-align: right;">GHC <span class="fill-in">3938.09</span></p>
+                        <p style="text-align: right;">GHC <span
+                                class="fill-in">{{application.controller_form.total_emolument}}</span></p>
                     </td>
                 </tr>
             </tbody>
         </table>
         <br>
 
-        <p style="margin-left: 0.7em;">(2) If, at the time of retirment, the officer has not completed three years service
+        <p style="margin-left: 0.7em;">(2) If, at the time of retirment, the officer has not completed three years
+            service
             in the office then held by him, state total pensionable emoluments drawn by him in each
             of the three years immediately preceeding his/her retirement.</p>
         <table style="border: 1px solid black;">
@@ -184,10 +192,10 @@
                 class="fill-in">5857.98</span></p>
 
         <p><span class="number">7.</span> Particulars of any additions claimed under the Pensions Regulation</p>
-        <p style="margin-left: 1em;"><span class="fill-in">Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                Iusto, id.</span></p>
+        <p style="margin-left: 1em;"><span class="fill-in">{{application.controller_form.additions_claimed}}</span></p>
 
-        <p><span class="number">8.</span> Cause of retirement: <span class="fill-in">Lorem ipsum dolor sit amet.</span>
+        <p><span class="number">8.</span> Cause of retirement: <span
+                class="fill-in">{{application.reason.reason}}</span>
         </p>
 
         <p><span class="number">9.</span> Particulars of offices held by the officer in the Ghanain Public Services </p>
@@ -255,14 +263,16 @@
 
 
         <p><span class="number">10.</span> State whether the officer is already in receipt or has received any public
-            money as pension, gratuity, compensatio, etc.: <span class="fill-in">Lorem ipsum dolor sit amet.</span></p>
+            money as pension, gratuity, compensatio, etc.: <span
+                class="fill-in">{{application.controller_form.pension_receipt_status}}</span></p>
 
         <p><span class="number">11.</span> Date of commencement of service under the Ghanain Government for which
             pension or gratuity is claimed:</p>
-        <p style="margin-left: 1.5em;"><span class="fill-in">12/12/2001</span></p>
+        <p style="margin-left: 1.5em;"><span class="fill-in">{{application.controller_form.commencement_date}}</span>
+        </p>
 
         <p><span class="number">12.</span> Date of termination of service under the Ghanain Government: <span
-                class="fill-in">12/12/2002</span></p>
+                class="fill-in">{{application.controller_form.termination_date}}</span></p>
 
         <p><span class="number">13.</span> Leave without pay between dates in paragraph 11 and 12.</p>
 
@@ -286,10 +296,12 @@
             <tbody>
                 <tr>
                     <td>
-                        <p style="padding: 0.5em; text-align: center;">11/11/2020</p>
+                        <p style="padding: 0.5em; text-align: center;">
+                            {{application.controller_form.commencement_date}}</p>
                     </td>
                     <td>
-                        <p style="padding: 0.5em; text-align: center;">11/11/202</p>
+                        <p style="padding: 0.5em; text-align: center;">
+                            {{application.controller_form.termination_date}}</p>
                     </td>
                     <td>
                         <p style="padding: 0.5em; text-align: center;">10</p>
@@ -299,20 +311,6 @@
                     </td>
                 </tr>
 
-                <tr>
-                    <td>
-                        <p style="padding: 0.5em; text-align: center;">11/11/2020</p>
-                    </td>
-                    <td>
-                        <p style="padding: 0.5em; text-align: center;">11/11/202</p>
-                    </td>
-                    <td>
-                        <p style="padding: 0.5em; text-align: center;">10</p>
-                    </td>
-                    <td>
-                        <p style="padding: 0.5em; text-align: center;">10</p>
-                    </td>
-                </tr>
                 <!-- Totals -->
                 <tr>
                     <td colspan="2" class="text text-end">
@@ -383,8 +381,8 @@
         <br>
         <p style="margin-left: 2em;">(b) Quote authority, if already obtained for condonation of any such break in
             service.</p>
-        <p style="margin-left: 3.5em;"><span class="fill-in">Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                Nesciunt, perferendis!</span></p>
+        <p style="margin-left: 3.5em;"><span
+                class="fill-in">{{application.controller_form.condonation_authority}}</span></p>
 
 
         <p style="margin-left: 2em;">(c) State dates of any public service paid for out of open vote (to be states only
@@ -441,6 +439,15 @@
 
         <pdf:nextpage />
 
+        <table style="position: fixed; right: 2em; width: 100px; border: 1px solid red;">
+            <tbody>
+                <tr>
+                    <td>Data</td>
+                    <td>223</td>
+                </tr>
+            </tbody>
+        </table>
+
         <p><span class="number">15.</span> (a) Period between dates in paragraphs 11 and 12. </p>
         <p style="margin-left: 1.5em;">(b) One-half of non-penionable service (para. 9): </p>
         <p style="margin-left: 1.5em;">(c) Leave without salary (para. 13): </p>
@@ -453,8 +460,8 @@
 
         <p><span class="number">16.</span> State whether the officer has worked under any other scheduled Government or
             Administration, and, if so, where and between what dates (if known).</p>
-        <p style="margin-left: 1.5em;"><span class="fill-in">Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Praesentium labore porro voluptas tempore blanditiis adipisci!</span></p>
+        <p style="margin-left: 1.5em;"><span
+                class="fill-in">{{application.controller_form.other_scheduled_work_detail}}</span></p>
 
         <br>
 
@@ -462,24 +469,24 @@
             than one scheduled Government or Administration completed Pension Form 5 showing the following
             aggregate pensionable emoluments drawn during his service in Ghana should be attached, and
             the total should be stated hereunder. </p>
-        <p style="margin-left: 1.5em;"><span class="fill-in">Ghana aggregate pensionable emoluments: GHC 8498.88</span>
+        <p style="margin-left: 1.5em;"><span class="fill-in">Ghana aggregate pensionable emoluments:
+                GHC{{application.controller_form.form_5_pensionable_emoluments}}</span>
         </p>
         <br>
 
         <p><span class="number">18.</span> State whether the officer has served under a non-scheduled Government or
             Administration, and, if so, where and between what dates. (if known)</p>
-        <p style="margin-left: 1.5em;"><span class="fill-in">Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Praesentium labore porro voluptas tempore blanditiis adipisci!</span></p>
+        <p style="margin-left: 1.5em;"><span
+                class="fill-in">{{application.controller_form.non_scheduled_work_detail}}</span></p>
         <br>
 
         <p><span class="number">19.</span> State the officer's option if he eligible to exercise one (See G.O 386).</p>
-        <p style="margin-left: 1.5em;"><span class="fill-in">Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Praesentium labore porro voluptas tempore adipisci!</span></p>
+        <p style="margin-left: 1.5em;"><span class="fill-in">{{application.controller_form.officers_option}}</span></p>
         <br>
 
         <p><span class="number">20.</span> Date from which, inclusively, the pesion will commence.</p>
-        <p style="margin-left: 1.5em;"><span class="fill-in">Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Praesentium labore porr!</span></p>
+        <p style="margin-left: 1.5em;"><span
+                class="fill-in">{{application.controller_form.pension_commencement_date}}</span></p>
         <br>
 
         <p><span class="number">21.</span> I HEREBY CERTIFY that the officer in respect of whom this application is

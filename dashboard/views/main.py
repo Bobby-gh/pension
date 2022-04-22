@@ -1,3 +1,5 @@
+import logging
+
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import PermissionRequiredMixin
@@ -10,14 +12,15 @@ from django.views import View
 from dashboard.forms import ApplicationForm, ApplicationRankForm
 from dashboard.models import (Application, ApplicationDocument,
                               ApplicationDocumentType, ApplicationRank,
-                              Notification, Rank, Sms)
+                              ControllerForm, NoPayLeave, Notification,
+                              PensionableEmolumentDrawnBeforeRetirement, Rank,
+                              ServiceBreak, Sms)
 from dashboard.utils.constants import (APPLICATION_PROCESSED_MESSAGE,
                                        APPLICATION_SUBMISSION_MESSAGE,
                                        APPLICATION_SUBMISSION_SUBJECT)
 from dashboard.utils.functions import send_sms
 from pension.utils.constants import ApplicationStatus
 from setup.models import RetirementReason
-import logging
 
 logger = logging.getLogger("django")
 
@@ -37,7 +40,8 @@ class NotificationsView(View):
     def get(self, request):
         context = {
             "sms_list":
-            Sms.objects.filter(initiated_by=request.user).order_by('-created_at')
+            Sms.objects.filter(
+                initiated_by=request.user).order_by('-created_at')
         }
         return render(request, self.template_name, context)
 
@@ -360,7 +364,7 @@ class RequestApplicationChangesView(PermissionRequiredMixin, View):
 
         Sms.objects.create(
             number=application.contact,
-            inititated_by=request.user,
+            initiated_by=request.user,
             subject="Application Changes Requested",
             message=
             f"Hello {application.created_by.get_name()},\nAction is required for application with ID: {application.id}. Kindly visit the dashboard for more info."
@@ -370,21 +374,82 @@ class RequestApplicationChangesView(PermissionRequiredMixin, View):
         return redirect(request.META.get("HTTP_REFERER") or "dashboard:index")
 
 
-class FormOneCompletinView(View):
-    template_name = 'dashboard/form_one_completion.html'
+class ControllerFormView(View):
+    template_name = 'dashboard/controller_form.html'
 
     @method_decorator(login_required(login_url="accounts:login"))
     def get(self, request, application_id):
         application = get_object_or_404(Application, id=application_id)
+        reasons = RetirementReason.objects.all()
+        pensionable_emolument_objects = PensionableEmolumentDrawnBeforeRetirement.objects.filter(
+            controller_form=application.controller_form)
+        aggregate_pensionable_emolument = sum(
+            [p.emolument for p in pensionable_emolument_objects])
+
+        # No pay leaves
+        no_pay_leaves = NoPayLeave.objects.all().order_by("from_date")
+        no_pay_leave_total_days = sum(
+            [item.get_days() for item in no_pay_leaves])
+        no_pay_leave_total_months = sum([
+            item.get_months() for item in no_pay_leaves
+        ]) + no_pay_leave_total_days // 30  # Add days to months
+        no_pay_leave_total_days %= 30  # Remove months from days
+
+        # Service breaks
+        service_breaks = ServiceBreak.objects.all().order_by("from_date")
+        service_break_total_days = sum(
+            [item.get_days() for item in service_breaks])
+        service_break_total_months = sum([
+            item.get_months() for item in service_breaks
+        ]) + service_break_total_days // 30  # Add days to months
+        service_break_total_days %= 30  # Remove months from days
+
         context = {
-            "application": application,
+            "application":
+            application,
+            "reasons":
+            reasons,
+            "no_pay_leaves":
+            no_pay_leaves,
+            "no_pay_leave_total_months":
+            no_pay_leave_total_months,
+            "no_pay_leave_total_days":
+            no_pay_leave_total_days,
+            "aggregate_pensionable_emolument":
+            aggregate_pensionable_emolument,
+            "one_third_of_aggregate_pensionable_emolument":
+            round(aggregate_pensionable_emolument / 3, 2),
+            "pensionable_emolument_objects":
+            pensionable_emolument_objects,
+            "service_breaks":
+            service_breaks,
+            "service_break_total_months":
+            service_break_total_months,
+            "service_break_total_days":
+            service_break_total_days,
         }
         return render(request, self.template_name, context)
 
+    @method_decorator(login_required(login_url="accounts:login"))
+    def post(self, request, application_id, *args, **kwargs):
+        application = get_object_or_404(Application, id=application_id)
+        # If not controller form, create one.
+        if not hasattr(application, "controller_form"):
+            controller_form = ControllerForm.objects.create(
+                application=application)
+        else:
+            controller_form = application.controller_form
+        for key, value in request.POST.items():
+            if key in ["csrfmiddlewaretoken", "submit"]: continue
+            # Update the controller form.
+            if value and hasattr(controller_form, key):
+                setattr(controller_form, key, value)
+        controller_form.save()
+        messages.info(request, "Form updated successfully")
+        return redirect(request.META.get("HTTP_REFERER"))
+
 
 class ResendSMSView(View):
-    template_name = 'dashboard/form_one_completion.html'
-
     @method_decorator(login_required(login_url="accounts:login"))
     def get(self, request):
         return redirect("dashboard:index")

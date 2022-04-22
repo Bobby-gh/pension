@@ -5,6 +5,108 @@ from pension.utils.constants import REGIONS, ApplicationStatus
 from setup.models import ApplicationDocumentType, Rank, RetirementReason
 
 
+class ControllerForm(models.Model):
+    application = models.OneToOneField("Application",
+                                       related_name="controller_form",
+                                       on_delete=models.CASCADE)
+    expatriate = models.CharField(default="",
+                                  max_length=100,
+                                  null=True,
+                                  blank=True)
+    office = models.CharField(default="",
+                              max_length=100,
+                              null=True,
+                              blank=True)
+    dob = models.DateField(null=True, blank=True)
+    pensionable_emolument = models.CharField(default="",
+                                             max_length=100,
+                                             null=True,
+                                             blank=True)
+    salary = models.DecimalField(max_digits=10,
+                                 decimal_places=2,
+                                 null=True,
+                                 blank=True)
+    expatriation_pay = models.DecimalField(max_digits=10,
+                                           decimal_places=2,
+                                           null=True,
+                                           blank=True)
+    other_pensionable_emolument = models.DecimalField(max_digits=10,
+                                                      decimal_places=2,
+                                                      null=True,
+                                                      blank=True)
+    total_emolument = models.DecimalField(max_digits=10,
+                                          decimal_places=2,
+                                          null=True,
+                                          blank=True)
+    additions_claimed = models.TextField(null=True, blank=True)
+    retirement_cause = models.ForeignKey(RetirementReason,
+                                         null=True,
+                                         blank=True,
+                                         on_delete=models.SET_NULL)
+    pension_receipt_status = models.CharField(default="",
+                                              max_length=100,
+                                              null=True,
+                                              blank=True)
+    commencement_date = models.DateField(null=True, blank=True)
+    termination_date = models.DateField(null=True, blank=True)
+    leave_withou_pay_from = models.DateField(null=True, blank=True)
+    leave_withou_pay_to = models.DateField(null=True, blank=True)
+    condonation_authority = models.CharField(default="",
+                                             max_length=100,
+                                             null=True,
+                                             blank=True)
+    other_scheduled_work_detail = models.TextField(null=True, blank=True)
+    form_5_pensionable_emoluments = models.DecimalField(max_digits=10,
+                                                        decimal_places=2,
+                                                        null=True,
+                                                        blank=True)
+    non_scheduled_work_detail = models.TextField(null=True, blank=True)
+    officers_option = models.TextField(null=True, blank=True)
+    pension_commencement_date = models.DateField(null=True, blank=True)
+
+
+class PensionableEmolumentDrawnBeforeRetirement(models.Model):
+    label = models.CharField(max_length=100, default="")
+    from_date = models.DateField(null=True, blank=True)
+    to_date = models.DateField(null=True, blank=True)
+    controller_form = models.ForeignKey(
+        ControllerForm,
+        on_delete=models.CASCADE,
+        related_name="total_pensionable_emoluments_drawn_before_retirement")
+    emolument = models.DecimalField(max_digits=10,
+                                    decimal_places=2,
+                                    null=True,
+                                    blank=True)
+
+
+class NoPayLeave(models.Model):
+    from_date = models.DateField(null=True, blank=True)
+    to_date = models.DateField(null=True, blank=True)
+    controller_form = models.ForeignKey(ControllerForm,
+                                        on_delete=models.CASCADE,
+                                        related_name="no_pay_leaves")
+
+    def get_months(self):
+        return (self.to_date - self.from_date).days // 30
+
+    def get_days(self):
+        return (self.to_date - self.from_date).days % 30
+
+
+class ServiceBreak(models.Model):
+    from_date = models.DateField(null=True, blank=True)
+    to_date = models.DateField(null=True, blank=True)
+    controller_form = models.ForeignKey(ControllerForm,
+                                        on_delete=models.CASCADE,
+                                        related_name="service_breaks")
+
+    def get_months(self):
+        return (self.to_date - self.from_date).days // 30
+
+    def get_days(self):
+        return (self.to_date - self.from_date).days % 30
+
+
 class Application(models.Model):
     APPLICATION_STATUSES = (
         (ApplicationStatus.DRAFT.value, ApplicationStatus.DRAFT.value),
@@ -138,9 +240,9 @@ class Sms(models.Model):
     subject = models.CharField(max_length=200, null=True, blank=True)
     message = models.TextField()
     initiated_by = models.ForeignKey(User,
-                                      related_name="initiated_sms",
-                                      null=True,
-                                      on_delete=models.SET_NULL)
+                                     related_name="initiated_sms",
+                                     null=True,
+                                     on_delete=models.SET_NULL)
     number = models.CharField(max_length=10)
     response = models.TextField()
     status_message = models.TextField(null=True, blank=True)

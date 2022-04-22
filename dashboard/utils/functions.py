@@ -1,8 +1,12 @@
+import logging
+
 import requests
+from django.conf import settings
 
 from dashboard.models import Sms
-from django.conf import settings
 from setup.models import SysConfig
+
+logger = logging.getLogger("django")
 
 
 def send_sms(sms_id):
@@ -13,7 +17,11 @@ def send_sms(sms_id):
     message = sms.message
     sender_id = config.sms_sender_id
     url = f"https://sms.arkesel.com/sms/api?action=send-sms&api_key={settings.ARKESEL_API}&to={number}&from={sender_id}&sms={message}"
-    response = requests.get(url)
+    try:
+        response = requests.get(url)
+    except Exception as e:
+        logger.error(str(e))
+        return None
     sms.response = response.text
     if response.json().get("code") == 'ok':
         sms.success = True

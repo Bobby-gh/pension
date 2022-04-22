@@ -52,11 +52,11 @@ class GenerateControllerFormView(PermissionRequiredMixin, View):
 
     @method_decorator(login_required(login_url="accounts:login"))
     def get(self, request, application_id):
-        # application = get_object_or_404(Application, id=application_id)
+        application = get_object_or_404(Application, id=application_id)
         current_time = datetime.now().strftime("%d %B, %Y")
         context = {
-            # "application":
-            # application,
+            "application":
+            application,
             "current_time":
             current_time,
             "ghana_police_logo_url":
