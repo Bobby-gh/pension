@@ -10,7 +10,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     photo = models.ImageField(upload_to="accounts", null=True, blank=True)
     surname = models.CharField(max_length=200, null=True, blank=True)
     other_names = models.CharField(max_length=200, null=True, blank=True)
-    phone = models.CharField(max_length=20, null=True, blank=True)
+    phone = models.CharField(max_length=10, null=True, blank=True)
     email = models.EmailField()
     last_login = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)

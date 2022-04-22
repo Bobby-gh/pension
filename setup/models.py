@@ -49,5 +49,14 @@ class RetirementReason(models.Model):
     description = models.TextField(null=True, blank=True)
 
     def __str__(self) -> str:
-        return self.name
+        return self.reason
 
+
+class SysConfig(models.Model):
+    sms_sender_id = models.CharField(max_length=100,
+                                     unique=True,
+                                     default="GHPOLPEN")
+    send_sms = models.BooleanField(default=True)
+
+    def __str__(self) -> str:
+        return self.name

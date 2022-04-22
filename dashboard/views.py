@@ -10,8 +10,16 @@ from django.views import View
 from dashboard.forms import ApplicationForm, ApplicationRankForm
 from dashboard.models import (Application, ApplicationDocument,
                               ApplicationDocumentType, ApplicationRank,
-                              Notification, Rank)
+                              Notification, Rank, Sms)
+from dashboard.utils.constants import (APPLICATION_PROCESSED_MESSAGE,
+                                       APPLICATION_SUBMISSION_MESSAGE,
+                                       APPLICATION_SUBMISSION_SUBJECT)
+from dashboard.utils.functions import send_sms
 from pension.utils.constants import ApplicationStatus
+from setup.models import RetirementReason
+import logging
+
+logger = logging.getLogger("django")
 
 
 class IndexView(View):
@@ -50,6 +58,7 @@ class NewApplicationFormOneView(PermissionRequiredMixin, View):
         context = {
             "application": application,
             "ranks": Rank.objects.all(),
+            "reasons": RetirementReason.objects.all(),
         }
         return render(request, self.template_name, context)
 
@@ -57,6 +66,7 @@ class NewApplicationFormOneView(PermissionRequiredMixin, View):
     def post(self, request):
         application_id = request.GET.get("application_id")
         application = Application.objects.filter(id=application_id).first()
+
         if application and not application.can_edit():
             messages.warning(request, "Editing this application is forbidden.")
             return redirect(request.META.get("HTTP_REFERER"))
@@ -275,6 +285,11 @@ class ApplicationSubmissionView(PermissionRequiredMixin, View):
         application.save()
         messages.success(request,
                          "Application submitted sucessfully for review.")
+        # Send sms
+        Sms.objects.create(number=application.contact,
+                           inititated_by=request.user,
+                           subject=APPLICATION_SUBMISSION_SUBJECT,
+                           message=APPLICATION_SUBMISSION_MESSAGE)
         return redirect("dashboard:index")
 
 
@@ -297,6 +312,11 @@ class ApplicationProcessedView(PermissionRequiredMixin, View):
         application = get_object_or_404(Application, id=application_id)
         application.status = ApplicationStatus.PROCESSED.value
         application.save()
+        # Send sms
+        Sms.objects.create(number=application.contact,
+                           inititated_by=request.user,
+                           subject=APPLICATION_SUBMISSION_SUBJECT,
+                           message=APPLICATION_PROCESSED_MESSAGE)
         messages.success(request, "Successfully processed application.")
         return redirect("dashboard:submitted_applications")
 
@@ -333,7 +353,16 @@ class RequestApplicationChangesView(PermissionRequiredMixin, View):
             subject=f"Appication ID: {application.id}",
             message=f"Change Required.\n{requested_changes}",
             from_user=request.user)
+
+        Sms.objects.create(
+            number=application.contact,
+            inititated_by=request.user,
+            subject="Application Changes Requested",
+            message=
+            f"Hello {application.created_by.get_name()},\nAction is required for application with ID: {application.id}. Kindly visit the dashboard for more info."
+        )
         messages.success(request, "Request sent.")
+
         return redirect(request.META.get("HTTP_REFERER") or "dashboard:index")
 
 
@@ -347,3 +376,24 @@ class FormOneCompletinView(View):
             "application": application,
         }
         return render(request, self.template_name, context)
+
+
+class ResendSMSView(View):
+    template_name = 'dashboard/form_one_completion.html'
+
+    @method_decorator(login_required(login_url="accounts:login"))
+    def get(self, request):
+        return redirect("dashboard:index")
+
+    @method_decorator(login_required(login_url="accounts:login"))
+    def post(self, request):
+        sms_id = request.POST.get("sms_id")
+        sms = request.user.initiated_sms.filter(id=sms_id).first()
+        if not sms:
+            messages.error(request, "SMS not found.")
+            return redirect(request.META.get("HTTP_REFERER"))
+        res = send_sms(sms.id)
+        logger.info(res.response)
+        messages.success(request, "SMS resent.")
+        return redirect(request.META.get("HTTP_REFERER"))
+        

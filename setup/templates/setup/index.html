@@ -80,7 +80,8 @@
 <!-- End of User Modal -->
 
 <!-- Rank Modal -->
-<div class="modal fade" id="retirementReasonModal" tabindex="-1" aria-labelledby="retirementReasonModalLabel" aria-hidden="true">
+<div class="modal fade" id="retirementReasonModal" tabindex="-1" aria-labelledby="retirementReasonModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog modal-l">
         <div class="modal-content px-4">
             <div class="modal-header">
@@ -159,8 +160,8 @@
             <div class="d-flex justify-content-between">
                 <h6>RETIREMENT REASONS</h6>
                 {% if perms.setup.add_retirementreason %}
-                <button class="p-0 btn bnt-sm btn-primary" data-bs-toggle="modal" data-bs-target="#retirementReasonModal"><i
-                        class="bi bi-plus"></i></button>
+                <button class="p-0 btn bnt-sm btn-primary" data-bs-toggle="modal"
+                    data-bs-target="#retirementReasonModal"><i class="bi bi-plus"></i></button>
                 {% endif %}
             </div>
             <table class="table table-sm">
@@ -356,6 +357,34 @@
                     {% endfor %}
                 </tbody>
             </table>
+        </div>
+    </section>
+
+    <section class="col-md-6">
+        <div class="card-shadow">
+            <div class="d-flex justify-content-between">
+                <h6>CONFIGURATION</h6>
+            </div>
+            <form class="form d-flex justify-content-between" action="{% url 'setup:update_sysconfig' %}" method="post">
+                {% csrf_token %}
+                <div class="col-md-6 form-group">
+                    <label for="name">SMS Sender ID</label>
+                    <input class="form-control" value="{{config.sms_sender_id}}" type="text" name="sms_sender_id"
+                        id="sms_sender_id" required>
+                    <div class="invalid-feedback">
+                        Please this field is required.
+                    </div>
+                </div>
+                <div class="col-md-3 mx-2 d-flex mt-4 form-group">
+                    <label for="send_sms">Send SMS</label>
+                    <input class="mt-1 mx-1 checkbox" type="checkbox" name="send_sms" id="send_sms"
+                        {% if config.send_sms %}checked{% endif %}>
+                </div>
+                <div class="col-md-3 form-group">
+                    <br>
+                    <button type="submit" class="btn btn-primary"><i class="bi bi-save"></i> Save</button>
+                </div>
+            </form>
         </div>
     </section>
 </div>

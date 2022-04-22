@@ -30,10 +30,10 @@
 
     <div class="form-group mt-3">
         <label for="phone">Phone<span class="text text-danger">*</span></label>
-        <input class="form-control" placeholder="Mensah" value="{{user.phone}}" type="text" name="phone" id="phone"
-            required>
+        <input class="form-control" minlength="10" maxlength="10" placeholder="0240000000" value="{{user.phone}}"
+            type="text" name="phone" id="phone" required>
         <div class="invalid-feedback">
-            Please this field is required.
+            Please enter a valid 10 digit phone number.
         </div>
     </div>
 

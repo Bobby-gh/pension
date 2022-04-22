@@ -2,7 +2,7 @@ from django.db import models
 
 from accounts.models import User
 from pension.utils.constants import REGIONS, ApplicationStatus
-from setup.models import ApplicationDocumentType, Rank
+from setup.models import ApplicationDocumentType, Rank, RetirementReason
 
 
 class Application(models.Model):
@@ -25,12 +25,15 @@ class Application(models.Model):
     rank = models.CharField(max_length=50)
     requested_changes = models.TextField(null=True, blank=True)
     retiring_date = models.DateField()
-    reason = models.TextField()
+    reason = models.ForeignKey(RetirementReason,
+                               on_delete=models.SET_NULL,
+                               null=True,
+                               blank=True)
     bank_name = models.CharField(max_length=200)
     bank_account = models.CharField(max_length=50)
     last_station = models.CharField(max_length=100)
     region = models.CharField(max_length=50, choices=REGIONS)
-    contact = models.CharField(max_length=20)
+    contact = models.CharField(max_length=10)
     contact_address = models.TextField()
     status = models.CharField(max_length=50,
                               default=ApplicationStatus.DRAFT.value,
@@ -125,6 +128,33 @@ class Notification(models.Model):
 
     def save(self, *args, **kwargs):
         self.slug = "_".join(self.subject.lower().split())
+        return super().save(*args, **kwargs)
+
+    def __str__(self) -> str:
+        return self.message
+
+
+class Sms(models.Model):
+    subject = models.CharField(max_length=200, null=True, blank=True)
+    message = models.TextField()
+    inititated_by = models.ForeignKey(User,
+                                      related_name="initiated_sms",
+                                      null=True,
+                                      on_delete=models.SET_NULL)
+    number = models.CharField(max_length=10)
+    response = models.TextField()
+    status_message = models.TextField(null=True, blank=True)
+    success = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "SMS"
+        verbose_name_plural = "SMS's"
+
+    def save(self, *args, **kwargs):
+        if not self.subject:
+            self.subject = self.message[:50]
         return super().save(*args, **kwargs)
 
     def __str__(self) -> str:

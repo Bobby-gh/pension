@@ -27,4 +27,7 @@ urlpatterns = [
     path("retirement-reason/delete",
          views.DeleteRetirementReason.as_view(),
          name="delete_retirement_reason"),
+    path("update-sysconfig",
+         views.UpdateSysConfigView.as_view(),
+         name="update_sysconfig"),
 ]

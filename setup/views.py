@@ -11,7 +11,8 @@ from django.views import View
 from accounts.models import User
 from setup.forms import (ApplicationDocumentTypeForm, GroupForm, RankForm,
                          RetirementReasonForm, UserEditForm, UserForm)
-from setup.models import ApplicationDocumentType, Rank, RetirementReason
+from setup.models import (ApplicationDocumentType, Rank, RetirementReason,
+                          SysConfig)
 from setup.mxins import CreateUpdateMixin, DeletionMixin
 
 
@@ -26,11 +27,13 @@ class IndexView(PermissionRequiredMixin, View):
         roles = Group.objects.all()
         users = User.objects.filter(is_superuser=False)
         reasons = RetirementReason.objects.all()
+        config = SysConfig.objects.first()
 
         context = {
             "document_types": document_types,
             "ranks": ranks,
             "roles": roles,
+            "config": config,
             "users": users,
             "reasons": reasons,
             "user": None,
@@ -225,3 +228,26 @@ class DeleteRetirementReason(PermissionRequiredMixin, DeletionMixin):
         "setup.can_setup_system",
         "setup.delete_retirement_reason",
     )
+
+
+class UpdateSysConfigView(PermissionRequiredMixin, View):
+    permission_required = ("setup.can_setup_system", )
+
+    def get(self, request, *args, **kwargs):
+        return redirect("setup:index")
+
+    @method_decorator(login_required(login_url="accounts:login"))
+    def post(self, request, *args, **kwargs):
+        config = SysConfig.objects.first()
+        if "sms_sender_id" in request.POST and not "send_sms" in request.POST:
+            config.send_sms = False
+            config.save()
+        for key, value in request.POST.items():
+            if key in ["csrfmiddlewaretoken", "submit"]: continue
+            if key == "send_sms":
+                value = True if value == "on" else False
+            if value and hasattr(config, key):
+                setattr(config, key, value)
+        config.save()
+        messages.success(request, "System configuration updated successfully")
+        return redirect("setup:index")

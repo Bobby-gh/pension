@@ -84,14 +84,17 @@
                     <div class="col-12 row">
                         <div class="col-12 mb-3">
                             <label for="reason">Reason of Retirement <span class="text text-danger">*</span></label>
-                            <textarea class="form-control" name="reason" id="reason" placeholder="Reason of Retirement"
-                                required>{{application.reason}}</textarea>
+                            <select name="reason" id="reason" class="form-control" required>
+                                <option value="">---Click to select reason---</option>
+                                {% for reason in reasons %}
+                                <option value="{{reason.id}}" {% if reason.id == application.reason.id %}selected{% endif %}>{{reason.reason}}</option>
+                                {% endfor %}
+                            </select>
                             <div class="invalid-feedback">
                                 Please enter reason here.
                             </div>
                         </div>
                     </div>
-
 
                     <div class="col-12 row">
                         <div class="col-md-6 mb-3">
@@ -158,9 +161,9 @@
                         <div class="col-md-6 mb-3">
                             <label for="contact">Contact Phone No. <span class="text text-danger">*</span></label>
                             <input type="text" class="form-control" name="contact" value="{{application.contact}}"
-                                id="contact" placeholder="Contact Phone No." required>
+                                minlength="10" maxlength="10" id="contact" placeholder="Contact Phone No." required>
                             <div class="invalid-feedback">
-                                Please this field is required.
+                                Please enter a valid 10 digit phone number.
                             </div>
                         </div>
                     </div>

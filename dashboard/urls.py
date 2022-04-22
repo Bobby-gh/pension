@@ -51,6 +51,7 @@ urlpatterns = [
     path("<int:application_id>/complete-form-one",
          views.FormOneCompletinView.as_view(),
          name="complete_form_one"),
+    path("resend-sms", views.ResendSMSView.as_view(), name="resend_sms"),
 ]
 
 urlpatterns += [

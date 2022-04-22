@@ -11,7 +11,7 @@
 
 <div class="col-md-10 mx-auto col-11">
     <div class="col-md-10 col-12 mx-auto">
-        <h4 class="mt-2">Notifications</h4>
+        <h5 class="mt-2">NOTIFICATIONS</h5>
         <div class="card-shadow">
             <div class="col-12 row">
                 <div class="col-12 mb-3" style="overflow-x: auto;">
@@ -47,11 +47,65 @@
     </div>
 </div>
 
+
+<div class="col-md-10 mx-auto mt-4 col-11">
+    <div class="col-md-10 col-12 mx-auto">
+        <h5 class="mt-2">INITIATED SMS</h5>
+        <div class="card-shadow">
+            <div class="col-12 row">
+                <div class="col-12 mb-3" style="overflow-x: auto;">
+                    <table id="sms-table" class="table">
+                        <thead>
+                            <tr>
+                                <th>S/N</th>
+                                <th>Number</th>
+                                <th>Message</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for sms in request.user.initiated_sms.all %}
+                            <tr>
+                                <td>{{forloop.counter}}</td>
+                                <td>{{sms.number}}</td>
+                                <td style="max-width: 40%;">
+                                    {{sms.message}}
+                                </td>
+                                <td>{{sms.updated_at}}</td>
+                                <td>
+                                    {% if sms.success %}
+                                    <span class="badge bg-success">Success</span>
+                                    {% else %}
+                                    <span class="badge bg-danger">dfadf{{sms.status_message}}</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <form action="{% url 'dashboard:resend_sms' %}" method="post">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="sms_id" value="{{sms.id}}">
+                                        <button class="btn btn-primary btn-sm d-flex" type="submit"><i class="bi bi-send"></i>
+                                            Resend</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 {%endblock%}
 {% block morescripts %}
 <script>
     $(document).ready(function () {
         $('#notification-table').DataTable();
+        $('#sms-table').DataTable();
     });
 </script>
 {%endblock%}

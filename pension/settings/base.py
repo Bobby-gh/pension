@@ -139,3 +139,5 @@ MESSAGE_TAGS = {
     messages.ERROR: 'danger',
     50: 'critical',
 }
+
+ARKESEL_API = os.environ.get("ARKESEL_API")
