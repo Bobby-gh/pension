@@ -46,6 +46,7 @@
                                         <a href="{% url 'dashboard:application_form_one' %}?application_id={{application.id}}"
                                             class="btn btn-sm btn-warning text text-light"><i
                                                 class="bi bi-pencil"></i></a>
+                                        {% if perms.dashboard.delete_application %}
                                         <form action="{% url 'dashboard:delete_application' %}" method="post"
                                             class="requires-confirmation"
                                             data-message="This action is irrervesible. Click OK to permanently delete this application.">
@@ -54,6 +55,7 @@
                                             <button type="submit" class="btn btn-sm btn-danger"><i
                                                     class="bi bi-trash"></i></button>
                                         </form>
+                                        {% endif %}
                                         {% endif %}
                                     </div>
                                 </td>
