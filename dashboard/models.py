@@ -137,7 +137,7 @@ class Notification(models.Model):
 class Sms(models.Model):
     subject = models.CharField(max_length=200, null=True, blank=True)
     message = models.TextField()
-    inititated_by = models.ForeignKey(User,
+    initiated_by = models.ForeignKey(User,
                                       related_name="initiated_sms",
                                       null=True,
                                       on_delete=models.SET_NULL)

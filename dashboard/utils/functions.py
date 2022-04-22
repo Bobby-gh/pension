@@ -6,11 +6,12 @@ from setup.models import SysConfig
 
 
 def send_sms(sms_id):
+    config = SysConfig.objects.first()
     sms = Sms.objects.filter(id=sms_id).first()
-    if not sms: return
+    if not sms or not config.send_sms: return
     number = sms.number
     message = sms.message
-    sender_id = SysConfig.objects.first().sms_sender_id
+    sender_id = config.sms_sender_id
     url = f"https://sms.arkesel.com/sms/api?action=send-sms&api_key={settings.ARKESEL_API}&to={number}&from={sender_id}&sms={message}"
     response = requests.get(url)
     sms.response = response.text

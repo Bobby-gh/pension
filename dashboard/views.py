@@ -35,7 +35,11 @@ class NotificationsView(View):
 
     @method_decorator(login_required(login_url="accounts:login"))
     def get(self, request):
-        return render(request, self.template_name)
+        context = {
+            "sms_list":
+            Sms.objects.filter(initiated_by=request.user).order_by('-created_at')
+        }
+        return render(request, self.template_name, context)
 
 
 class NewApplicationFormOneView(PermissionRequiredMixin, View):
@@ -396,4 +400,3 @@ class ResendSMSView(View):
         logger.info(res.response)
         messages.success(request, "SMS resent.")
         return redirect(request.META.get("HTTP_REFERER"))
-        
