@@ -369,10 +369,10 @@
                 {% csrf_token %}
                 <div class="col-md-6 form-group">
                     <label for="name">SMS Sender ID</label>
-                    <input class="form-control" value="{{config.sms_sender_id}}" type="text" name="sms_sender_id"
+                    <input class="form-control" maxlength="11" minlength="5" value="{{config.sms_sender_id}}" type="text" name="sms_sender_id"
                         id="sms_sender_id" required>
                     <div class="invalid-feedback">
-                        Please this field is required.
+                        Please enter at least 5 characters and maximum 11 characters.
                     </div>
                 </div>
                 <div class="col-md-3 mx-2 d-flex mt-4 form-group">

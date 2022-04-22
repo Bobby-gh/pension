@@ -53,7 +53,7 @@ class RetirementReason(models.Model):
 
 
 class SysConfig(models.Model):
-    sms_sender_id = models.CharField(max_length=100,
+    sms_sender_id = models.CharField(max_length=11,
                                      unique=True,
                                      default="GHPOLPEN")
     send_sms = models.BooleanField(default=True)
