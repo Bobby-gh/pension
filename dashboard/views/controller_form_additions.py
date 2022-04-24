@@ -1,11 +1,12 @@
 import logging
-from django.contrib import messages
 
-from django.shortcuts import get_object_or_404, redirect
-from django.views import View
+from django.contrib import messages
 from django.contrib.auth.mixins import PermissionRequiredMixin
-from dashboard.forms import OfficeParticularsForm, PaidOpenVoteServiceForm
+from django.shortcuts import get_object_or_404, redirect
 from django.utils.html import strip_tags
+from django.views import View
+
+from dashboard.forms import OfficeParticularsForm, PaidOpenVoteServiceForm
 from dashboard.models import (Application, NoPayLeave, OfficeParticulars,
                               PaidOpenVoteService,
                               PensionableEmolumentDrawnBeforeRetirement,

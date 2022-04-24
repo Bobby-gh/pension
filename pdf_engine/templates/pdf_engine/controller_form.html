@@ -50,9 +50,8 @@
     <div class="report-page">
         <p style="font-weight: bolder; font-size: 2em; text-decoration: underline; text-align: center;">PENSIONS FORM
         </p>
-        <p style="text-align: center;">(PENSIONS FROM NO. 1)</p>
+        <p style="text-align: center;">(PENSIONS FORM NO. 1)</p>
         <p style="text-align: center;">(See G. Oo. 384-387)</p>
-
 
         <p style="font-weight: bolder; font-style: italic;;">To be submitted in duplicate to the Controller and
             Account-General when application is made for the grant of
@@ -60,23 +59,92 @@
             Pensions Form No. 2 in applicable).</p>
         <hr>
 
-        <p><span class="number">1.</span> Name of officer: <span class="fill-in">{{application.get_name}}</span></p>
+        <table style="margin-bottom: 1em;">
+            <tr>
+                <th width="20px" style="vertical-align:top;">
+                    <p style="padding: 0.3em 0 0 0; margin: 0; line-height: 1em;">1.</p>
+                </th>
+                <td width="110px">
+                    <p style="padding: 0.3em 0 0 0; margin: 0; line-height: 1em;">Name of officer</p>
+                </td>
+                <td>
+                    <p
+                        style="font-weight: bolder; border-bottom-width: 1px; border-bottom-color: black; border-bottom-style:dashed; padding: 0.3em 0 0 0; margin: 0; line-height: 1em;">
+                        {{application.get_name}}</p>
+                </td>
+            </tr>
+        </table>
 
-        <p><span class="number">2.</span> Is he/she an "expatriate officer" as defined by the Pension Ordinance? <span
-                class="fill-in">{{application.controller_form.expatriate}}</span></p>
+        <table style="margin-bottom: 1em;">
+            <tr>
+                <th width="20px" style="vertical-align:top;">
+                    <p style="padding: 0.3em 0 0 0; margin: 0; line-height: 1em;">2.</p>
+                </th>
+                <td width="220px">
+                    <p style="padding: 0.3em 0 0 0; margin: 0; line-height: 1em;">Is he/she an "expatriate officer" as
+                        defined by the Pension Ordinance?</p>
+                </td>
+                <td style="vertical-align: text-top;">
+                    <p
+                        style="font-weight: bolder; padding: 0.3em 0 0 0; line-height: 1em; margin-left: 1em; border-bottom-width: 1px; border-bottom-color: black; border-bottom-style:dashed;">
+                        {{application.controller_form.expatriate}}</p>
+                </td>
+            </tr>
+        </table>
 
-        <p><span class="number">3.</span> Office: <span class="fill-in">{{application.controller_form.office}}</span>
-        </p>
 
-        <p><span class="number">4.</span> Date of birth: <span
-                class="fill-in">{{application.controller_form.dob}}</span></p>
+        <table style="margin-bottom: 1em;">
+            <tr>
+                <th width="20px" style="vertical-align:top;">
+                    <p style="padding: 0.3em 0 0 0; margin: 0; line-height: 1em;">3.</p>
+                </th>
+                <td width="30px">
+                    <p style="padding: 0.3em 0 0 0; margin: 0; line-height: 1em;">Office</p>
+                </td>
+                <td style="vertical-align: text-top;">
+                    <p
+                        style="font-weight: bolder; padding: 0.3em 0 0 0; line-height: 1em; margin-left: 1em; border-bottom-width: 1px; border-bottom-color: black; border-bottom-style:dashed;">
+                        {{application.controller_form.office}}</p>
+                </td>
+            </tr>
+        </table>
 
-        <p><span class="number">5.</span> State whether actual pensionable emoluments or average of three years is to be
-            taken:-</p>
-        <p style="margin-left: 1em;"><span class="fill-in">{{application.controller_form.pensionable_emolument}}</span>
-        </p>
 
-        <p>6.</p>
+        <table style="margin-bottom: 1em;">
+            <tr>
+                <th width="20px" style="vertical-align:top;">
+                    <p style="padding: 0.3em 0 0 0; margin: 0; line-height: 1em;">4.</p>
+                </th>
+                <td width="80px">
+                    <p style="padding: 0.3em 0 0 0; margin: 0; line-height: 1em;">Date of birth</p>
+                </td>
+                <td style="vertical-align: text-top;">
+                    <p
+                        style="font-weight: bolder; padding: 0.3em 0 0 0; line-height: 1em; margin-left: 1em; border-bottom-width: 1px; border-bottom-color: black; border-bottom-style:dashed;">
+                        {{application.controller_form.dob}}</p>
+                </td>
+            </tr>
+        </table>
+
+        <table style="margin-bottom: 1em;">
+            <tr>
+                <th width="20px" style="vertical-align:top;">
+                    <p style="padding: 0.3em 0 0 0; margin: 0; line-height: 1em;">5.</p>
+                </th>
+                <td width="330px">
+                    <p style="padding: 0.3em 0 0 0; margin: 0; line-height: 1em;">State whether actual pensionable
+                        emoluments or average of three years is to be
+                        taken:-</p>
+                </td>
+                <td style="vertical-align: text-top;">
+                    <p
+                        style="font-weight: bolder; padding: 0.3em 0 0 0; line-height: 1em; margin-left: 1em; border-bottom-width: 1px; border-bottom-color: black; border-bottom-style:dashed;">
+                        {{application.controller_form.pensionable_emolument}}</p>
+                </td>
+            </tr>
+        </table>
+
+        <p style="font-weight: bolder;">6.</p>
         <table style="margin-left: 1em;">
             <tbody>
                 <tr>
@@ -125,9 +193,9 @@
             service
             in the office then held by him, state total pensionable emoluments drawn by him in each
             of the three years immediately preceeding his/her retirement.</p>
-        <table style="border: 1px solid black;">
+        <table>
             <thead>
-                <tr>
+                <tr style="border: 1px solid black;">
                     <th>
                         <p style="text-align: center; padding: 0.5em;">From</p>
                     </th>
@@ -140,65 +208,94 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
+                {% if application.controller_form.total_pensionable_emoluments_drawn_before_retirements.all %}
+                {% for pensionable_emolument_object in application.controller_form.total_pensionable_emoluments_drawn_before_retirements.all %}
+                <tr style="border: 1px solid black;">
                     <td>
-                        <p style="text-align: center; padding: 0.5em;">11/11/1999</p>
+                        <p style="text-align: center; padding: 0.5em;">
+                            {{pensionable_emolument_object.from_date|date:'Y-m-d'}}</p>
                     </td>
                     <td>
-                        <p style="text-align: center; padding: 0.5em;">11/11/2000</p>
+                        <p style="text-align: center; padding: 0.5em;">
+                            {{pensionable_emolument_object.to_date|date:'Y-m-d'}}</p>
                     </td>
                     <td>
-                        <p style="text-align: center; padding: 0.5em;">5958.33</p>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>
-                        <p style="text-align: center; padding: 0.5em;">11/11/1999</p>
-                    </td>
-                    <td>
-                        <p style="text-align: center; padding: 0.5em;">11/11/2000</p>
-                    </td>
-                    <td>
-                        <p style="text-align: center; padding: 0.5em;">5958.33</p>
+                        <p style="text-align: center; padding: 0.5em;">{{pensionable_emolument_object.emolument}}</p>
                     </td>
                 </tr>
-
-                <tr>
-                    <td>
-                        <p style="text-align: center; padding: 0.5em;">11/11/1999</p>
-                    </td>
-                    <td>
-                        <p style="text-align: center; padding: 0.5em;">11/11/2000</p>
-                    </td>
-                    <td>
-                        <p style="text-align: center; padding: 0.5em;">5958.33</p>
-                    </td>
-                </tr>
+                {% endfor %}
 
                 <tr>
                     <td colspan="2">
                         <p style="text-align: right; font-weight: bolder; padding: 0.5em;">Aggregate pensionable
                             emoluments:</p>
                     </td>
-                    <td>
-                        <p style="text-align: center; padding: 0.5em;">5958.33</p>
+                    <td style="border: 1px solid black;">
+                        <p style="text-align: center; padding: 0.5em;">
+                            {{application.controller_form.aggregate_pensionable_emolument}}</p>
                     </td>
                 </tr>
+
+                <tr style="margin-top: 10px;">
+                    <td colspan="2">
+                        <p style="text-align: right; font-weight: bolder; padding: 0.5em;">One-third of aggregate total
+                            pensionable emoluments (GHC): </p>
+                    </td>
+                    <td>
+                        <p
+                            style="font-weight: bolder; padding: 0.3em 0 0 0; line-height: 1em; margin-left: 1em; border-bottom-width: 1px; border-bottom-color: black; border-bottom-style:dashed;">
+                            {{application.controller_form.one_third_of_aggregate_pensionable_emolument}}
+                        </p>
+                    </td>
+                </tr>
+
+                {% else %}
+                <tr>
+                    <td colspan="3" style="border: 1px solid black;">
+                        <p style="text-align: center; padding: 1em;">N/A</p>
+                    </td>
+                </tr>
+                {% endif %}
+
             </tbody>
         </table>
         <br>
-        <p style="margin-left: 2.5em;">One-third of aggregate total pensionable emoluments (GHC): <span
-                class="fill-in">5857.98</span></p>
 
-        <p><span class="number">7.</span> Particulars of any additions claimed under the Pensions Regulation</p>
-        <p style="margin-left: 1em;"><span class="fill-in">{{application.controller_form.additions_claimed}}</span></p>
+        <table style="margin-bottom: 1em;">
+            <tr>
+                <th width="20px" style="vertical-align:top;">
+                    <p style="padding: 0.3em 0 0 0; margin: 0; line-height: 1em;">7.</p>
+                </th>
+                <td width="410px">
+                    <p style="padding: 0.3em 0 0 0; margin: 0; line-height: 1em;">Particulars of any additions claimed
+                        under the Pensions Regulation</p>
+                </td>
+                <td style="vertical-align: text-top;">
+                    <p
+                        style="font-weight: bolder; padding: 0.3em 0 0 0; line-height: 1em; margin-left: 1em; border-bottom-width: 1px; border-bottom-color: black; border-bottom-style:dashed;">
+                        {{application.controller_form.additions_claimed}}</p>
+                </td>
+            </tr>
+        </table>
 
-        <p><span class="number">8.</span> Cause of retirement: <span
-                class="fill-in">{{application.reason.reason}}</span>
-        </p>
+        <table style="margin-bottom: 1em;">
+            <tr>
+                <th width="20px" style="vertical-align:top;">
+                    <p style="padding: 0.3em 0 0 0; margin: 0; line-height: 1em;">8.</p>
+                </th>
+                <td width="150px">
+                    <p style="padding: 0.3em 0 0 0; margin: 0; line-height: 1em;">Cause of retirement</p>
+                </td>
+                <td style="vertical-align: text-top;">
+                    <p
+                        style="font-weight: bolder; padding: 0.3em 0 0 0; line-height: 1em; margin-left: 1em; border-bottom-width: 1px; border-bottom-color: black; border-bottom-style:dashed;">
+                        {{application.reason.reason}}</p>
+                </td>
+            </tr>
+        </table>
 
-        <p><span class="number">9.</span> Particulars of offices held by the officer in the Ghanain Public Services </p>
+        <p><span style="font-weight: bolder;">9.</span> Particulars of offices held by the officer in the Ghanain Public
+            Services </p>
 
         <table style="border: 1px solid black;">
             <thead>
@@ -221,60 +318,95 @@
                 </tr>
             </thead>
             <tbody>
+                {% if application.controller_form.office_particulars.all %}
+                {% for particulars in application.controller_form.office_particulars.all %}
                 <tr>
                     <td>
-                        <p style="padding: 0.5em;">Chief Inspector</p>
+                        <p style="padding: 0.5em;">{{particulars.title}}</p>
                     </td>
                     <td>
-                        <p style="padding: 0.5em;">Pensionable</p>
+                        <p style="padding: 0.5em;">{{particulars.if_pensionable}}</p>
                     </td>
                     <td>
-                        <p style="padding: 0.5em;">11/11/1998</p>
+                        <p style="padding: 0.5em;">{{particulars.commencement_date|date:'Y-m-d'}}</p>
                     </td>
                     <td>
-                        <p style="padding: 0.5em;">11/11/2005</p>
+                        <p style="padding: 0.5em;">{{particulars.termination_date|date:'Y-m-d'}}</p>
                     </td>
                     <td>
-                        <p style="padding: 0.5em;">Lorem ipsum dolor sit</p>
+                        <p style="padding: 0.5em;">{{particulars.emoluments}}</p>
                     </td>
                 </tr>
+                {% endfor %}
+                {% else %}
                 <tr>
-                    <td>
-                        <p style="padding: 0.5em;">Chief Inspector</p>
-                    </td>
-                    <td>
-                        <p style="padding: 0.5em;">Pensionable</p>
-                    </td>
-                    <td>
-                        <p style="padding: 0.5em;">11/11/1998</p>
-                    </td>
-                    <td>
-                        <p style="padding: 0.5em;">11/11/2005</p>
-                    </td>
-                    <td>
-                        <p style="padding: 0.5em;">Lorem ipsum dolor sit</p>
+                    <td colspan="5" class="text text-center">
+                        <p style="text-align: center; padding: 1em;">N/A</p>
                     </td>
                 </tr>
+                {% endif %}
             </tbody>
         </table>
         <br>
 
         <pdf:nextpage />
 
+        <table style="margin-bottom: 1em;">
+            <tr>
+                <th width="30px" style="vertical-align:top;">
+                    <p style="padding: 0.3em 0 0 0; margin: 0; line-height: 1em;">10.</p>
+                </th>
+                <td width="440px">
+                    <p style="padding: 0.3em 0 0 0; margin: 0; line-height: 1em;"> State whether the officer is already
+                        in receipt or has received any public
+                        money as pension, gratuity, compensatio, etc.</p>
+                </td>
+                <td style="vertical-align: text-top;">
+                    <p
+                        style="font-weight: bolder; padding: 0.3em 0 0 0; line-height: 1em; margin-left: 1em; border-bottom-width: 1px; border-bottom-color: black; border-bottom-style:dashed;">
+                        {{application.controller_form.pension_receipt_status}}</p>
+                </td>
+            </tr>
+        </table>
 
-        <p><span class="number">10.</span> State whether the officer is already in receipt or has received any public
-            money as pension, gratuity, compensatio, etc.: <span
-                class="fill-in">{{application.controller_form.pension_receipt_status}}</span></p>
+        <table style="margin-bottom: 1em;">
+            <tr>
+                <th width="30px" style="vertical-align:top;">
+                    <p style="padding: 0.3em 0 0 0; margin: 0; line-height: 1em;">11.</p>
+                </th>
+                <td width="440px">
+                    <p style="padding: 0.3em 0 0 0; margin: 0; line-height: 1em;">Date of commencement of service under
+                        the Ghanain Government for which
+                        pension or gratuity is claimed</p>
+                </td>
+                <td style="vertical-align: text-top;">
+                    <p
+                        style="font-weight: bolder; padding: 0.3em 0 0 0; line-height: 1em; margin-left: 1em; border-bottom-width: 1px; border-bottom-color: black; border-bottom-style:dashed;">
+                        {{application.controller_form.commencement_date}}</p>
+                </td>
+            </tr>
+        </table>
 
-        <p><span class="number">11.</span> Date of commencement of service under the Ghanain Government for which
-            pension or gratuity is claimed:</p>
-        <p style="margin-left: 1.5em;"><span class="fill-in">{{application.controller_form.commencement_date}}</span>
-        </p>
 
-        <p><span class="number">12.</span> Date of termination of service under the Ghanain Government: <span
-                class="fill-in">{{application.controller_form.termination_date}}</span></p>
+        <table style="margin-bottom: 1em;">
+            <tr>
+                <th width="30px" style="vertical-align:top;">
+                    <p style="padding: 0.3em 0 0 0; margin: 0; line-height: 1em;">12.</p>
+                </th>
+                <td width="440px">
+                    <p style="padding: 0.3em 0 0 0; margin: 0; line-height: 1em;">Date of termination of service under
+                        the Ghanain Government</p>
+                </td>
+                <td style="vertical-align: text-top;">
+                    <p
+                        style="font-weight: bolder; padding: 0.3em 0 0 0; line-height: 1em; margin-left: 1em; border-bottom-width: 1px; border-bottom-color: black; border-bottom-style:dashed;">
+                        {{application.controller_form.termination_date}}</p>
+                </td>
+            </tr>
+        </table>
 
-        <p><span class="number">13.</span> Leave without pay between dates in paragraph 11 and 12.</p>
+        <p><span style="font-weight: bolder; margin-right: 20px">13. </span> Leave without pay between dates in
+            paragraph 11 and 12.</p>
 
         <table style="border: 1px solid black;">
             <thead>
@@ -294,22 +426,25 @@
                 </tr>
             </thead>
             <tbody>
+                {% if application.controller_form.no_pay_leaves.all %}
+                {% for no_pay_leave in application.controller_form.no_pay_leaves.all %}
                 <tr>
                     <td>
                         <p style="padding: 0.5em; text-align: center;">
-                            {{application.controller_form.commencement_date}}</p>
+                            {{no_pay_leave.from_date|date:'Y-m-d'}}</p>
                     </td>
                     <td>
                         <p style="padding: 0.5em; text-align: center;">
-                            {{application.controller_form.termination_date}}</p>
+                            {{no_pay_leave.to_date|date:'Y-m-d'}}</p>
                     </td>
                     <td>
-                        <p style="padding: 0.5em; text-align: center;">10</p>
+                        <p style="padding: 0.5em; text-align: center;">{{no_pay_leave.get_months}}</p>
                     </td>
                     <td>
-                        <p style="padding: 0.5em; text-align: center;">10</p>
+                        <p style="padding: 0.5em; text-align: center;">{{no_pay_leave.get_days}}</p>
                     </td>
                 </tr>
+                {% endfor %}
 
                 <!-- Totals -->
                 <tr>
@@ -317,12 +452,21 @@
                         <p style="text-align: right; padding: 0.5em;">Total: </p>
                     </td>
                     <td>
-                        <p style="text-align: right; padding: 0.5em;">20</p>
+                        <p style="text-align: center; font-weight: bolder; padding: 0.5em;">
+                            {{application.controller_form.no_pay_leave_total_months}}</p>
                     </td>
                     <td>
-                        <p style="text-align: right; padding: 0.5em;">20</p>
+                        <p style="text-align: center; font-weight: bolder; padding: 0.5em;">
+                            {{application.controller_form.no_pay_leave_total_days}}</p>
                     </td>
                 </tr>
+                {% else %}
+                <tr>
+                    <td colspan="4">
+                        <p style="text-align: center; padding: 1em;">N/A</p>
+                    </td>
+                </tr>
+                {% endif %}
             </tbody>
         </table>
         <br>
@@ -347,35 +491,47 @@
                 </tr>
             </thead>
             <tbody>
+                {% if application.controller_form.service_breaks.all %}
+                {% for service_break in application.controller_form.service_breaks.all %}
                 <tr>
                     <td>
-                        <p style="padding: 0.5em; text-align: center;">11/11/2020</p>
+                        <p style="padding: 0.5em; text-align: center;">
+                            {{service_break.from_date|date:'Y-m-d'}}</p>
                     </td>
                     <td>
-                        <p style="padding: 0.5em; text-align: center;">11/11/202</p>
+                        <p style="padding: 0.5em; text-align: center;">
+                            {{service_break.to_date|date:'Y-m-d'}}</p>
                     </td>
                     <td>
-                        <p style="padding: 0.5em; text-align: center;">10</p>
+                        <p style="padding: 0.5em; text-align: center;">{{service_break.get_months}}</p>
                     </td>
                     <td>
-                        <p style="padding: 0.5em; text-align: center;">10</p>
+                        <p style="padding: 0.5em; text-align: center;">{{service_break.get_days}}</p>
                     </td>
                 </tr>
+                {% endfor %}
 
+                <!-- Totals -->
                 <tr>
-                    <td>
-                        <p style="padding: 0.5em; text-align: center;">11/11/2020</p>
+                    <td colspan="2" class="text text-end">
+                        <p style="text-align: right; padding: 0.5em;">Total: </p>
                     </td>
                     <td>
-                        <p style="padding: 0.5em; text-align: center;">11/11/202</p>
+                        <p style="text-align: center; font-weight: bolder; padding: 0.5em;">
+                            {{application.controller_form.service_break_total_months}}</p>
                     </td>
                     <td>
-                        <p style="padding: 0.5em; text-align: center;">10</p>
-                    </td>
-                    <td>
-                        <p style="padding: 0.5em; text-align: center;">10</p>
+                        <p style="text-align: center; font-weight: bolder; padding: 0.5em;">
+                            {{application.controller_form.service_break_total_days}}</p>
                     </td>
                 </tr>
+                {% else %}
+                <tr>
+                    <td colspan="4">
+                        <p style="text-align: center; padding: 1em;">N/A</p>
+                    </td>
+                </tr>
+                {% endif %}
             </tbody>
         </table>
         <br>
@@ -405,142 +561,337 @@
                 </tr>
             </thead>
             <tbody>
+                {% if application.controller_form.paid_open_vote_service.all %}
+                {% for paid_open_vote_service in application.controller_form.paid_open_vote_service.all %}
                 <tr>
                     <td>
-                        <p style="padding: 0.5em; text-align: center;">11/11/2020</p>
+                        <p style="padding: 0.5em; text-align: center;">
+                            {{paid_open_vote_service.from_date|date:'Y-m-d'}}</p>
                     </td>
                     <td>
-                        <p style="padding: 0.5em; text-align: center;">11/11/202</p>
+                        <p style="padding: 0.5em; text-align: center;">
+                            {{paid_open_vote_service.to_date|date:'Y-m-d'}}</p>
                     </td>
                     <td>
-                        <p style="padding: 0.5em; text-align: center;">10</p>
+                        <p style="padding: 0.5em; text-align: center;">{{paid_open_vote_service.get_months}}</p>
                     </td>
                     <td>
-                        <p style="padding: 0.5em; text-align: center;">10</p>
+                        <p style="padding: 0.5em; text-align: center;">{{paid_open_vote_service.get_days}}</p>
                     </td>
                 </tr>
+                {% endfor %}
 
+                <!-- Totals -->
                 <tr>
-                    <td>
-                        <p style="padding: 0.5em; text-align: center;">11/11/2020</p>
+                    <td colspan="2" class="text text-end">
+                        <p style="text-align: right; padding: 0.5em;">Total: </p>
                     </td>
                     <td>
-                        <p style="padding: 0.5em; text-align: center;">11/11/202</p>
+                        <p style="text-align: center; padding: 0.5em;">
+                            {{application.controller_form.paid_open_vote_service_total_months}}</p>
                     </td>
                     <td>
-                        <p style="padding: 0.5em; text-align: center;">10</p>
-                    </td>
-                    <td>
-                        <p style="padding: 0.5em; text-align: center;">10</p>
+                        <p style="text-align: center; padding: 0.5em;">
+                            {{application.controller_form.paid_open_vote_service_total_days}}</p>
                     </td>
                 </tr>
+                {% else %}
+                <tr>
+                    <td colspan="4">
+                        <p style="text-align: center; padding: 1em;">N/A</p>
+                    </td>
+                </tr>
+                {% endif %}
             </tbody>
         </table>
 
         <pdf:nextpage />
         <table>
+            <tbody>
+                <tr>
+                    <td>
+                        <p><span class="number">15.</span> (a) Period between dates in paragraphs 11 and 12. </p>
+                    </td>
+
+                    <td>
+                        <table style="border-left: 3px solid black; border-right: 3px solid black;">
+                            <tr>
+                                <td>
+                                    <p style="text-align: center; text-decoration: wavy;">
+                                        {{application.controller_form.service_duration_months}}
+                                    </p>
+                                </td>
+                                <td>
+                                    <p style="text-align: center; text-decoration: wavy;">
+                                        {{application.controller_form.service_duration_days}}</p>
+                                </td>
+                                <td>
+                                    <p style="text-align: center;">Months</p>
+                                </td>
+                                <td>
+                                    <p style="text-align: center;">Days</p>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                    </td>
+                    <td>
+                        <table style="border-left: 3px solid black; border-right: 3px solid black;">
+                            <tr>
+                                <td>
+                                    <p style="text-align: center;  padding: 0.3em 0;">Months</p>
+                                </td>
+                                <td>
+                                    <p style="text-align: center;  padding: 0.3em 0;">Days</p>
+                                </td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <p style="margin-left: 1.5em;">(b) One-half of non-penionable service (para. 9): </p>
+                    </td>
+                    <td>
+                        <table style="border-left: 3px solid black; border-right: 3px solid black;">
+                            <tr>
+                                <td>
+                                    <p style="text-align: center;  padding: 0.3em 0;">--</p>
+                                </td>
+                                <td>
+                                    <p style="text-align: center;  padding: 0.3em 0;">--</p>
+                                </td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <p style="margin-left: 1.5em;">(c) Leave without salary (para. 13): </p>
+                    </td>
+                    <td>
+                        <table style="border-left: 3px solid black; border-right: 3px solid black;">
+                            <tr>
+                                <td>
+                                    <p style="text-align: center;  padding: 0.3em 0;">
+                                        {{application.controller_form.no_pay_leave_total_months}}</p>
+                                </td>
+                                <td>
+                                    <p style="text-align: center;  padding: 0.3em 0;">
+                                        {{application.controller_form.no_pay_leave_total_days}}</p>
+                                </td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td>
+                        <p style="margin-left: 1.5em;">(d) Break in service (para. 14 (aa)): </p>
+                    </td>
+                    <td>
+                        <table style="border-left: 3px solid black; border-right: 3px solid black;">
+                            <tr>
+                                <td>
+                                    <p style="text-align: center;  padding: 0.3em 0;">
+                                        {{application.controller_form.service_break_total_months}}</p>
+                                </td>
+                                <td>
+                                    <p style="text-align: center;  padding: 0.3em 0;">
+                                        {{application.controller_form.service_break_total_days}}</p>
+                                </td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td>
+                        <p style="margin-left: 1.5em;">(e) One-third of open vote service (para. 14(c)): </p>
+                    </td>
+                    <td>
+                        <table
+                            style="border-left: 3px solid black; border-right: 3px solid black;border-bottom: 3px solid black;">
+                            <tr>
+                                <td>
+                                    <p style="text-align: center;  padding: 0.3em 0;">
+                                        {{application.controller_form.third_open_vote_service_months}}
+                                    </p>
+                                </td>
+                                <td>
+                                    <p style="text-align: center;  padding: 0.3em 0;">
+                                        {{application.controller_form.third_open_vote_service_days}}
+                                    </p>
+                                </td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <p style="margin-left: 1.5em; margin-top: 2em;">(f) Total of (b), (c), and (e) .... ... ... ...
+                            ... ... ... ... ... ... ... </p>
+                    </td>
+                    <td>
+                        <table>
+                            <tr>
+                                <td colspan="2">
+                                    <p style="text-align: center;  padding: 0.3em 0;">... ... ... ... ... ...</p>
+                                </td>
+                                <td
+                                    style="border-left: 3px solid black; border-right: 3px solid black;border-bottom: 3px solid black;">
+                                    <p style="text-align: center;  padding: 0.3em 0;">
+                                        {{application.controller_form.total_of_b_c_e_months}}</p>
+                                </td>
+                                <td
+                                    style="border-left: 3px solid black; border-right: 3px solid black;border-bottom: 3px solid black;">
+                                    <p style="text-align: center;  padding: 0.3em 0;">
+                                        {{application.controller_form.total_of_b_c_e_days}}</p>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <p style="margin-left: 1.5em;">(f) Total pensionable or gratitude service in Ghana ... ... </p>
+                    </td>
+                    <td>
+                        <table>
+                            <tr>
+                                <td colspan="2">
+                                    <p style="text-align: center;  padding: 0.3em 0;">... ... ... ... ... ...</p>
+                                </td>
+                                <td
+                                    style="border-left: 3px solid black; border-right: 3px solid black;border-bottom: 3px solid black;">
+                                    <p style="text-align: center;  padding: 0.3em 0;">--</p>
+                                </td>
+                                <td
+                                    style="border-left: 3px solid black; border-right: 3px solid black;border-bottom: 3px solid black;">
+                                    <p style="text-align: center;  padding: 0.3em 0;">--</p>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+
+
+        <table style="margin-bottom: 1em; margin-top: 1em;">
             <tr>
-                <td>
-                    <p><span class="number">15.</span> (a) Period between dates in paragraphs 11 and 12. </p>
-                    <p style="margin-left: 1.5em;">(b) One-half of non-penionable service (para. 9): </p>
-                    <p style="margin-left: 1.5em;">(c) Leave without salary (para. 13): </p>
-                    <p style="margin-left: 1.5em;">(d) Break in service (para. 14 (aa)): </p>
-                    <p style="margin-left: 1.5em;">(e) One-third of open vote service (para. 14(c)): </p>
-                    <br>
-                    <p style="margin-left: 1.5em;">(f) Total of (b), (c), and (e) </p>
-                    <p style="margin-left: 1.5em;">(f) Total pensionable or gratitude service in Ghana </p>
-                    <br>
+                <th width="30px" style="vertical-align:top;">
+                    <p style="padding: 0.3em 0 0 0; margin: 0; line-height: 1em;">16.</p>
+                </th>
+                <td width="440px">
+                    <p style="padding: 0.3em 0 0 0; margin: 0; line-height: 1em;"> State whether the officer has worked
+                        under any other scheduled Government or
+                        Administration, and, if so, where and between what dates (if known)</p>
                 </td>
-
-                <td>
-                    <table style="position: fixed; right: 2em; width: 100px; border: 1px solid red;">
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <p style="margin: 1.5em;">Data</p>
-                                </td>
-                                <td>
-                                    <p style="margin: 1.5em;">223</p>
-                                </td>
-                                <td>
-                                    <p style="margin: 1.5em;">223</p>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <p style="margin: 1.5em;">Data</p>
-                                </td>
-                                <td>
-                                    <p style="margin: 1.5em;">223</p>
-                                </td>
-                                <td>
-                                    <p style="margin: 1.5em;">223</p>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <p style="margin: 1.5em;">Data</p>
-                                </td>
-                                <td>
-                                    <p style="margin: 1.5em;">223</p>
-                                </td>
-                                <td>
-                                    <p style="margin: 1.5em;">223</p>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <p style="margin: 1.5em;">Data</p>
-                                </td>
-                                <td>
-                                    <p style="margin: 1.5em;">223</p>
-                                </td>
-                                <td>
-                                    <p style="margin: 1.5em;">223</p>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-
+                <td style="vertical-align: text-top;">
+                    <p
+                        style="font-weight: bolder; padding: 0.3em 0 0 0; line-height: 1em; margin-left: 1em; border-bottom-width: 1px; border-bottom-color: black; border-bottom-style:dashed;">
+                        {{application.controller_form.other_scheduled_work_detail}}</p>
                 </td>
             </tr>
         </table>
 
 
+        <table style="margin-bottom: 1em;">
+            <tr>
+                <th width="30px" style="vertical-align:top;">
+                    <p style="padding: 0.3em 0 0 0; margin: 0; line-height: 1em;">17.</p>
+                </th>
+                <td width="440px">
+                    <p style="padding: 0.3em 0 0 0; margin: 0; line-height: 1em;">In case of self-accounting Department
+                        if the officer has served under more
+                        than one scheduled Government or Administration completed Pension Form 5 showing the following
+                        aggregate pensionable emoluments drawn during his service in Ghana should be attached, and
+                        the total should be stated hereunder.</p>
+                </td>
+                <td style="vertical-align: text-top;">
+                    <p
+                        style="font-weight: bolder; padding: 0.3em 0 0 0; line-height: 1em; margin-left: 1em; border-bottom-width: 1px; border-bottom-color: black; border-bottom-style:dashed;">
+                        {{application.controller_form.form_5_pensionable_emoluments}}</p>
+                </td>
+            </tr>
+        </table>
 
+        <table style="margin-bottom: 1em;">
+            <tr>
+                <th width="30px" style="vertical-align:top;">
+                    <p style="padding: 0.3em 0 0 0; margin: 0; line-height: 1em;">18.</p>
+                </th>
+                <td width="440px">
+                    <p style="padding: 0.3em 0 0 0; margin: 0; line-height: 1em;">State whether the officer has served
+                        under a non-scheduled Government or
+                        Administration, and, if so, where and between what dates. (if known).</p>
+                </td>
+                <td style="vertical-align: text-top;">
+                    <p
+                        style="font-weight: bolder; padding: 0.3em 0 0 0; line-height: 1em; margin-left: 1em; border-bottom-width: 1px; border-bottom-color: black; border-bottom-style:dashed;">
+                        {{application.controller_form.non_scheduled_work_detail}}</p>
+                </td>
+            </tr>
+        </table>
 
-        <p><span class="number">16.</span> State whether the officer has worked under any other scheduled Government or
-            Administration, and, if so, where and between what dates (if known).</p>
-        <p style="margin-left: 1.5em;"><span
-                class="fill-in">{{application.controller_form.other_scheduled_work_detail}}</span></p>
+        <table style="margin-bottom: 1em;">
+            <tr>
+                <th width="30px" style="vertical-align:top;">
+                    <p style="padding: 0.3em 0 0 0; margin: 0; line-height: 1em;">19.</p>
+                </th>
+                <td width="440px">
+                    <p style="padding: 0.3em 0 0 0; margin: 0; line-height: 1em;">State the officer's option if he
+                        eligible to exercise one (See G.O 386).</p>
+                </td>
+                <td style="vertical-align: text-top;">
+                    <p
+                        style="font-weight: bolder; padding: 0.3em 0 0 0; line-height: 1em; margin-left: 1em; border-bottom-width: 1px; border-bottom-color: black; border-bottom-style:dashed;">
+                        {{application.controller_form.non_scheduled_work_detail}}</p>
+                </td>
+            </tr>
+        </table>
 
-        <br>
+        <table style="margin-bottom: 1em;">
+            <tr>
+                <th width="30px" style="vertical-align:top;">
+                    <p style="padding: 0.3em 0 0 0; margin: 0; line-height: 1em;">20.</p>
+                </th>
+                <td width="220px">
+                    <p style="padding: 0.3em 0 0 0; margin: 0; line-height: 1em;">Date from which, inclusively, the
+                        pesion will commence.</p>
+                </td>
+                <td style="vertical-align: text-top;">
+                    <p
+                        style="font-weight: bolder; padding: 0.3em 0 0 0; line-height: 1em; margin-left: 1em; border-bottom-width: 1px; border-bottom-color: black; border-bottom-style:dashed;">
+                        {{application.controller_form.pension_commencement_date}}</p>
+                </td>
+            </tr>
+        </table>
 
-        <p><span class="number">17.</span> In case of self-accounting Department if the officer has served under more
-            than one scheduled Government or Administration completed Pension Form 5 showing the following
-            aggregate pensionable emoluments drawn during his service in Ghana should be attached, and
-            the total should be stated hereunder. </p>
-        <p style="margin-left: 1.5em;"><span class="fill-in">Ghana aggregate pensionable emoluments:
-                GHC{{application.controller_form.form_5_pensionable_emoluments}}</span>
-        </p>
-        <br>
-
-        <p><span class="number">18.</span> State whether the officer has served under a non-scheduled Government or
-            Administration, and, if so, where and between what dates. (if known)</p>
-        <p style="margin-left: 1.5em;"><span
-                class="fill-in">{{application.controller_form.non_scheduled_work_detail}}</span></p>
-        <br>
-
-        <p><span class="number">19.</span> State the officer's option if he eligible to exercise one (See G.O 386).</p>
-        <p style="margin-left: 1.5em;"><span class="fill-in">{{application.controller_form.officers_option}}</span></p>
-        <br>
-
-        <p><span class="number">20.</span> Date from which, inclusively, the pesion will commence.</p>
-        <p style="margin-left: 1.5em;"><span
-                class="fill-in">{{application.controller_form.pension_commencement_date}}</span></p>
-        <br>
-
-        <p><span class="number">21.</span> I HEREBY CERTIFY that the officer in respect of whom this application is
+        <p><span style="font-weight: bolder;">21.</span> I HEREBY CERTIFY that the officer in respect of whom this
+            application is
             submitted is not indebted to the Government. (If indebted state amount and proposed method of recovery of
             debt, in covering letter.) </p>
         <br>

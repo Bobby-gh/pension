@@ -3,6 +3,7 @@ import logging
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils.decorators import method_decorator
@@ -289,6 +290,13 @@ class ApplicationSubmissionView(PermissionRequiredMixin, View):
     def post(self, request, application_id):
         application_id = request.POST.get("application_id")
         application = get_object_or_404(Application, id=application_id)
+        if application.status == ApplicationStatus.SUMITTED.value:
+            messages.info(request, message="Application already submitted.")
+            return redirect(
+                request.META.get("HTTP_REFERER") or "dashboard:index")
+        if application.status == ApplicationStatus.PROCESSED.value:
+            raise PermissionDenied()
+
         application.status = ApplicationStatus.SUMITTED.value
         application.save()
         messages.success(request,

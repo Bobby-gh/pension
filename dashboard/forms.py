@@ -1,6 +1,7 @@
 from django import forms
 
-from dashboard.models import Application, ApplicationRank, OfficeParticulars, PaidOpenVoteService
+from dashboard.models import (Application, ApplicationRank, OfficeParticulars,
+                              PaidOpenVoteService)
 
 
 class ApplicationForm(forms.ModelForm):

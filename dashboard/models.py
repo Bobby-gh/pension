@@ -65,6 +65,95 @@ class ControllerForm(models.Model):
     officers_option = models.TextField(null=True, blank=True)
     pension_commencement_date = models.DateField(null=True, blank=True)
 
+    def aggregate_pensionable_emolument(self):
+        total_pensionable_emoluments = self.total_pensionable_emoluments_drawn_before_retirements.all(
+        )
+        return sum([item.emolument for item in total_pensionable_emoluments])
+
+    def one_third_of_aggregate_pensionable_emolument(self):
+        return round(self.aggregate_pensionable_emolument() / 3, 2)
+
+    def service_duration_months(self):
+        if self.termination_date and self.commencement_date:
+            return (self.termination_date - self.commencement_date).days // 30
+        return 0
+
+    def service_duration_days(self):
+        if self.termination_date and self.commencement_date:
+            return (self.termination_date - self.commencement_date).days % 30
+        return 0
+
+    #(c) Leave without salary (para. 13):
+    def no_pay_leave_total_months(self):
+        no_pay_leaves = self.no_pay_leaves.all()
+        days = sum([item.get_days() for item in no_pay_leaves])
+        return sum([item.get_months() for item in no_pay_leaves]) + days // 30
+
+    #(c) Leave without salary (para. 13):
+    def no_pay_leave_total_days(self):
+        no_pay_leaves = self.no_pay_leaves.all()
+        return sum([item.get_days() for item in no_pay_leaves]) % 30
+
+    # (d) Break in service (para. 14 (aa))
+    def service_break_total_months(self):
+        breaks = self.service_breaks.all()
+        days = sum([item.get_days() for item in breaks])
+        return sum([item.get_months() for item in breaks]) + days // 30
+
+    # (d) Break in service (para. 14 (aa))
+    def service_break_total_days(self):
+        breaks = self.service_breaks.all()
+        return sum([item.get_days() for item in breaks]) % 30
+
+    def paid_open_vote_service_total_months(self):
+        paid_open_vote_services = self.paid_open_vote_services.all()
+        paid_open_vote_service_days = sum(
+            [item.get_days() for item in paid_open_vote_services])
+        return sum([item.get_months() for item in paid_open_vote_services
+                    ]) + paid_open_vote_service_days // 30
+
+    def paid_open_vote_service_total_days(self):
+        paid_open_vote_services = self.paid_open_vote_services.all()
+        paid_open_vote_service_days = sum(
+            [item.get_days() for item in paid_open_vote_services])
+        return paid_open_vote_service_days % 30
+
+    # (e) One-third of open vote service (para. 14(c)): 0 10
+    def third_open_vote_service_months(self):
+        paid_open_vote_services = self.paid_open_vote_services.all()
+        paid_open_vote_service_days = sum(
+            [item.get_days() for item in paid_open_vote_services])
+        third_open_vote_service_days = paid_open_vote_service_days // 3
+        third_open_vote_service_months = sum([
+            item.get_months() for item in paid_open_vote_services
+        ]) + third_open_vote_service_days // 30  # Add days to months
+        third_open_vote_service_months //= 3  # Divide by 3
+        return third_open_vote_service_months
+
+    # (e) One-third of open vote service (para. 14(c)): 0 10
+    def third_open_vote_service_days(self):
+        paid_open_vote_services = self.paid_open_vote_services.all()
+        paid_open_vote_service_days = sum(
+            [item.get_days() for item in paid_open_vote_services])
+        third_open_vote_service_days = paid_open_vote_service_days // 3
+        third_open_vote_service_months = sum([
+            item.get_months() for item in paid_open_vote_services
+        ]) + third_open_vote_service_days // 30  # Add days to months
+        third_open_vote_service_months //= 3  # Divide by 3
+        third_open_vote_service_days %= 30  # Remove months from days
+        return third_open_vote_service_days
+
+    # (f) Total of (b), (c), and (e) .
+    def total_of_b_c_e_months(self):
+        return 0 + self.no_pay_leave_total_months(
+        ) + self.third_open_vote_service_months() + (
+            self.no_pay_leave_total_days() +
+            self.third_open_vote_service_days()) // 30
+
+    def total_of_b_c_e_days(self):
+        return (0 + self.no_pay_leave_total_days() +
+                self.third_open_vote_service_days()) % 30
+
 
 class PensionableEmolumentDrawnBeforeRetirement(models.Model):
     label = models.CharField(max_length=100, default="")
@@ -73,7 +162,7 @@ class PensionableEmolumentDrawnBeforeRetirement(models.Model):
     controller_form = models.ForeignKey(
         ControllerForm,
         on_delete=models.CASCADE,
-        related_name="total_pensionable_emoluments_drawn_before_retirement")
+        related_name="total_pensionable_emoluments_drawn_before_retirements")
     emolument = models.DecimalField(max_digits=10,
                                     decimal_places=2,
                                     null=True,
@@ -113,7 +202,7 @@ class PaidOpenVoteService(models.Model):
     to_date = models.DateField(null=True, blank=True)
     controller_form = models.ForeignKey(ControllerForm,
                                         on_delete=models.CASCADE,
-                                        related_name="paid_open_vote_service")
+                                        related_name="paid_open_vote_services")
 
     def get_months(self):
         return (self.to_date - self.from_date).days // 30
@@ -154,7 +243,10 @@ class Application(models.Model):
     signature = models.ImageField(upload_to="uploads/signature",
                                   null=True,
                                   blank=True)
-    rank = models.CharField(max_length=50)
+    rank = models.ForeignKey(Rank,
+                             null=True,
+                             blank=True,
+                             on_delete=models.SET_NULL)
     requested_changes = models.TextField(null=True, blank=True)
     retiring_date = models.DateField()
     reason = models.ForeignKey(RetirementReason,

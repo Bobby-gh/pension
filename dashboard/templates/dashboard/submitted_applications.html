@@ -33,7 +33,7 @@
                                 <tr>
                                     <td>{{forloop.counter}}</td>
                                     <td>
-                                       <p>APP{{application.id}}</p>
+                                        <p>APP{{application.id}}</p>
                                     </td>
                                     <td>{{application.surname}}</td>
                                     <td>{{application.other_names}}</td>
@@ -42,10 +42,15 @@
                                     <td>
                                         <div class="d-flex">
                                             <a href="{% url 'dashboard:submitted_application_review' application.id %}"
-                                                class="btn btn-sm btn-info text text-light"><i class="bi bi-eye"></i></a>
+                                                class="btn btn-sm btn-info text text-light"><i
+                                                    class="bi bi-eye"></i></a>
+                                            {% if application.can_edit %}
                                             <a href="{% url 'dashboard:application_form_one' %}?application_id={{application.id}}"
-                                                class="btn btn-sm btn-warning text text-light"><i class="bi bi-pencil"></i></a>
-                                            {% if perms.dashboard.delete_application %}
+                                                class="btn btn-sm btn-warning text text-light"><i
+                                                    class="bi bi-pencil"></i></a>
+                                            {% endif %}
+
+                                            {% if perms.dashboard.delete_application and application.can_edit and application.updated_by == request.user %}
                                             <form action="{% url 'dashboard:delete_application' %}" method="post"
                                                 class="requires-confirmation"
                                                 data-message="This action is irrervesible. Click OK to permanently delete this application.">
