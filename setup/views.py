@@ -216,8 +216,8 @@ class CreateUpdateRetirementReason(PermissionRequiredMixin, CreateUpdateMixin):
     object_name = "retirement_reason"
     permission_required = (
         "setup.can_setup_system",
-        "setup.add_retirement_reason",
-        "setup.change_retirement_reason",
+        "setup.add_retirementreason",
+        "setup.change_retirementreason",
     )
 
 

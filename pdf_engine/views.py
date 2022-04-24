@@ -21,13 +21,11 @@ class GenerateLetterView(PermissionRequiredMixin, View):
     def get(self, request, application_id):
         application = get_object_or_404(Application, id=application_id)
         current_time = datetime.now().strftime("%d %B, %Y")
+
         context = {
-            "application":
-            application,
-            "current_time":
-            current_time,
-            "ghana_police_logo_url":
-            request.build_absolute_uri("/static/images/ghanapolice.png")
+            "application": application,
+            "current_time": current_time,
+            "ghana_police_logo_url": "/static/images/ghanapolice.png"
         }
         pdf = render_to_pdf(self.template_name, context)
 
