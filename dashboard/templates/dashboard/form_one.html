@@ -21,6 +21,10 @@
                         <span class="label text text-center text-primary">Particulars</span>
                     </div>
                     <div class="circle-container">
+                        <div class="circles"><i class="bi bi-graph-up"></i></div>
+                        <span class="label text text-center text-primary">Ranks</span>
+                    </div>
+                    <div class="circle-container">
                         <div class="circles"><i class="bi bi-house"></i></div>
                         <span class="label text text-center">Uploads</span>
                     </div>
@@ -30,7 +34,6 @@
                     </div>
                 </div>
             </div>
-
             <br>
             <form class="needs-validation" novalidate method="POST">
                 {% csrf_token %}
@@ -58,7 +61,7 @@
 
                     <div class="col-12 row">
                         <div class="col-md-6 mb-3">
-                            <label for="rank">Number/Rank <span class="text text-danger">*</span></label>
+                            <label for="rank">Current Number/Rank <span class="text text-danger">*</span></label>
 
                             <select name="rank" id="rank" class="form-control" required>
                                 <option value="">Select rank</option>

@@ -90,8 +90,7 @@ class NewApplicationFormOneView(PermissionRequiredMixin, View):
                 application.created_by = request.user
             application.save()
             messages.info(request, "Application has been saved")
-            return redirect("dashboard:application_form_one_upload",
-                            application.id)
+            return redirect("dashboard:application_form_ranks", application.id)
         else:
             for field, error in form.errors.items():
                 message = f"{field.title()}: {strip_tags(error)}"
@@ -296,7 +295,7 @@ class ApplicationSubmissionView(PermissionRequiredMixin, View):
                          "Application submitted sucessfully for review.")
         # Send sms
         Sms.objects.create(number=application.contact,
-                           inititated_by=request.user,
+                           initiated_by=request.user,
                            subject=APPLICATION_SUBMISSION_SUBJECT,
                            message=APPLICATION_SUBMISSION_MESSAGE)
         return redirect("dashboard:index")
@@ -323,7 +322,7 @@ class ApplicationProcessedView(PermissionRequiredMixin, View):
         application.save()
         # Send sms
         Sms.objects.create(number=application.contact,
-                           inititated_by=request.user,
+                           initiated_by=request.user,
                            subject=APPLICATION_SUBMISSION_SUBJECT,
                            message=APPLICATION_PROCESSED_MESSAGE)
         messages.success(request, "Successfully processed application.")
