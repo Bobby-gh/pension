@@ -12,7 +12,10 @@ logger = logging.getLogger("django")
 def send_sms(sms_id):
     config = SysConfig.objects.first()
     sms = Sms.objects.filter(id=sms_id).first()
-    if not sms or not config.send_sms: return
+    if not sms or not config.send_sms:
+        sms.response = "SMS disabled"
+        sms.save()
+        return False
     number = sms.number
     message = sms.message
     sender_id = config.sms_sender_id

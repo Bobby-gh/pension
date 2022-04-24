@@ -15,7 +15,7 @@ main .sidebar {
   min-height: 100vh;
   color: white;
   width: 15em;
-  min-width: 15em !important;
+  min-width: 15em;
 }
 
 main .sidebar * {
