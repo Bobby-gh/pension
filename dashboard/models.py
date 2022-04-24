@@ -51,6 +51,7 @@ class ControllerForm(models.Model):
     termination_date = models.DateField(null=True, blank=True)
     leave_withou_pay_from = models.DateField(null=True, blank=True)
     leave_withou_pay_to = models.DateField(null=True, blank=True)
+    open_vote_date = models.DateTimeField(null=True, blank=True)
     condonation_authority = models.CharField(default="",
                                              max_length=100,
                                              null=True,
@@ -105,6 +106,35 @@ class ServiceBreak(models.Model):
 
     def get_days(self):
         return (self.to_date - self.from_date).days % 30
+
+
+class PaidOpenVoteService(models.Model):
+    from_date = models.DateField(null=True, blank=True)
+    to_date = models.DateField(null=True, blank=True)
+    controller_form = models.ForeignKey(ControllerForm,
+                                        on_delete=models.CASCADE,
+                                        related_name="paid_open_vote_service")
+
+    def get_months(self):
+        return (self.to_date - self.from_date).days // 30
+
+    def get_days(self):
+        return (self.to_date - self.from_date).days % 30
+
+
+class OfficeParticulars(models.Model):
+    title = models.CharField(max_length=200)
+    if_pensionable = models.CharField("If Pensionable", max_length=200)
+    commencement_date = models.DateField(null=True, blank=True)
+    termination_date = models.DateField(null=True, blank=True)
+    emoluments = models.TextField()
+    controller_form = models.ForeignKey(ControllerForm,
+                                        verbose_name="Controller Form",
+                                        on_delete=models.CASCADE,
+                                        related_name="office_particulars")
+
+    def __str__(self) -> str:
+        return self.title
 
 
 class Application(models.Model):

@@ -1,6 +1,6 @@
 from django import forms
 
-from dashboard.models import Application, ApplicationRank
+from dashboard.models import Application, ApplicationRank, OfficeParticulars, PaidOpenVoteService
 
 
 class ApplicationForm(forms.ModelForm):
@@ -22,4 +22,20 @@ class ApplicationRankForm(forms.ModelForm):
             'application',
             "created_by",
             "updated_by",
+        ]
+
+
+class OfficeParticularsForm(forms.ModelForm):
+    class Meta:
+        model = OfficeParticulars
+        exclude = [
+            "id",
+        ]
+
+
+class PaidOpenVoteServiceForm(forms.ModelForm):
+    class Meta:
+        model = PaidOpenVoteService
+        exclude = [
+            "id",
         ]

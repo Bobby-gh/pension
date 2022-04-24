@@ -47,7 +47,6 @@
 </div>
 <!-- End of Modal -->
 
-
 <!-- No Pay Leave Modal -->
 <div class="modal fade" id="noPayLeaveModal" tabindex="-1" aria-labelledby="noPayLeaveModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-l">
@@ -78,6 +77,52 @@
 </div>
 <!-- End of Modal -->
 
+
+<!-- Office Particular Modal -->
+<div class="modal fade" id="officeParticularsModal" tabindex="-1" aria-labelledby="officeParticularsModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-l">
+        <div class="modal-content px-4">
+            <div class="modal-header">
+                <h5 class="modal-title" id="officeParticularsModalLabel">Add Office Particulars</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{% url 'dashboard:add_office_particulars' application.id %}" method="post" class="p-3">
+                {% csrf_token %}
+                <input type="hidden" name="controller_form" value="{{application.controller_form.id}}">
+                <div class="form-group">
+                    <label class="label ms-4 " for="title">Title</label>
+                    <input type="text" class="ms-4 form-control" name="title" id="title" required>
+                </div>
+                <div class="form-group">
+                    <label class="label ms-4 " for="if_pensionable">If Pensionable Office</label>
+                    <input type="text" class="ms-4 form-control" name="if_pensionable" id="if_pensionable" required>
+                </div>
+                <div class="form-group">
+                    <label class="label ms-4 " for="if_pensionable">Date of Commencement</label>
+                    <input type="date" class="ms-4 form-control" name="commencement_date" id="commencement_date"
+                        required>
+                </div>
+                <div class="form-group">
+                    <label class="label ms-4 " for="if_pensionable">Date of Termination</label>
+                    <input type="date" class="ms-4 form-control" name="termination_date" id="termination_date" required>
+                </div>
+                <div class="form-group ms-4 ">
+                    <label class="label" for="if_pensionable">Emolument</label>
+                    <textarea class="form-control" name="emoluments" id="emoluments" rows="5" required></textarea>
+                </div>
+                <div class="form-group ms-4 my-4">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End of Modal -->
+
 <!-- Break Modal -->
 <div class="modal fade" id="serviceBreaksModal" tabindex="-1" aria-labelledby="serviceBreaksModalLabel"
     aria-hidden="true">
@@ -89,6 +134,38 @@
             </div>
             <form action="{% url 'dashboard:add_service_break' application.id %}" method="post" class="p-3">
                 {% csrf_token %}
+                <div class="form-group">
+                    <label class="label ms-4 " for="from_date">From</label>
+                    <input type="date" class="ms-4 form-control" name="from_date" id="from_date" required>
+                </div>
+                <div class="form-group">
+                    <label class="label ms-4 " for="to_date">To</label>
+                    <input type="date" class="ms-4 form-control" name="to_date" id="to_date" required>
+                </div>
+                <div class="form-group ms-4 my-4">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End of Modal -->
+
+<!-- No Pay Leave Modal -->
+<div class="modal fade" id="paidOpenServiceModal" tabindex="-1" aria-labelledby="paidOpenServiceModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-l">
+        <div class="modal-content px-4">
+            <div class="modal-header">
+                <h5 class="modal-title" id="paidOpenServiceModalLabel">Add Dates Paid Open Service</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{% url 'dashboard:add_paid_open_vote_service' application.id %}" method="post" class="p-3">
+                {% csrf_token %}
+                <input type="hidden" name="controller_form" value="{{application.controller_form.id}}">
                 <div class="form-group">
                     <label class="label ms-4 " for="from_date">From</label>
                     <input type="date" class="ms-4 form-control" name="from_date" id="from_date" required>
@@ -310,20 +387,44 @@
                                         <th class="text text-center">Date of commencement</th>
                                         <th class="text text-center">Date of termination</th>
                                         <th class="text text-center">Emoluments <br> (show scale)</th>
+                                        <th class="text text-center">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    {% if office_particulars %}
+                                    {% for particulars in office_particulars %}
                                     <tr>
-                                        <td><textarea class="form-control" name="" id="" rows="3"></textarea></td>
-                                        <td><textarea class="form-control" name="" id="" rows="3"></textarea></td>
-                                        <td><textarea class="form-control" name="" id="" rows="3"></textarea></td>
-                                        <td><textarea class="form-control" name="" id="" rows="3"></textarea></td>
-                                        <td><textarea class="form-control" name="" id="" rows="3"></textarea></td>
+                                        <td><input type="text" class="form-control" disabled
+                                                value="{{particulars.title}}"></td>
+                                        <td><input type="text" class="form-control" disabled
+                                                value="{{particulars.if_pensionable}}"></td>
+                                        <td><input type="date" class="form-control" disabled
+                                                value="{{particulars.commencement_date|date:'Y-m-d'}}"></td>
+                                        <td><input type="date" class="form-control" disabled
+                                                value="{{particulars.termination_date|date:'Y-m-d'}}"></td>
+                                        <td><textarea type="text" class="form-control"
+                                                disabled>{{particulars.emoluments}}</textarea></td>
+                                        <td>
+                                            <a href="{% url 'dashboard:delete_office_particulars' particulars.id %}"
+                                                class="btn btn-sm btn-danger ms-4">
+                                                <i class="fa fa-trash"></i>
+                                                delete
+                                            </a>
+                                        </td>
                                     </tr>
+                                    {% endfor %}
+
+                                    {% else %}
+                                    <tr>
+                                        <td colspan="5" class="text text-center">
+                                            <p class="text text-info">N/A</p>
+                                        </td>
+                                        {% endif %}
                                 </tbody>
                             </table>
                             <div class="d-flex justify-content-end">
-                                <button type="button" class="btn btn-sm btn-primary"><i class="bi bi-plus"></i></button>
+                                <button class="btn bnt-sm btn-primary" type="button" data-bs-toggle="modal"
+                                    data-bs-target="#officeParticularsModal"><i class="bi bi-plus"></i></button>
                             </div>
                         </div>
                     </div>
@@ -365,6 +466,7 @@
                                         <th class="text text-center">To</th>
                                         <th class="text text-center">Months</th>
                                         <th class="text text-center">Days</th>
+                                        <th class="text text-center">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -495,10 +597,11 @@
 
                     <div class="ms-4  mt-2">
                         <label>(c) State dates of any public service paid for out of open vote (to be states only if
-                            officer was in public the public service on the 24th August, 1940). </label>
+                            officer was in the public service on the 24th August, 1940). </label>
                         <div class="col-md-11 mx-auto">
-                            <div class="col-11 mx-auto">
-                                <input type="text" class="form-control">
+                            <div class="col-11">
+                                <input type="date" class="form-control" name="open_vote_date" id="open_vote_date"
+                                    value="{{application.controller_form.open_vote_date|date:'Y-m-d'}}">
                             </div>
                             <table class="table">
                                 <thead>
@@ -510,16 +613,41 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+
+                                    {% if paid_open_vote_services %}
+                                    {% for service in paid_open_vote_services %}
                                     <tr>
-                                        <td><input type="date" class="form-control" name=""></td>
-                                        <td><input type="date" class="form-control" name=""></td>
-                                        <td><input type="number" min="1" class="form-control" name=""></td>
-                                        <td><input type="number" min="1" class="form-control" name=""></td>
+                                        <td><input type="date" class="form-control" disabled
+                                                value="{{service.from_date|date:'Y-m-d'}}">
+                                        </td>
+                                        <td> <input type="date" class="form-control" name="to_date" id="to_date"
+                                                disabled value="{{service.to_date|date:'Y-m-d'}}">
+                                        </td>
+                                        <td><input type="number" disabled class="form-control"
+                                                value="{{service.get_months}}"></td>
+                                        <td><input type="number" disabled class="form-control"
+                                                value="{{service.get_days}}"></td>
+                                        <td>
+                                            <a href="{% url 'dashboard:delete_paid_open_vote_service' service.id %}"
+                                                class="btn btn-sm btn-danger ms-4">
+                                                <i class="fa fa-trash"></i>
+                                                delete
+                                            </a>
+                                        </td>
                                     </tr>
+                                    {% endfor %}
+                                    {% else %}
+                                    <tr>
+                                        <td colspan="4" class="text text-center">
+                                            <p class="text text-info">N/A</p>
+                                        </td>
+                                    </tr>
+                                    {% endif %}
                                 </tbody>
                             </table>
                             <div class="d-flex justify-content-end">
-                                <button type="button" class="btn btn-sm btn-primary"><i class="bi bi-plus"></i></button>
+                                <button class="btn bnt-sm btn-primary" type="button" data-bs-toggle="modal"
+                                    data-bs-target="#paidOpenServiceModal"><i class="bi bi-plus"></i></button>
                             </div>
                         </div>
 

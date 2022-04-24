@@ -1,10 +1,13 @@
 import logging
+from django.contrib import messages
 
 from django.shortcuts import get_object_or_404, redirect
 from django.views import View
 from django.contrib.auth.mixins import PermissionRequiredMixin
-
-from dashboard.models import (Application, NoPayLeave,
+from dashboard.forms import OfficeParticularsForm, PaidOpenVoteServiceForm
+from django.utils.html import strip_tags
+from dashboard.models import (Application, NoPayLeave, OfficeParticulars,
+                              PaidOpenVoteService,
                               PensionableEmolumentDrawnBeforeRetirement,
                               ServiceBreak)
 
@@ -86,4 +89,58 @@ class DeletServiceBreakView(PermissionRequiredMixin, View):
 
     def get(self, request, pk):
         ServiceBreak.objects.filter(id=pk).delete()
+        return redirect(request.META.get("HTTP_REFERER"))
+
+
+class AddOfficeParticularsView(PermissionRequiredMixin, View):
+    permission_required = "dashboard.can_review_application"
+
+    def get(self, request, application_id):
+        return redirect("dashboard:index")
+
+    def post(self, request, application_id):
+        form = OfficeParticularsForm(request.POST)
+        if form.is_valid():
+            form.save()
+        else:
+            logger.error(form.errors)
+            field, error = list(form.errors.items())[0]
+            messages.error(request,
+                           f"{form.fields[field].label}: {strip_tags(error)}")
+        return redirect(request.META.get("HTTP_REFERER"))
+
+
+class DeleteOfficeParticularsView(PermissionRequiredMixin, View):
+    permission_required = "dashboard.can_review_application"
+
+    def get(self, request, pk):
+        OfficeParticulars.objects.filter(id=pk).delete()
+        messages.info(request, "Delete successful")
+        return redirect(request.META.get("HTTP_REFERER"))
+
+
+class AddPaidOpenVoteServiceView(PermissionRequiredMixin, View):
+    permission_required = "dashboard.can_review_application"
+
+    def get(self, request, application_id):
+        return redirect("dashboard:index")
+
+    def post(self, request, application_id):
+        form = PaidOpenVoteServiceForm(request.POST)
+        if form.is_valid():
+            form.save()
+        else:
+            logger.error(form.errors)
+            field, error = list(form.errors.items())[0]
+            messages.error(request,
+                           f"{form.fields[field].label}: {strip_tags(error)}")
+        return redirect(request.META.get("HTTP_REFERER"))
+
+
+class DeletePaidOpenVoteServiceView(PermissionRequiredMixin, View):
+    permission_required = "dashboard.can_review_application"
+
+    def get(self, request, pk):
+        PaidOpenVoteService.objects.filter(id=pk).delete()
+        messages.info(request, "Delete successful")
         return redirect(request.META.get("HTTP_REFERER"))

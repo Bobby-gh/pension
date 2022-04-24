@@ -13,6 +13,7 @@ from dashboard.forms import ApplicationForm, ApplicationRankForm
 from dashboard.models import (Application, ApplicationDocument,
                               ApplicationDocumentType, ApplicationRank,
                               ControllerForm, NoPayLeave, Notification,
+                              OfficeParticulars, PaidOpenVoteService,
                               PensionableEmolumentDrawnBeforeRetirement, Rank,
                               ServiceBreak, Sms)
 from dashboard.utils.constants import (APPLICATION_PROCESSED_MESSAGE,
@@ -387,7 +388,8 @@ class ControllerFormView(View):
             [p.emolument for p in pensionable_emolument_objects])
 
         # No pay leaves
-        no_pay_leaves = NoPayLeave.objects.all().order_by("from_date")
+        no_pay_leaves = NoPayLeave.objects.filter(
+            controller_form=application.controller_form).order_by("from_date")
         no_pay_leave_total_days = sum(
             [item.get_days() for item in no_pay_leaves])
         no_pay_leave_total_months = sum([
@@ -396,13 +398,20 @@ class ControllerFormView(View):
         no_pay_leave_total_days %= 30  # Remove months from days
 
         # Service breaks
-        service_breaks = ServiceBreak.objects.all().order_by("from_date")
+        service_breaks = ServiceBreak.objects.filter(
+            controller_form=application.controller_form).order_by("from_date")
         service_break_total_days = sum(
             [item.get_days() for item in service_breaks])
         service_break_total_months = sum([
             item.get_months() for item in service_breaks
         ]) + service_break_total_days // 30  # Add days to months
         service_break_total_days %= 30  # Remove months from days
+
+        office_particulars = OfficeParticulars.objects.filter(
+            controller_form=application.controller_form)
+
+        paid_open_vote_services = PaidOpenVoteService.objects.filter(
+            controller_form=application.controller_form)
 
         context = {
             "application":
@@ -427,6 +436,10 @@ class ControllerFormView(View):
             service_break_total_months,
             "service_break_total_days":
             service_break_total_days,
+            "office_particulars":
+            office_particulars,
+            "paid_open_vote_services":
+            paid_open_vote_services,
         }
         return render(request, self.template_name, context)
 
