@@ -107,8 +107,8 @@ class NewApplicationAddRanksView(PermissionRequiredMixin, View):
     permission_required = (
         "dashboard.add_application",
         "dashboard.change_application",
-        "dashboard.add_rank",
-        "dashboard.change_rank",
+        "dashboard.add_applicationrank",
+        "dashboard.change_applicationrank",
     )
 
     @method_decorator(login_required(login_url="accounts:login"))
